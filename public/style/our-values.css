@@ -81,7 +81,7 @@ svg.intro-curve {
     height: 0px; 
     /* Soft blue glow */
     box-shadow: 0 0 10px rgba(60, 114, 186, 0.4);
-    z-index: 2;
+    z-index: 0;
 }
 
 /* --- TIMELINE ITEMS --- */
