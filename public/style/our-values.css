@@ -1,28 +1,41 @@
-.spacer { height: 50vh; display: flex; align-items: center; justify-content: center; color: #444; }
-        
+:root {
+    /* NEW COLOR PALETTE */
+    --bg-color: #ffffff; 
+    --main-blue: #3c72ba; 
+    --accent-orange: #ed8b34;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --track-color: #e9ecef; /* Light gray for the faint background line */
+}
+
+.spacer { 
+    height: 50vh; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    color: #999; 
+    font-weight: 300;
+}
+
 /* 
-   Layout Container 
-   UPDATED: 30% Width for Curve, 1fr (Rest) for Content
+   Layout Container: 30% Left, Rest Right 
 */
 .main-wrapper {
     position: relative;
     display: grid;
-    grid-template-columns: 30% 1fr; /* <--- CHANGED HERE */
+    grid-template-columns: 30% 1fr;
     max-width: 1200px;
     margin: 0 auto;
     min-height: 150vh; 
 }
 
-/* 
-   Left Column: Curve 
-*/
+/* --- LEFT COLUMN: CURVE --- */
 .curve-container {
     position: relative;
     height: 600px; 
     display: flex;
     align-items: flex-end; 
     justify-content: flex-end; 
-    /* Ensure the SVG touches the right edge exactly */
     padding-right: 0; 
 }
 
@@ -30,117 +43,136 @@ svg.intro-curve {
     width: 100%;
     height: 100%;
     overflow: visible;
-    /* This ensures the curve stretches to fit the 30% width perfectly */
     display: block; 
 }
 
 .curve-path {
     fill: none;
-    stroke: url(#gradientCurve); 
+    stroke: url(#gradientBlue); /* Uses the new Blue Gradient */
     stroke-width: 4;
     stroke-linecap: round;
 }
 
-/* 
-   Right Column: Timeline 
-*/
+/* --- RIGHT COLUMN: TIMELINE --- */
 .timeline-column {
     position: relative;
     padding-bottom: 200px;
 }
 
-/* The Vertical Track (Faint background line) */
+/* Faint Background Track */
 .vertical-track {
     position: absolute;
-    left: 0; /* Aligns with the end of the 30% col */
+    left: 0; 
     top: 0; 
     bottom: 0;
     width: 4px;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+    /* Subtle fade from light blue to transparent */
+    background: linear-gradient(to bottom, #dbe4f0, transparent);
     border-radius: 2px;
 }
 
-/* The Active White Line (Animated) */
+/* Active Blue Line */
 .active-line {
     position: absolute;
     left: 0;
     top: 0;
     width: 4px;
-    background-color: var(--active-line);
+    background-color: var(--main-blue); /* BLUE COLOR */
     height: 0px; 
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    /* Soft blue glow */
+    box-shadow: 0 0 10px rgba(60, 114, 186, 0.4);
     z-index: 2;
 }
 
-/* Timeline Items */
+/* --- TIMELINE ITEMS --- */
 .timeline-item {
     position: relative;
-    padding-left: 60px; /* Distance from line to text */
+    padding-left: 60px;
     margin-bottom: 250px;
     opacity: 0; 
     transform: translateY(30px);
     transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Adjust first item position to sit near the top curve join */
 .timeline-item:first-child {
     margin-top: 50px; 
 }
 
-/* The Dot */
+/* Dots (Markers) */
 .dot {
     position: absolute;
-    left: -6px; /* Centered on the line */
+    left: -6px; 
     top: 8px;
     width: 16px;
     height: 16px;
-    background-color: #000;
-    border: 2px solid #444;
+    background-color: #fff; /* White center initially */
+    border: 2px solid #ccc; /* Gray border initially */
     border-radius: 50%;
     z-index: 10;
     transition: all 0.4s ease;
 }
 
-/* Active State */
+/* ACTIVE STATE (When revealed) */
 .timeline-item.revealed {
     opacity: 1;
     transform: translateY(0);
 }
 
+/* Turn Dot Orange */
 .timeline-item.revealed .dot {
-    background-color: var(--accent-yellow);
-    border-color: var(--accent-yellow);
-    box-shadow: 0 0 15px var(--accent-yellow);
+    background-color: var(--accent-orange);
+    border-color: var(--accent-orange);
+    box-shadow: 0 0 0 4px rgba(237, 139, 52, 0.2); /* Orange Halo */
     transform: scale(1.3);
 }
 
-.text-huge { font-size: 3rem; font-weight: 900; line-height: 1; margin-bottom: 10px; }
-.text-secondary { font-size: 1.2rem; color: #666; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-.text-desc { color: #aaa; font-size: 1.1rem; max-width: 450px; font-weight: 300; }
+/* Typography */
+.text-huge { 
+    font-size: 3rem; 
+    font-weight: 900; 
+    line-height: 1; 
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
 
-/* The Junction Dot (Hides the seam between SVG and Line) */
+.text-secondary { 
+    font-size: 1.2rem; 
+    color: var(--main-blue); /* Blue numbers */
+    font-weight: 700; 
+    letter-spacing: 2px; 
+    text-transform: uppercase; 
+}
+
+.text-desc { 
+    color: var(--text-secondary); 
+    font-size: 1.1rem; 
+    max-width: 450px; 
+    font-weight: 300; 
+}
+
+/* Junction Dot (Where Curve meets Line) - Made Blue */
 .junction-dot {
     position: absolute;
     top: -6px;
     left: -6px;
     width: 16px;
     height: 16px;
-    background: var(--active-line);
+    background: var(--main-blue);
     border-radius: 50%;
-    box-shadow: 0 0 20px white;
+    box-shadow: 0 0 15px rgba(60, 114, 186, 0.5);
     z-index: 20;
 }
 
 /* Mobile Responsive */
 @media(max-width: 992px) {
-    .main-wrapper { grid-template-columns: 80px 1fr; } /* Smaller curve area on tablets */
+    .main-wrapper { grid-template-columns: 80px 1fr; } 
     .text-huge { font-size: 2rem; }
 }
 
 @media(max-width: 768px) {
     .main-wrapper { grid-template-columns: 40px 1fr; }
-    .curve-container { display: none; } /* Hide curve on mobile */
-    .timeline-column { border-left: 1px solid #333; }
+    .curve-container { display: none; }
+    .timeline-column { border-left: 1px solid #eee; }
     .junction-dot { display: none; }
     .vertical-track, .active-line { left: -2px; }
 }

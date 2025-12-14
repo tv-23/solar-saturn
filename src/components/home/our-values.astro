@@ -19,30 +19,31 @@ import "../../../public/style/our-values.css";
         </div>
     </div>
 
-    <div class="container-fluid p-0" style="background-color: black;">
+    <div class="container-fluid p-0">
         <div class="main-wrapper">
             
-            <!-- LEFT (30% Width) -->
+            <!-- LEFT (30% Width): The Curve -->
             <div class="curve-container">
                 <svg class="intro-curve" viewBox="0 0 400 600" preserveAspectRatio="none">
                     <defs>
-                        <linearGradient id="gradientCurve" x1="0%" y1="100%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:0" />
-                            <stop offset="40%" style="stop-color:rgb(255,255,255);stop-opacity:0.3" />
-                            <stop offset="100%" style="stop-color:rgb(255,255,255);stop-opacity:1" />
+                        <!-- BLUE GRADIENT for the Curve -->
+                        <linearGradient id="gradientBlue" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <!-- Start: Very light blue / Transparent -->
+                            <stop offset="0%" style="stop-color:#dcebf7;stop-opacity:0" />
+                            <!-- Middle: Fading in blue -->
+                            <stop offset="40%" style="stop-color:#3c72ba;stop-opacity:0.4" />
+                            <!-- End: Solid Blue (#3c72ba) -->
+                            <stop offset="100%" style="stop-color:#3c72ba;stop-opacity:1" />
                         </linearGradient>
                     </defs>
-                    <!-- Adjusted Curve Logic for narrower box -->
+                    <!-- Curve Path -->
                     <path d="M -50 600 Q 150 550 398 2" class="curve-path" />
                 </svg>
             </div>
 
-            <!-- RIGHT (Rest of Width) -->
+            <!-- RIGHT (Rest): Timeline -->
             <div class="timeline-column" id="timelineRef">
                 
-                <!-- Connection Point -->
-                <div class="junction-dot"></div>
-
                 <!-- Vertical Lines -->
                 <div class="vertical-track"></div>
                 <div class="active-line" id="scrollLine"></div>
@@ -99,26 +100,24 @@ import "../../../public/style/our-values.css";
         const scrollLine = document.getElementById('scrollLine');
         const items = document.querySelectorAll('.timeline-item');
         
-        // Adjust this to change when the drawing starts (Screen Center)
+        // Draw Trigger: Center of Screen
         const drawTriggerOffset = window.innerHeight / 2; 
 
         function updateScroll() {
             const rect = timelineCol.getBoundingClientRect();
             const topOfTimeline = rect.top; 
             
-            // Calculate height relative to when the top of the section hits the center of screen
+            // Calculate line length
             let lineLength = drawTriggerOffset - topOfTimeline;
-
-            // Stop line from being negative
             if (lineLength < 0) lineLength = 0;
             
-            // Set Height
+            // Apply Height
             scrollLine.style.height = `${lineLength}px`;
 
             // Check Items
             items.forEach(item => {
                 const itemTop = item.offsetTop;
-                // Trigger reveal when line passes the item
+                // Reveal logic
                 if (lineLength > itemTop + 10) {
                     item.classList.add('revealed');
                 } else {
@@ -128,6 +127,6 @@ import "../../../public/style/our-values.css";
         }
 
         window.addEventListener('scroll', updateScroll);
-        updateScroll(); // Initialize on load
+        updateScroll(); 
     });
 </script>
