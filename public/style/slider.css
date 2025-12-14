@@ -57,7 +57,6 @@
 
 /* --- CUSTOM TEXT STYLES (Bootstrap Extenders) --- */
 .hero-title {
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     letter-spacing: -1px;
 }
 
@@ -739,4 +738,60 @@
 @keyframes floatShip {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-15px); }
+}
+
+
+/* =========================================
+    SLIDE 4: FORKLIFT (CENTERED LAYOUT)
+   ========================================= */
+
+/* Container to center the forklift at the bottom */
+.forklift-center-container {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: flex-end; /* Push to bottom */
+    justify-content: center; /* Center horizontally */
+    position: relative;
+    z-index: 10;
+    padding-bottom: 20px;
+}
+
+/* Forklift Image Styles */
+.forklift-yellow-img {
+    max-width: 85%; /* Slightly smaller than full width to keep proportions */
+    height: auto;
+    max-height: 55vh; /* Ensure it fits under text */
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+    
+    /* Initial State for Animation */
+    transform: translateX(-100vw); 
+}
+
+/* Ensure text doesn't hit the top edge too hard */
+.slide-item:nth-child(4) .text-wrapper {
+    margin-top: 12vh;
+}
+
+/* --- ANIMATIONS (Keep existing logic) --- */
+
+/* 1. Entrance: Left -> Center */
+.slide-item.active .forklift-yellow-img {
+    animation: driveInLeft 1s ease-out forwards;
+}
+
+/* 2. Exit: Center -> Right */
+.slide-item.exiting .forklift-yellow-img {
+    animation: driveOutRight 0.8s ease-in forwards;
+}
+
+/* Keyframes */
+@keyframes driveInLeft {
+    0% { transform: translateX(-100vw); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes driveOutRight {
+    0% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(100vw); opacity: 0; }
 }
