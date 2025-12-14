@@ -1,0 +1,60 @@
+---
+import "../../../public/style/cta.css";
+---
+
+<section class="unique-cta-wrapper">
+    <div class="container">
+        <div class="row align-items-center position-relative">
+            
+            <!-- Decorative Back Layer -->
+            <div class="deco-box rounded-2"></div>
+
+            <div class="col-lg-10 col-md-11 mx-auto">
+                <div class="main-card rounded-4">
+                    <!-- Watermark -->
+                    <div class="bg-watermark">SEATRUST</div>
+
+                    <div class="row align-items-center">
+                        <!-- Text Side -->
+                        <div class="col-md-7 mb-4 mb-md-0">
+                            <h2 class="cta-heading display-6">
+                                Logistics Without Limits
+                            </h2>
+                            <!-- 10 words exactly -->
+                            <p class="cta-subtext">
+                                Trusted end-to-end solutions moving your business across every ocean.
+                            </p>
+                        </div>
+
+                        <!-- Button Side -->
+                        <div class="col-md-5 text-md-end">
+                            <button id="redirectBtn" class="unique-btn">
+                                <span>CONTACT TEAM</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- JS Logic -->
+<script>
+    const btn = document.getElementById('redirectBtn');
+
+    btn.addEventListener('click', function() {
+        const icon = this.querySelector('i');
+        
+        // Animation: Turn the arrow into a spinner
+        icon.classList.remove('fa-arrow-right');
+        icon.classList.add('fa-spinner', 'fa-spin');
+        
+        // Redirect
+        setTimeout(() => {
+            window.location.href = 'contact.html';
+        }, 800);
+    });
+</script>

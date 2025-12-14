@@ -1,0 +1,120 @@
+:root {
+    --primary-blue: #4A86E8;
+    --secondary-orange: #F59331;
+    --dark-blue: #2c5aa0;
+}
+
+body {
+    background-color: #f8f9fa; /* Light background to let the CTA pop */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Wrapper to center content */
+.unique-cta-wrapper {
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* The Decorative Orange Offset Box */
+.deco-box {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    background-color: var(--secondary-orange);
+    z-index: 1;
+    border-radius: 4px;
+    transform: skewX(-5deg); /* Slight angle for dynamism */
+    display: none; /* Hidden on mobile, shown on md+ */
+}
+
+/* The Main Blue Card */
+.main-card {
+    background-color: var(--primary-blue);
+    color: white;
+    position: relative;
+    z-index: 10;
+    padding: 3rem;
+    border-radius: 0; /* Sharp edges for logistics feel */
+    box-shadow: 0 20px 40px rgba(74, 134, 232, 0.3);
+    overflow: hidden; /* For the background text */
+}
+
+/* Giant Background Text Effect */
+.bg-watermark {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 8rem;
+    font-weight: 900;
+    color: white;
+    opacity: 0.05;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Typography */
+.cta-heading {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+/* The Orange underline accent */
+.cta-heading::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--secondary-orange);
+    margin-top: 15px;
+}
+
+.cta-subtext {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: rgba(255,255,255, 0.9);
+    margin-top: 20px;
+    border-left: 2px solid rgba(255,255,255,0.3);
+    padding-left: 15px;
+}
+
+/* The 'Magnetic' Button */
+.unique-btn {
+    background: white;
+    color: var(--primary-blue);
+    border: none;
+    padding: 18px 30px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 20;
+    cursor: pointer;
+}
+
+.unique-btn i {
+    color: var(--secondary-orange);
+    transition: transform 0.3s ease;
+}
+
+.unique-btn:hover {
+    transform: translateX(10px);
+    box-shadow: -5px 5px 0px var(--secondary-orange); /* Hard shadow effect */
+}
+
+.unique-btn:hover i {
+    transform: translateX(5px);
+}
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+    .deco-box { display: block; }
+    .main-card { margin-right: 50px; }
+}

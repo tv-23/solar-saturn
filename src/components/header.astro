@@ -2,69 +2,73 @@
 import "../../public/style/header.css";
 ---
 
-<!-- Top Bar -->
 <div class="top-bar">
     <div class="container d-flex justify-content-between align-items-center">
-        <!-- Left: Info -->
-        <div class="d-flex align-items-center">
-            <div class="me-4">
-                <a
-                    href="https://www.google.com/maps/place/Seatrust+Logistics/data=!4m2!3m1!1s0x0:0xabbebd7ebdc68e5a?sa=X&ved=1t:2428&ictx=111"
-                    target="_blank"
-                >
-                    <i class="bi bi-geo-alt-fill"></i> 12, Rue Oraibi Jilali (ex rue Foucauld) Casablanca 20.000
-                </a>
+        
+        <!-- LEFT SIDE: Contact Info (Address, Phone, Email) -->
+        <div class="contact-info">
+            <div class="contact-item">
+                <i class="bi bi-geo-alt-fill"></i>
+                <span>12, Rue Oraibi Jilali, Casablanca</span>
             </div>
-            <div>
-                <a href="tel:+212671884968">
-                    <i class="bi bi-telephone-fill"></i> +212 522 435 090
-                </a>
-            </div>
+            <a href="tel:+212522435090" class="contact-item">
+                <i class="bi bi-telephone-fill"></i>
+                <span>+212 522 435 090</span>
+            </a>
+            <a href="mailto:contact@seatrust.ma" class="contact-item">
+                <i class="bi bi-envelope-fill"></i>
+                <span>contact@seatrust.ma</span>
+            </a>
         </div>
 
-        <!-- Right: Socials -->
-        <div>
-            <a
-                target="_blank"
-                href="https://www.facebook.com/seatrustgroup/?ref=bookmarks"
-                ><i class="bi bi-facebook"></i></a
-            >
-            <a target="_blank" href="https://www.linkedin.com/company/18392886/"
-                ><i class="bi bi-linkedin"></i></a
-            >
-            <a target="_blank" href="https://twitter.com/SeatrustG"
-                ><i class="bi bi-twitter-x"></i></a
-            >
+        <!-- RIGHT SIDE: Social Media -->
+        <div class="social-icons">
+            <a href="https://www.facebook.com/seatrustgroup/?ref=bookmarks"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.linkedin.com/company/18392886/"><i class="bi bi-linkedin"></i></a>
+            <a href="https://twitter.com/SeatrustG"><i class="bi bi-twitter-x"></i></a>
         </div>
+
     </div>
 </div>
 
-<!-- Main Navigation -->
-<nav class="navbar navbar-expand-lg navbar-custom">
-    <div class="container" style="padding: 0px;">
-        <!-- Logo -->
-        <a class="navbar-brand" href="/">
-            <img src="/images/seatrust.png" alt="SeaTrust" />
-        </a>
+<!-- SECTION 2: MAIN NAVIGATION -->
+<nav class="navbar navbar-expand-lg custom-navbar">
+    <div class="container-fluid p-0"> 
+        
+        <!-- Logo Area (White Background) -->
+        <div class="brand-wrapper">
+            <a class="navbar-brand" href="/">
+                <!-- REPLACE THIS IMG SRC WITH YOUR LOGO -->
+                <img src="/images/seatrust.png" alt="Seatrust Group">
+            </a>
+            
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
 
-        <!-- Toggle Button -->
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navContent"
-        >
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Links -->
-        <div
-            class="collapse navbar-collapse justify-content-end"
-            id="navContent"
-        >
+        <!-- Links Area (Dark Blue Background) -->
+        <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
+                
+                <!-- 'Home' Item (Lighter Blue Background) -->
+                <li class="nav-item bg-home-blue">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                
+                <!-- Other Links (Dark Blue Background) -->
                 <li class="nav-item">
-                    <a class="nav-link active" href="/">Home</a>
+                    <a class="nav-link" href="#">Seatrust</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Our companies</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Partner</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">News</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contact</a>
@@ -72,7 +76,5 @@ import "../../public/style/header.css";
             </ul>
         </div>
     </div>
-
-    <!-- The White Line running across the bottom -->
-    <div class="header-line"></div>
 </nav>
+
