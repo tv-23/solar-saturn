@@ -44,6 +44,11 @@ import "../../../public/style/map.css";
         </div>
     </div>
 
+    <div class="zoom-controls">
+        <button id="zoom-in" class="zoom-btn">+</button>
+        <button id="zoom-out" class="zoom-btn">−</button>
+    </div>
+
     <!-- THE ACTUAL MAP DIV -->
     <div id="map"></div>
 
@@ -54,20 +59,26 @@ import "../../../public/style/map.css";
 <script>
   document.addEventListener("DOMContentLoaded", () => {
 
-  // --- JS LOGIC SAME AS BEFORE ---
-        
-  const BRAND_ORANGE = '#F08B33';
+    const BRAND_ORANGE = '#F08B33';
         const PATH_COLOR = '#FFFFFF'; 
         
         // Initialize Map
         const map = L.map('map', { 
-            zoomControl: false, 
+            zoomControl: false, // Default controls hidden
             zoomSnap: 0.1,
-            // Disable scroll zoom so user can scroll down the page easily
             scrollWheelZoom: false 
         }).setView([30.0, -7.0], 5.5);
 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(map);
+
+        // --- ZOOM BUTTON LOGIC ---
+        document.getElementById('zoom-in').addEventListener('click', () => {
+            map.zoomIn();
+        });
+
+        document.getElementById('zoom-out').addEventListener('click', () => {
+            map.zoomOut();
+        });
 
         // --- DATA ---
         const moroccoData = [
@@ -270,6 +281,7 @@ import "../../../public/style/map.css";
             if(!f) f = partnersData.find(x => x.name === name);
             return f ? f.coords : null;
         }
+
 });
 
 </script>
