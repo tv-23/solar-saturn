@@ -1,0 +1,160 @@
+---
+import "../../../public/style/about.css";
+---
+
+<section class="about-modern py-5 position-relative overflow-hidden" id="about">
+    <div class="container py-lg-5">
+        <!-- CENTERED HEADER -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8 text-center">
+                <span
+                    class="d-inline-block py-1 px-3 rounded-pill bg-light-orange text-secondary fw-bold text-uppercase small mb-2"
+                >
+                    About Our Company
+                </span>
+                <h2 class="fw-bold text-dark display-6">
+                    <span class="text-primary position-relative">Seatrust</span>
+                    End-to-End Logistics
+                </h2>
+            </div>
+        </div>
+
+        <div class="row align-items-center gy-5">
+            <!-- Left Column: Visuals -->
+            <div class="col-lg-6 position-relative">
+                <!-- Decorative Dots Pattern -->
+                <div class="dots-pattern"></div>
+
+                <!-- Main Image -->
+                <div class="image-box position-relative z-1">
+                    <img
+                        src="https://seatrust.ma/wp-content/uploads/2018/01/photo-site-ST.jpg"
+                        alt="Logistics Team"
+                        class="img-fluid rounded-4 shadow-lg w-100 object-fit-cover"
+                        style="min-height: 450px;"
+                    />
+
+                    <!-- Floating Info Card -->
+                    <div
+                        class="floating-card bg-white rounded-3 shadow p-3 p-md-4 d-flex align-items-center gap-3"
+                    >
+                        <div
+                            class="icon-box rounded-circle d-flex align-items-center justify-content-center text-white"
+                        >
+                            <i class="bi bi-trophy fs-4"></i>
+                        </div>
+                        <div>
+                            <h3 class="fw-bold m-0 text-dark">
+                                <span class="counter" data-target="25">0</span>+
+                            </h3>
+                            <p
+                                class="m-0 text-muted small fw-bold text-uppercase"
+                            >
+                                Years of Experience
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Content -->
+            <div class="col-lg-6 ps-lg-5">
+                <div class="content-wrapper">
+                    <!-- Headline -->
+                    <!-- <h3 class="fw-bold mb-4 text-dark">
+                        Providing <span class="text-primary"
+                            >Fast & Reliable</span
+                        > Cargo Solutions
+                    </h3> -->
+
+                    <!-- THE ONE PARAGRAPH -->
+                    <p
+                        class="text-secondary-muted lead mb-4"
+                        style="line-height: 1.8;"
+                    >
+                        An Economic Interest Group acting as a logistics
+                        provider by offering integrated services in the shipping
+                        sector.
+                    <br>
+                    The objective is to serve our clients with optimal logistics solutions at competitive prices.
+                    Through our five sister companies, we offer:
+                    </p>
+
+                    <!-- Key Features Grid -->
+                    <div class="row g-3 mb-5">
+                        <div class="col-md-12">
+                            <div class="d-flex align-items-center">
+                                <i
+                                    class="bi bi-check-circle-fill text-secondary me-2"
+                                ></i>
+                                <span class="fw-bold text-dark"
+                                    >Sea transportation and affreightement of ships</span
+                                >
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="d-flex align-items-center">
+                                <i
+                                    class="bi bi-check-circle-fill text-secondary me-2"
+                                ></i>
+                                <span class="fw-bold text-dark"
+                                    >Shipping agency and ships brokerage</span
+                                >
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="d-flex align-items-center">
+                                <i
+                                    class="bi bi-check-circle-fill text-secondary me-2"
+                                ></i>
+                                <span class="fw-bold text-dark"
+                                    >Terminal handling and stevedoring</span
+                                >
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const section = document.querySelector(".about-modern");
+        const counters = document.querySelectorAll(".counter");
+        let started = false;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && !started) {
+                        started = true;
+                        counters.forEach((counter) => {
+                            const updateCount = () => {
+                                const target =
+                                    +counter.getAttribute("data-target");
+                                const count = +counter.innerText;
+                                const increment = target / 50;
+
+                                if (count < target) {
+                                    counter.innerText = Math.ceil(
+                                        count + increment,
+                                    );
+                                    setTimeout(updateCount, 40);
+                                } else {
+                                    counter.innerText = target;
+                                }
+                            };
+                            updateCount();
+                        });
+                    }
+                });
+            },
+            { threshold: 0.3 },
+        );
+
+        observer.observe(section);
+    });
+</script>

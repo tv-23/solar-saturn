@@ -1,0 +1,87 @@
+:root {
+    --brand-primary: #3c72ba;    /* Your Blue */
+    --brand-secondary: #ed8b34;  /* Your Orange */
+}
+
+/* --- Color Utilities --- */
+.text-primary { color: var(--brand-primary) !important; }
+.text-secondary { color: var(--brand-secondary) !important; }
+.bg-primary { background-color: var(--brand-primary) !important; }
+
+/* Light orange background for the centered badge */
+.bg-light-orange { 
+    background-color: rgba(237, 139, 52, 0.15); 
+}
+
+/* --- Buttons --- */
+.btn-primary {
+    background-color: var(--brand-primary);
+    border-color: var(--brand-primary);
+    transition: all 0.3s ease;
+}
+.btn-primary:hover {
+    background-color: #2a5a9b; 
+    transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+    color: var(--brand-primary);
+    border-color: var(--brand-primary);
+}
+.btn-outline-secondary:hover {
+    background-color: var(--brand-primary);
+    color: #fff;
+}
+
+/* --- Visual Elements --- */
+.image-box img {
+    filter: brightness(0.98) contrast(1.05); 
+}
+
+/* Dotted Pattern */
+.dots-pattern {
+    position: absolute;
+    bottom: -30px;
+    left: -30px;
+    width: 200px;
+    height: 200px;
+    background-image: radial-gradient(var(--brand-secondary) 2px, transparent 2px);
+    background-size: 20px 20px;
+    opacity: 0.6;
+    z-index: 0;
+}
+
+/* Floating Card */
+.floating-card {
+    position: absolute;
+    bottom: 40px;
+    right: -20px;
+    max-width: 250px;
+    z-index: 2;
+    border-left: 5px solid var(--brand-secondary);
+}
+
+.floating-card .icon-box {
+    width: 50px;
+    height: 50px;
+    background: var(--brand-primary);
+    flex-shrink: 0;
+}
+
+.text-secondary-muted {
+    color: #555;
+    font-weight: 400;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 991px) {
+    .floating-card {
+        right: 0;
+        bottom: 20px;
+        left: 20px;
+        max-width: 90%;
+    }
+    .dots-pattern {
+        display: none; 
+    }
+}
