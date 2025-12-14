@@ -1,0 +1,133 @@
+---
+import "../../../public/style/our-values.css";
+---
+
+<section
+    class="about-modern py-5 position-relative overflow-hidden"
+    id="our-values"
+>
+    <div class="container py-lg-5">
+        <!-- CENTERED HEADER -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8 text-center">
+                <span
+                    class="d-inline-block py-1 px-3 rounded-pill bg-light-orange text-secondary fw-bold text-uppercase small mb-2"
+                >
+                    Our Values
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid p-0" style="background-color: black;">
+        <div class="main-wrapper">
+            
+            <!-- LEFT (30% Width) -->
+            <div class="curve-container">
+                <svg class="intro-curve" viewBox="0 0 400 600" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="gradientCurve" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:0" />
+                            <stop offset="40%" style="stop-color:rgb(255,255,255);stop-opacity:0.3" />
+                            <stop offset="100%" style="stop-color:rgb(255,255,255);stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Adjusted Curve Logic for narrower box -->
+                    <path d="M -50 600 Q 150 550 398 2" class="curve-path" />
+                </svg>
+            </div>
+
+            <!-- RIGHT (Rest of Width) -->
+            <div class="timeline-column" id="timelineRef">
+                
+                <!-- Connection Point -->
+                <div class="junction-dot"></div>
+
+                <!-- Vertical Lines -->
+                <div class="vertical-track"></div>
+                <div class="active-line" id="scrollLine"></div>
+
+                <!-- ITEM 01 -->
+                <div class="timeline-item">
+                    <div class="dot"></div>
+                    <div class="content">
+                        <div class="text-secondary">01</div>
+                        <h2 class="text-huge">Yes is our starting point</h2>
+                        <p class="text-desc">
+                            We embrace a good challenge and strive to find the answer. 
+                            The solution ITS provides is custom-built for your specific needs.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ITEM 02 -->
+                <div class="timeline-item">
+                    <div class="dot"></div>
+                    <div class="content">
+                        <div class="text-secondary">02</div>
+                        <h2 class="text-huge">Our approach is distinct</h2>
+                        <p class="text-desc">
+                            We deliver excellence in execution through a combination of
+                            operational technology and highly skilled teams.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ITEM 03 -->
+                <div class="timeline-item">
+                    <div class="dot"></div>
+                    <div class="content">
+                        <div class="text-secondary">03</div>
+                        <h2 class="text-huge">People are our foundation</h2>
+                        <p class="text-desc">
+                            Our people and culture drive our success. We partner 
+                            with customers in ways that others simply cannot match.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const timelineCol = document.getElementById('timelineRef');
+        const scrollLine = document.getElementById('scrollLine');
+        const items = document.querySelectorAll('.timeline-item');
+        
+        // Adjust this to change when the drawing starts (Screen Center)
+        const drawTriggerOffset = window.innerHeight / 2; 
+
+        function updateScroll() {
+            const rect = timelineCol.getBoundingClientRect();
+            const topOfTimeline = rect.top; 
+            
+            // Calculate height relative to when the top of the section hits the center of screen
+            let lineLength = drawTriggerOffset - topOfTimeline;
+
+            // Stop line from being negative
+            if (lineLength < 0) lineLength = 0;
+            
+            // Set Height
+            scrollLine.style.height = `${lineLength}px`;
+
+            // Check Items
+            items.forEach(item => {
+                const itemTop = item.offsetTop;
+                // Trigger reveal when line passes the item
+                if (lineLength > itemTop + 10) {
+                    item.classList.add('revealed');
+                } else {
+                    item.classList.remove('revealed');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateScroll);
+        updateScroll(); // Initialize on load
+    });
+</script>
