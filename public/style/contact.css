@@ -13,7 +13,7 @@ body {
 
 /* --- Hero / Header Section --- */
 .contact-header {
-    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+    background: #4A86E8;
     color: white;
     padding: 80px 0 120px; /* Extra padding bottom for overlap effect */
     text-align: center;
