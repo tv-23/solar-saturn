@@ -95,38 +95,33 @@ import "../../../public/style/our-values.css";
 
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const timelineCol = document.getElementById('timelineRef');
-        const scrollLine = document.getElementById('scrollLine');
-        const items = document.querySelectorAll('.timeline-item');
-        
-        // Draw Trigger: Center of Screen
-        const drawTriggerOffset = window.innerHeight / 2; 
-
-        function updateScroll() {
-            const rect = timelineCol.getBoundingClientRect();
-            const topOfTimeline = rect.top; 
+  document.addEventListener("DOMContentLoaded", () => {
+            const timelineCol = document.getElementById('timelineRef');
+            const scrollLine = document.getElementById('scrollLine');
+            const items = document.querySelectorAll('.timeline-item');
             
-            // Calculate line length
-            let lineLength = drawTriggerOffset - topOfTimeline;
-            if (lineLength < 0) lineLength = 0;
-            
-            // Apply Height
-            scrollLine.style.height = `${lineLength}px`;
+            const drawTriggerOffset = window.innerHeight / 2; 
 
-            // Check Items
-            items.forEach(item => {
-                const itemTop = item.offsetTop;
-                // Reveal logic
-                if (lineLength > itemTop + 10) {
-                    item.classList.add('revealed');
-                } else {
-                    item.classList.remove('revealed');
-                }
-            });
-        }
+            function updateScroll() {
+                const rect = timelineCol.getBoundingClientRect();
+                const topOfTimeline = rect.top; 
+                
+                let lineLength = drawTriggerOffset - topOfTimeline;
+                if (lineLength < 0) lineLength = 0;
+                
+                scrollLine.style.height = `${lineLength}px`;
 
-        window.addEventListener('scroll', updateScroll);
-        updateScroll(); 
-    });
+                items.forEach(item => {
+                    const itemTop = item.offsetTop;
+                    if (lineLength > itemTop + 10) {
+                        item.classList.add('revealed');
+                    } else {
+                        item.classList.remove('revealed');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateScroll);
+            updateScroll(); 
+        });
 </script>

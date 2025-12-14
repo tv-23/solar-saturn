@@ -164,7 +164,7 @@ svg.intro-curve {
 }
 
 /* Mobile Responsive */
-@media(max-width: 992px) {
+/* @media(max-width: 992px) {
     .main-wrapper { grid-template-columns: 80px 1fr; } 
     .text-huge { font-size: 2rem; }
 }
@@ -175,4 +175,4 @@ svg.intro-curve {
     .timeline-column { border-left: 1px solid #eee; }
     .junction-dot { display: none; }
     .vertical-track, .active-line { left: -2px; }
-}
+} */
