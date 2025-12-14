@@ -132,11 +132,12 @@ margin: 0 auto !important;
 
 .ms-auto.cta-btn {
     background-color: #F59331;
-    width: 209px;
+    width: 215px;
 }
 
 .ms-auto.cta-btn a {
     background-color: transparent;
     border: none;
     padding: 31px;
+    font-weight: 500;
 }
