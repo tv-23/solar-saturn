@@ -129,3 +129,14 @@ margin: 0 auto !important;
         margin: initial !important;
     }
 }
+
+.ms-auto.cta-btn {
+    background-color: #F59331;
+    width: 209px;
+}
+
+.ms-auto.cta-btn a {
+    background-color: transparent;
+    border: none;
+    padding: 31px;
+}
