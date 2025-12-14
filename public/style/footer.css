@@ -1,0 +1,108 @@
+:root {
+    --primary-blue: #4A86E8;
+    --secondary-orange: #F59331;
+    --text-color: #ffffff;
+    --text-muted: #e0e0e0;
+}
+
+.seatrust-footer {
+    background-color: var(--primary-blue);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95rem;
+    padding-top: 60px;
+    padding-bottom: 20px;
+}
+
+/* Logo Styling */
+.footer-logo-icon {
+    font-size: 8rem;
+    color: rgba(255, 255, 255, 0.2);
+    /* Subtle watermark look like screenshot */
+    display: block;
+    margin-bottom: 20px;
+}
+
+/* Headings */
+.footer-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.5px;
+}
+
+/* Address & Contact Info */
+.company-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.contact-info p {
+    margin-bottom: 0.2rem;
+    color: var(--text-muted);
+}
+
+footer .contact-info a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer .contact-info a:hover {
+    color: #fff;
+}
+
+/* List Styling (Services & Navigation) */
+.footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-list li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+/* The Chevron Icon (>) */
+.footer-list li i {
+    color: var(--secondary-orange);
+    font-size: 0.8rem;
+    margin-right: 10px;
+}
+
+footer .footer-list a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-list a:hover {
+    color: #fff;
+    padding-left: 5px;
+    /* Slight movement on hover */
+}
+
+/* Bottom Copyright Area */
+.copyright-area {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.brosmedia-link {
+    color: var(--secondary-orange);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.brosmedia-link:hover {
+    text-decoration: underline;
+    color: #fff;
+}
