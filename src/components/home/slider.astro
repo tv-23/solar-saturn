@@ -1,0 +1,144 @@
+---
+import "../../../public/style/slider.css";
+---
+
+<div class="hero-slider">
+    <!-- Navigation Buttons -->
+    <button class="nav-btn prev-btn" id="prevBtn">❮</button>
+    <button class="nav-btn next-btn" id="nextBtn">❯</button>
+
+    <!-- ================= SLIDE 1: SHIP ================= -->
+    <div class="slide-item active">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <!-- Text Column -->
+                <div class="col-lg-6">
+                    <div class="text-wrapper text-white">
+                        <h1 class="display-4 fw-bold text-uppercase hero-title">
+                            Navigating The Future Of Logistics
+                        </h1>
+                    </div>
+                </div>
+                <!-- Image Column -->
+                <div class="col-lg-6">
+                    <div class="img-wrapper-right">
+                        <img
+                            src="https://amsmiami.com/wp-content/uploads/revslider/optional/ship_main.png"
+                            alt="Container Ship"
+                            class="ship-img"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Waves -->
+        <div class="slide-1-waves">
+            <div class="wave wave1"></div>
+            <div class="wave wave2"></div>
+            <div class="wave wave3"></div>
+            <div class="wave wave4"></div>
+        </div>
+    </div>
+
+    <!-- ================= SLIDE 2: PLANE ================= -->
+    <div class="slide-item">
+        <div class="plane-container">
+            <div class="overlay-text text-white">
+                <h1 class="display-4 fw-bold text-uppercase hero-title">
+                    Providing The Right Solution<br />For Luxury Goods Logistics
+                </h1>
+            </div>
+            <img
+                src="https://amsmiami.com/wp-content/uploads/revslider/main/plane_main.png"
+                alt="Cargo Plane"
+                class="full-plane-img"
+            />
+        </div>
+    </div>
+
+    <!-- ================= SLIDE 3: TRUCKS ================= -->
+    <div class="slide-item">
+        <div class="truck-content-wrapper text-white">
+            <div class="slide-3-text">
+                <h1 class="display-4 fw-bold text-uppercase hero-title">
+                    72-Hour Turnaround <br /> On Your Orders
+                </h1>
+            </div>
+        </div>
+        <div class="truck-full-container">
+            <img
+                src="https://amsmiami.com/wp-content/uploads/revslider/main/truck_1.png"
+                alt="Forklift"
+                class="forklift-full"
+            />
+            <img
+                src="https://amsmiami.com/wp-content/uploads/revslider/main/truck_2.png"
+                alt="Semi Truck"
+                class="semi-truck-full"
+            />
+        </div>
+    </div>
+
+    <!-- ================= SLIDE 4: FORKLIFT ================= -->
+    <div class="slide-item">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <!-- Text Column -->
+                <div class="col-lg-6 order-1 order-lg-1">
+                    <div class="text-wrapper text-white">
+                        <h1
+                            class="display-4 fw-bold text-uppercase hero-title mb-4"
+                        >
+                            Expert Cargo Handling &amp; Warehousing
+                        </h1>
+                    </div>
+                </div>
+                <!-- Image Column -->
+                <div class="col-lg-6 order-2 order-lg-2">
+                    <div class="img-wrapper-right">
+                        <img
+                            src="https://amsmiami.com/wp-content/uploads/revslider/boxed/box_slide_1.png"
+                            alt="Yellow Forklift"
+                            class="forklift-yellow-img"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll(".slide-item");
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    let isAnimating = false;
+
+    function switchSlide(direction) {
+        if (isAnimating) return;
+        isAnimating = true;
+
+        const activeSlide = slides[currentSlideIndex];
+
+        let nextIndex = currentSlideIndex + direction;
+        if (nextIndex >= slides.length) nextIndex = 0;
+        if (nextIndex < 0) nextIndex = slides.length - 1;
+
+        const nextSlide = slides[nextIndex];
+
+        // Trigger Exit Animation
+        activeSlide.classList.add("exiting");
+
+        setTimeout(() => {
+            activeSlide.classList.remove("active", "exiting");
+            nextSlide.classList.add("active");
+
+            currentSlideIndex = nextIndex;
+            isAnimating = false;
+        }, 800);
+    }
+
+    nextBtn.addEventListener("click", () => switchSlide(1));
+    prevBtn.addEventListener("click", () => switchSlide(-1));
+</script>
