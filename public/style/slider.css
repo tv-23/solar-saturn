@@ -237,6 +237,7 @@
     z-index: 10;
     transform: translateX(-100vw);
     filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+    top:10%;
 }
 
 .slide-item.active .full-plane-img {
@@ -603,7 +604,7 @@
 /* --- CLOUD STYLES (New) --- */
 .cloud-img {
     position: absolute;
-    top: 20%; /* Adjust vertical position */
+    top: 25%; /* Adjust vertical position */
     /* We don't set left/right here because animation handles X translation */
     width: 50%; /* Adjust size of cloud */
     max-width: 600px;
