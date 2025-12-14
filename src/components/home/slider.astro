@@ -34,28 +34,28 @@ import "../../../public/style/slider.css";
  <!-- ================= SLIDE 1: SHIP ================= -->
  <div class="slide-item">
     <div class="container h-100">
-        <div class="row h-100 align-items-center">
-            <!-- Text Column -->
-            <div class="col-lg-6">
-                <div class="text-wrapper text-white">
-                    <h1 class="display-4 fw-bold text-uppercase hero-title">
-                        Navigating The Future Of Logistics
-                    </h1>
-                </div>
+        <!-- Changed to Flex Column to stack Text on Top, Image on Bottom -->
+        <div class="d-flex flex-column h-100 justify-content-center align-items-center">
+            
+            <!-- Text (Top) -->
+            <div class="text-wrapper text-white text-center mt-5" style="z-index: 50;">
+                <h1 class="display-3 fw-bold text-uppercase hero-title">
+                    Navigating The Future Of Logistics
+                </h1>
             </div>
-            <!-- Image Column -->
-            <div class="col-lg-6">
-                <div class="img-wrapper-right" style="margin-bottom: -73px;">
-                    <img
-                        src="/images/bateaux-1.png"
-                        alt="Container Ship"
-                        class="ship-img"
-                    />
-                </div>
+
+            <!-- Image (Bottom) -->
+            <div class="ship-center-container">
+                <img
+                    src="/images/bateaux-1.png"
+                    alt="Container Ship"
+                    class="ship-img"
+                />
             </div>
         </div>
     </div>
-    <!-- Waves -->
+    
+    <!-- Waves (Keep existing) -->
     <div class="slide-1-waves">
         <div class="wave wave1"></div>
         <div class="wave wave2"></div>
