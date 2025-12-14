@@ -559,3 +559,133 @@
         justify-content: center;
     }
 }
+
+
+
+/* =========================================
+    SLIDE 2: PLANE & CLOUD ANIMATIONS
+   ========================================= */
+
+/* Container setup */
+.plane-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Important to hide objects when off-screen */
+}
+
+.overlay-text {
+    position: relative;
+    z-index: 20;
+    opacity: 0;
+    width: 100%;
+    text-align: center;
+    margin-bottom: -40px;
+}
+
+/* --- PLANE STYLES (Existing) --- */
+.full-plane-img {
+    width: 100%;
+    max-width: 1600px;
+    height: auto;
+    position: relative;
+    z-index: 10; /* Plane is in front */
+    transform: translateX(-100vw);
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+}
+
+/* --- CLOUD STYLES (New) --- */
+.cloud-img {
+    position: absolute;
+    top: 20%; /* Adjust vertical position */
+    /* We don't set left/right here because animation handles X translation */
+    width: 50%; /* Adjust size of cloud */
+    max-width: 600px;
+    z-index: 5; /* Cloud is behind plane (5 < 10) */
+    opacity: 0.8;
+    transform: translateX(100vw); /* Start off-screen RIGHT */
+}
+
+/* --- ANIMATIONS: ACTIVE STATE (Entry) --- */
+.slide-item.active .full-plane-img {
+    /* Plane: Left -> Center */
+    animation: planeIn 1.5s ease-out forwards, floatPlane 4s ease-in-out infinite 1.5s;
+}
+
+.slide-item.active .cloud-img {
+    /* Cloud: Right -> Center */
+    animation: cloudIn 1.5s ease-out forwards;
+}
+
+.slide-item.active .overlay-text {
+    animation: textIn 1s ease-out 0.5s forwards;
+}
+
+/* --- ANIMATIONS: EXITING STATE (Exit) --- */
+.slide-item.exiting .full-plane-img {
+    /* Plane: Center -> Right */
+    animation: planeOut 0.8s ease-in forwards;
+}
+
+.slide-item.exiting .cloud-img {
+    /* Cloud: Center -> Left */
+    animation: cloudOut 0.8s ease-in forwards;
+}
+
+.slide-item.exiting .overlay-text {
+    animation: textOut 0.5s ease-in forwards;
+}
+
+/* --- KEYFRAMES --- */
+
+/* Plane: Left -> Center */
+@keyframes planeIn {
+    0% { transform: translateX(-100vw) scale(0.8); opacity: 0; }
+    100% { transform: translateX(0) scale(1); opacity: 1; }
+}
+
+/* Plane: Center -> Right */
+@keyframes planeOut {
+    0% { transform: translateX(0) scale(1); opacity: 1; }
+    100% { transform: translateX(100vw) scale(1.2); opacity: 0; }
+}
+
+/* Cloud: Right -> Center */
+@keyframes cloudIn {
+    0% { transform: translateX(100vw); opacity: 0; }
+    100% { transform: translateX(100px); opacity: 0.9; } /* 100px offset to not be perfectly centered behind plane */
+}
+
+/* Cloud: Center -> Left */
+@keyframes cloudOut {
+    0% { transform: translateX(100px); opacity: 0.9; }
+    100% { transform: translateX(-100vw); opacity: 0; }
+}
+
+@keyframes floatPlane {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* --- MOBILE RESPONSIVE TWEAKS --- */
+@media (max-width: 991px) {
+    .cloud-img {
+        width: 70%;
+        top: 15%;
+    }
+    /* Adjust Cloud animation for mobile to be centered */
+    @keyframes cloudIn {
+        0% { transform: translateX(100vw); opacity: 0; }
+        100% { transform: translateX(0); opacity: 0.9; } 
+    }
+    @keyframes cloudOut {
+        0% { transform: translateX(0); opacity: 0.9; }
+        100% { transform: translateX(-100vw); opacity: 0; }
+    }
+}
