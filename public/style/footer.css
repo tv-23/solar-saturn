@@ -97,12 +97,11 @@ footer .footer-list a {
 }
 
 .brosmedia-link {
-    color: var(--secondary-orange);
+    color: #1C4587;
     text-decoration: none;
     font-weight: 600;
 }
 
 .brosmedia-link:hover {
-    text-decoration: underline;
     color: #fff;
 }
