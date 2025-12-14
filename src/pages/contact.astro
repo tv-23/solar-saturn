@@ -1,0 +1,146 @@
+---
+import "../../public/style/contact.css";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+
+
+<!-- Header Section -->
+<header class="contact-header">
+    <div class="container">
+        <h1 class="header-title display-4">Get in Touch</h1>
+        <p class="lead opacity-75">We are here to help with your global logistics needs.</p>
+    </div>
+</header>
+
+<!-- Main Content Section -->
+<section class="contact-wrapper">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <div class="card main-card">
+                    <div class="row g-0">
+                        
+                        <!-- LEFT COLUMN: Contact Form -->
+                        <div class="col-md-7">
+                            <div class="form-content">
+                                <h3 class="section-title">Send a Message</h3>
+                                <p class="mb-4 text-muted">Please fill out the form below and our team will get back to you within 24 hours.</p>
+                                
+                                <form>
+                                    <div class="row g-3">
+                                        <!-- Name Field -->
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="floatingName" placeholder="John Doe" required>
+                                                <label for="floatingName">Full Name</label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Email Field -->
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com" required>
+                                                <label for="floatingEmail">Email Address</label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Subject Dropdown -->
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <select class="form-select" id="floatingSelect" aria-label="Topic">
+                                                    <option selected>General Inquiry</option>
+                                                    <option value="1">Request a Quote</option>
+                                                    <option value="2">Customs & Brokerage</option>
+                                                    <option value="3">Warehousing Solutions</option>
+                                                </select>
+                                                <label for="floatingSelect">Topic</label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Message Textarea -->
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 150px" required></textarea>
+                                                <label for="floatingTextarea">Your Message</label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit Button -->
+                                        <div class="col-12 mt-4">
+                                            <button type="submit" class="btn btn-submit">
+                                                Send Message <i class="fa-solid fa-paper-plane ms-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT COLUMN: Contact Info & Map -->
+                        <div class="col-md-5">
+                            <div class="info-sidebar">
+                                
+                                <!-- Contact Details -->
+                                <div class="info-content">
+                                    <h3 class="section-title">Contact Info</h3>
+                                    
+                                    <!-- Address -->
+                                    <div class="info-item">
+                                        <div class="icon-box">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                        </div>
+                                        <div class="info-text">
+                                            <h5>Our Location</h5>
+                                            <p>123 Logistics Avenue, Suite 100<br>Casablanca, Morocco 20000</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Phone -->
+                                    <div class="info-item">
+                                        <div class="icon-box">
+                                            <i class="fa-solid fa-phone"></i>
+                                        </div>
+                                        <div class="info-text">
+                                            <h5>Phone Number</h5>
+                                            <p><a href="tel:+212522000000">+212 5 22 00 00 00</a></p>
+                                            <p><small class="text-muted">Mon-Fri 9am - 6pm</small></p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="info-item">
+                                        <div class="icon-box">
+                                            <i class="fa-solid fa-envelope"></i>
+                                        </div>
+                                        <div class="info-text">
+                                            <h5>Email Address</h5>
+                                            <p><a href="mailto:contact@seatrust.com">contact@seatrust.com</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Google Map Embed (Port of Casablanca Area) -->
+                                <div class="map-wrapper">
+                                    <iframe 
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d53185.836946654!2d-7.6192!3d33.5951!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7d2e9821d1c33%3A0x67585253813735e8!2sPort%20of%20Casablanca!5e0!3m2!1sen!2sma!4v1700000000000!5m2!1sen!2sma" 
+                                        allowfullscreen="" 
+                                        loading="lazy" 
+                                        referrerpolicy="no-referrer-when-downgrade">
+                                    </iframe>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- End Right Column -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</Layout>

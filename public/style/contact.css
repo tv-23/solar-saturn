@@ -1,0 +1,164 @@
+:root {
+    --primary-blue: #4A86E8;
+    --secondary-orange: #F59331;
+    --dark-blue: #2c5aa0;
+    --bg-light: #f8f9fa;
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+/* --- Hero / Header Section --- */
+.contact-header {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+    color: white;
+    padding: 80px 0 120px; /* Extra padding bottom for overlap effect */
+    text-align: center;
+}
+
+.header-title {
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+/* --- Main Card Container --- */
+.contact-wrapper {
+    margin-top: -60px; /* Negative margin to pull card up */
+    margin-bottom: 60px;
+    z-index: 10;
+    position: relative;
+}
+
+.main-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+    border: none;
+}
+
+/* --- Left Column: Form --- */
+.form-content {
+    padding: 40px;
+}
+
+.section-title {
+    color: var(--primary-blue);
+    font-weight: 700;
+    margin-bottom: 25px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background-color: var(--secondary-orange);
+    margin-top: 5px;
+}
+
+/* Bootstrap Floating Labels Customization */
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    color: var(--primary-blue);
+    opacity: 0.8;
+}
+
+.form-control:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 0.25rem rgba(74, 134, 232, 0.25);
+}
+
+.btn-submit {
+    background-color: var(--secondary-orange);
+    color: white;
+    font-weight: 700;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #e08323; /* Darker orange */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(245, 147, 49, 0.4);
+    color: white;
+}
+
+/* --- Right Column: Info & Map --- */
+.info-sidebar {
+    background-color: #fcfcfc;
+    border-left: 1px solid #eee;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-content {
+    padding: 40px;
+    flex-grow: 1;
+}
+
+/* Icon Boxes */
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+.icon-box {
+    width: 45px;
+    height: 45px;
+    background-color: rgba(74, 134, 232, 0.1);
+    color: var(--primary-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    margin-right: 15px;
+    flex-shrink: 0;
+    transition: 0.3s;
+}
+
+.info-item:hover .icon-box {
+    background-color: var(--secondary-orange);
+    color: white;
+}
+
+.info-text h5 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.info-text p, .info-text a {
+    font-size: 0.95rem;
+    color: #666;
+    margin: 0;
+    text-decoration: none;
+}
+
+.info-text a:hover {
+    color: var(--primary-blue);
+}
+
+/* Map Container */
+.map-wrapper {
+    height: 250px;
+    width: 100%;
+    border-top: 1px solid #eee;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
