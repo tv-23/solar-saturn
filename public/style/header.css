@@ -144,12 +144,12 @@ margin: 0 auto !important;
 }
 
 
-.container.py-lg-5.bros-headline >div>div span {
+.container.bros-headline >div>div span {
     color: white !important;
     font-size: 30px;
 }
 
 
-.container.py-lg-5.bros-headline >div>div span>span {
+.container.bros-headline >div>div span>span {
     color: #F59331 !important;
 }
