@@ -47,7 +47,7 @@
  }
 
  .chat-header {
-   background: #0a0f4f;
+   background: #1c4587;
    color: #fff;
    padding: 16px;
    text-align: center;
@@ -205,7 +205,7 @@
  }
 
  .sender .message-bubble {
-   background: #0a0f4f;
+   background: #1c4587;
    color: white;
    border-bottom-right-radius: 5px;
    box-shadow: 0 2px 5px rgba(10, 15, 79, 0.2);
