@@ -96,7 +96,7 @@ margin: 0 auto !important;
 
 /* The Special 'Home' Button */
 .bg-home-blue {
-    background-color: var(--seatrust-light-blue);
+    background-color: #0092ff;
 }
 
 .bg-home-blue:hover {
