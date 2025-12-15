@@ -62,7 +62,7 @@ h1.hero-title {
     font-size: 0.9rem;
     opacity: 0.7;
     margin-bottom: 1rem;
-    display: #f59331;
+    display: block;
 }
 
 .service-title {
@@ -134,5 +134,5 @@ h1.hero-title {
 }
 
 .container-fluid.wecargo-section .service-num {
-    color: black;
+    color: #F59331;
 }
