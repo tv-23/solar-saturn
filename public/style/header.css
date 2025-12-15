@@ -73,6 +73,7 @@ margin: 0 auto !important;
 
 .navbar-brand img {
     max-height: 76px; 
+    padding: 8px;
 }
 
 /* Navigation Links */
