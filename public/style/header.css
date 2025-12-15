@@ -142,14 +142,3 @@ margin: 0 auto !important;
     padding: 31px;
     font-weight: 500;
 }
-
-
-.container.bros-headline >div>div span {
-    color: white !important;
-    font-size: 30px;
-}
-
-
-.container.bros-headline >div>div span>span {
-    color: #F59331 !important;
-}
