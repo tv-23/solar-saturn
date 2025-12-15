@@ -89,34 +89,24 @@ import "../../../public/style/about.css";
 </section>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
+  window.switchTab = function (tabName) {
+    const navItems = document.querySelectorAll('.nav-item-custom');
+    navItems.forEach(item => item.classList.remove('active'));
 
-    function switchTab(tabName) {
-        // 1. Remove 'active' class from all TABS
-        const navItems = document.querySelectorAll('.nav-item-custom');
-        navItems.forEach(item => item.classList.remove('active'));
+    event.target.classList.add('active');
 
-        // 2. Add 'active' class to the CLICKED TAB
-        // We find the element by matching the onclick attribute or using event delegation, 
-        // but here we simply loop to find which one matches the clicked context.
-        // A simpler way for this specific inline approach:
-        event.target.classList.add('active');
+    const textContents = document.querySelectorAll('.tab-text-content');
+    textContents.forEach(content => content.classList.remove('active'));
 
-        // 3. Hide all TEXT content
-        const textContents = document.querySelectorAll('.tab-text-content');
-        textContents.forEach(content => content.classList.remove('active'));
+    document.getElementById('text-' + tabName)?.classList.add('active');
 
-        // 4. Show the selected TEXT content
-        document.getElementById('text-' + tabName).classList.add('active');
+    const images = document.querySelectorAll('.mvv-image');
+    images.forEach(img => img.classList.remove('active'));
 
-        // 5. Hide all IMAGES
-        const images = document.querySelectorAll('.mvv-image');
-        images.forEach(img => img.classList.remove('active'));
-
-        // 6. Show the selected IMAGE
-        document.getElementById('img-' + tabName).classList.add('active');
-    }
-
+    document.getElementById('img-' + tabName)?.classList.add('active');
+  };
 });
+
 
 </script>
