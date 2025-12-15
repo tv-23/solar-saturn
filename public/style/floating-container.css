@@ -10,7 +10,7 @@
     /* Safari */
     position: sticky;
     top: 0;
-    height: 100vh;
+    height: max-content;
     /* Limits the container height to viewport */
 
     /* Center the image within the sticky area */
