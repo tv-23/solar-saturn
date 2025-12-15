@@ -5,15 +5,6 @@
 }
 
 
-.text-primary { color: var(--brand-primary) !important; }
-.text-secondary { color: var(--brand-secondary) !important; }
-.bg-primary { background-color: var(--brand-primary) !important; }
-
-/* Light orange background for the centered badge */
-.bg-light-orange { 
-    background-color: rgba(237, 139, 52, 0.15); 
-}
-
 body {
     font-family: 'Segoe UI', sans-serif;
     background-color: #f4f4f4;
