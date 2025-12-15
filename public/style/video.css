@@ -26,7 +26,6 @@
     
     /* Initial State (will be overridden by JS) */
     transform: scale(0.8);
-    border-radius: 40px; /* Start round */
     overflow: hidden;
     box-shadow: 0 20px 50px rgba(0,0,0,0.1);
     

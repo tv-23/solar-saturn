@@ -73,11 +73,11 @@ import "../../../public/style/video.css";
 
                 // Calculate CSS values
                 const currentScale = minScale + (animFactor * (maxScale - minScale));
-                const currentRadius = minRadius - (animFactor * minRadius);
+                // const currentRadius = minRadius - (animFactor * minRadius);
 
                 // Apply CSS
                 container.style.transform = `scale(${currentScale})`;
-                container.style.borderRadius = `${currentRadius}px`;
+                // container.style.borderRadius = `${currentRadius}px`;
 
                 // Show text when fully zoomed
                 if (animFactor >= 0.95) {
