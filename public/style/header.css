@@ -1,147 +1,201 @@
 :root {
-    --seatrust-dark-blue: #1C4587; /* The dark bar color */
-    --seatrust-light-blue: #4A86E8; /* The 'Home' button color */
-    --seatrust-orange: #F59331;     /* Accent color */
-    --text-grey: #666;
-    --text-blue: #2A6DB3;           /* Color for top bar text */
+    --sea-blue: #1C4587;   /* Primary Dark Blue */
+    --sea-light: #4A86E8;  /* Lighter Blue */
+    --sea-orange: #F59331; /* Accent Orange */
+    --white: #ffffff;
+    --text-dark: #333;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
 }
 
-/* --- 2. TOP BAR STYLING --- */
-.top-bar {
-    background-color: #ffffff;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 8px 0;
+/* --- 1. TOP BAR STYLING --- */
+.top-bar-luxury {
+    background-color: var(--sea-blue);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 10px 0;
     font-size: 13px;
-}
-
-/* Contact Info (Left Side) */
-.contact-info {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.contact-item {
-    display: flex;
-    align-items: center;
-    color: var(--text-blue); /* Blue text like your original image */
-    text-decoration: none;
     font-weight: 500;
+    letter-spacing: 0.5px;
 }
 
-.contact-item i {
-    color: var(--seatrust-dark-blue);
-    font-size: 1.1em;
-    margin-right: 6px;
+/* Left Side: Contact Info */
+.top-info {
+    display: flex;
+    align-items: center;
 }
 
-/* Social Icons (Right Side) */
-.social-icons a {
-    margin-left: 15px; /* Spacing on the left of each icon */
-    font-size: 1.1em;
-    color: var(--seatrust-dark-blue);
+.top-info-item {
+    display: flex;
+    align-items: center;
+    margin-right: 25px;
+}
+
+.top-info-item i {
+    color: var(--sea-orange);
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+/* Right Side: Social Media */
+.top-social {
+    display: flex;
+    align-items: center;
+}
+
+.top-social a {
+    color: white;
+    margin-left: 20px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.top-social a:hover {
+    color: var(--sea-orange);
+    transform: translateY(-2px);
+}
+
+/* --- 2. MAIN HEADER (Curtain Style) --- */
+.header-curtain {
+    background: var(--white);
+    padding: 20px 0;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    z-index: 100; /* Ensure it stays above content */
+}
+
+.logo-img {
+    height: 55px; /* Adjust based on your logo preference */
+    width: auto;
+}
+
+/* The Menu Trigger (Hamburger) */
+.curtain-trigger {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-family: 'Teko', sans-serif; /* The tall, modern font */
+    font-size: 26px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sea-blue);
     transition: 0.3s;
 }
 
-.social-icons a:hover {
-    color: var(--seatrust-orange);
+.curtain-label {
+    font-weight: 500;
 }
 
-/* --- 3. MAIN NAVBAR STYLING --- */
-.custom-navbar {
-    padding: 0; 
-    background-color: var(--seatrust-dark-blue); 
+/* Animated Lines */
+.curtain-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
 }
 
-/* The White Box for the Logo */
-.brand-wrapper {
-    background-color: white;
-    padding: 0px;
+.curtain-line {
+    width: 40px;
+    height: 3px;
+    background: var(--sea-blue);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.curtain-line.short {
+    width: 25px;
+}
+
+/* Hover Effects on Trigger */
+.curtain-trigger:hover .curtain-label {
+    color: var(--sea-orange);
+}
+
+.curtain-trigger:hover .curtain-line {
+    width: 50px; /* Expands lines */
+    background: var(--sea-orange);
+}
+
+/* --- 3. THE FULLSCREEN OVERLAY MENU --- */
+.curtain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0; /* Hidden by default */
+    background: var(--sea-blue); /* Or a deep gradient */
+    z-index: 9999;
+    overflow: hidden;
+    transition: height 0.6s cubic-bezier(0.77, 0, 0.175, 1);
     display: flex;
     align-items: center;
-    height: 100%;
-    min-width: 200px; /* Ensure space for logo */
-}
-.navbar-brand {
-margin: 0 auto !important;
+    justify-content: center;
 }
 
-.navbar-brand img {
-    max-height: 76px; 
-    padding: 8px;
+.curtain-overlay.active {
+    height: 100vh;
 }
 
-/* Navigation Links */
-.navbar-nav {
-    width: 100%;
+.overlay-content {
+    text-align: center;
 }
 
-.nav-link {
-    color: white !important;
-    text-transform: capitalize;
-    font-size: 16px;
-    font-weight: 500;
-    padding: 31px 31px !important;
-    transition: background 0.3s;
-    white-space: nowrap;
+.overlay-content a {
+    font-family: 'Teko', sans-serif;
+    font-size: 4rem; /* Large Impact Text */
+    color: rgba(255,255,255,0.9);
+    display: block;
+    text-decoration: none;
+    text-transform: uppercase;
+    line-height: 1.1;
+    transition: 0.3s;
+    opacity: 0; /* Fade in animation */
+    transform: translateY(20px);
 }
 
-.nav-link:hover {
-    background-color: rgba(255,255,255,0.1);
+/* Staggered animation for links when active */
+.curtain-overlay.active .overlay-content a {
+    opacity: 1;
+    transform: translateY(0);
+}
+.curtain-overlay.active .overlay-content a:nth-child(1) { transition-delay: 0.2s; }
+.curtain-overlay.active .overlay-content a:nth-child(2) { transition-delay: 0.3s; }
+.curtain-overlay.active .overlay-content a:nth-child(3) { transition-delay: 0.4s; }
+.curtain-overlay.active .overlay-content a:nth-child(4) { transition-delay: 0.5s; }
+.curtain-overlay.active .overlay-content a:nth-child(5) { transition-delay: 0.6s; }
+
+.overlay-content a:hover {
+    color: var(--sea-orange);
+    letter-spacing: 5px; /* Spacing animation */
+    transform: scale(1.05);
 }
 
-/* The Special 'Home' Button */
-.bg-home-blue {
-    background-color: #0092ff;
+.close-curtain {
+    position: absolute;
+    top: 30px;
+    right: 50px;
+    color: white;
+    font-size: 3rem;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-.bg-home-blue:hover {
-    background-color: #3b73d4; 
+.close-curtain:hover {
+    color: var(--sea-orange);
+    transform: rotate(90deg);
 }
 
 /* Mobile Adjustments */
 @media (max-width: 991px) {
-    .top-bar {
-        display: none; /* Hide top bar on mobile */
-    }
-    
-    .brand-wrapper {
-        width: 100%;
-        justify-content: space-between;
-        padding: 10px 15px;
-    }
-
-    .navbar-toggler {
-        border-color: rgba(255,255,255,0.5); 
-        filter: invert(1); /* Make hamburger icon white */
-    }
-    
-    .nav-link {
-        padding: 15px !important;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .navbar-brand{
-        margin: initial !important;
-    }
+    .top-bar-luxury { display: none; } /* Hide top bar on mobile or adjust to stack */
+    .overlay-content a { font-size: 2.5rem; }
+    .curtain-label { display: none; } /* Show only burger on mobile */
 }
 
-.ms-auto.cta-btn {
-    background-color: #F59331;
-    width: 170px;
-}
 
-.ms-auto.cta-btn a {
-    background-color: transparent;
-    border: none;
-    padding: 31px;
-    font-weight: 500;
-}
 
 
 
