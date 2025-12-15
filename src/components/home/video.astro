@@ -1,0 +1,108 @@
+---
+import "../../../public/style/video.css";
+---
+
+<div class="video-scroll-track" id="trackSection">
+    <div class="sticky-viewport">
+        
+        <!-- This container zooms in/out -->
+        <div class="video-anim-container" id="videoContainer">
+            
+            <div class="vimeo-wrapper">
+                <!-- 
+                   Vimeo Embed Options:
+                   background=1 : Hides controls, loops, mutes (Great for aesthetics)
+                   autoplay=0   : We will control play via JS
+                -->
+                <iframe 
+                    id="vimeoPlayer"
+                    src="https://player.vimeo.com/video/76979871?title=0&byline=0&portrait=0" 
+                    frameborder="0" 
+                    allow="autoplay; fullscreen" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <!-- Optional Text appearing when fully zoomed -->
+            <div class="video-text-overlay" id="overlayText">
+                <h2 class="display-3 fw-bold">IMMERSIVE</h2>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="https://player.vimeo.com/api/player.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const track = document.getElementById('trackSection');
+            const container = document.getElementById('videoContainer');
+            const overlayText = document.getElementById('overlayText');
+            
+            // Setup Vimeo Player
+            const iframe = document.getElementById('vimeoPlayer');
+            const player = new Vimeo.Player(iframe);
+
+            // Animation Settings
+            const minScale = 0.75;
+            const maxScale = 1.0;
+            const minRadius = 50; // px
+            const maxRadius = 0;  // px (Full width needs 0 radius)
+
+            // 1. SCROLL ANIMATION (Zoom & Radius)
+            window.addEventListener('scroll', () => {
+                const rect = track.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                const trackHeight = rect.height;
+
+                // Calculate progress based on how far into the track we are
+                // We want the animation to complete when the sticky element is roughly halfway through the track
+                let progress = -rect.top / (trackHeight - windowHeight);
+                
+                // Clamp progress between 0 and 1
+                // 0 = Start of section
+                // 1 = End of section
+                let safeProgress = Math.min(Math.max(progress, 0), 1);
+
+                // Map progress to specific animation phases
+                // Let's say we want to be fully zoomed in (1.0) when progress is 0.5 (middle of scroll)
+                let animFactor = safeProgress * 2; 
+                if (animFactor > 1) animFactor = 1; // Cap at 1
+
+                // Calculate CSS values
+                const currentScale = minScale + (animFactor * (maxScale - minScale));
+                const currentRadius = minRadius - (animFactor * minRadius);
+
+                // Apply CSS
+                container.style.transform = `scale(${currentScale})`;
+                container.style.borderRadius = `${currentRadius}px`;
+
+                // Show text when fully zoomed
+                if (animFactor >= 0.95) {
+                    overlayText.style.opacity = '1';
+                } else {
+                    overlayText.style.opacity = '0';
+                }
+            });
+
+            // 2. INTERSECTION OBSERVER (Auto Play/Pause)
+            // This detects if the video section is currently on screen
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // User sees the video: PLAY
+                        player.play().catch(error => {
+                            console.log("Autoplay blocked by browser (usually needs mute):", error);
+                        });
+                    } else {
+                        // User scrolled away: PAUSE
+                        player.pause();
+                    }
+                });
+            }, { threshold: 0.2 }); // Trigger when 20% of the section is visible
+
+            observer.observe(track);
+        });
+    </script>
