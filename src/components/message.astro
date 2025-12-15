@@ -1,0 +1,187 @@
+---
+import "../../public/style/message.css";
+---
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+
+<div class="chat-container hidden" id="chat-box">
+  <div class="chat-header">
+    <button class="close-btn" id="closeChat">
+      <i class="bi bi-x"></i>
+    </button>
+    <p style="margin:0;">SEATRUST Assistant</p>
+  </div>
+
+  <div class="chat-body" id="chatBody">
+    <div class="message-row receiver">
+      <div class="message-bubble">
+        ⚓ Bienvenue chez <strong>SEATRUST</strong>.<br>
+        Nous sommes un Groupement d’Intérêt Économique spécialisé dans les
+        solutions logistiques et maritimes intégrées.<br><br>
+        Comment puis-je vous aider aujourd’hui ?
+        <div class="quick-replies">
+          <div class="quick-reply" data-reply="Services">Découvrir nos services</div>
+          <div class="quick-reply" data-reply="Tarifs">Demander un devis</div>
+          <div class="quick-reply" data-reply="Portfolio">Nos opérations</div>
+          <div class="quick-reply" data-reply="Contact">Parler à un conseiller</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const chatBox = document.getElementById("chat-box");
+  const closeChat = document.getElementById("closeChat");
+  const chatBody = document.getElementById("chatBody");
+  const chatBtn = document.getElementById("chat-button");
+
+  const AI_RESPONSES = {
+    greeting: [
+      "Bonjour 👋, bienvenue chez SEATRUST. Comment puis-je vous assister ?",
+      "⚓ Bonjour ! SEATRUST vous accompagne avec des solutions maritimes et logistiques sur mesure.",
+    ],
+
+    services: `SEATRUST propose des services maritimes et logistiques intégrés :<br><br>
+    • 🚢 Transport maritime & affrètement de navires<br>
+    • ⚓ Agence maritime & courtage de navires<br>
+    • 🏗️ Manutention portuaire & stevedoring<br><br>
+    👉 Quel service vous intéresse ?`,
+
+    SeaTransport: `🚢 <strong>Transport maritime & affrètement</strong><br><br>
+    • Affrètement de navires (complet ou partiel)<br>
+    • Solutions adaptées à votre type de cargaison<br>
+    • Optimisation des coûts et délais<br><br>
+    👉 Souhaitez-vous une estimation personnalisée ?`,
+
+    ShippingAgency: `⚓ <strong>Agence maritime & courtage</strong><br><br>
+    • Représentation de navires dans les ports<br>
+    • Coordination des escales et formalités<br>
+    • Courtage entre armateurs et affréteurs<br><br>
+    👉 Voulez-vous être contacté pour plus de détails ?`,
+
+    TerminalHandling: `🏗️ <strong>Manutention portuaire & stevedoring</strong><br><br>
+    • Chargement & déchargement de navires<br>
+    • Gestion des opérations terminales<br>
+    • Sécurité et conformité portuaire<br><br>
+    👉 Avez-vous une opération spécifique à nous confier ?`,
+
+    pricing: `Nos prestations sont proposées à des tarifs compétitifs, calculés sur mesure selon :<br>
+    • Type de cargaison<br>
+    • Itinéraire maritime<br>
+    • Nature des opérations portuaires<br><br>
+    👉 Souhaitez-vous recevoir un devis personnalisé ?`,
+
+    portfolio: `Nous opérons sur différents types de flux maritimes et logistiques.<br>
+    👉 Souhaitez-vous voir un exemple lié à votre activité ?`,
+
+    contact: `Très bien. Pour vous orienter vers le bon interlocuteur, merci de préciser votre demande.`,
+
+    default: [
+      "Pouvez-vous préciser votre besoin logistique ou maritime ?",
+      "Je suis à votre disposition pour toute question liée au transport maritime.",
+      "Souhaitez-vous être mis en relation avec un conseiller SEATRUST ?",
+    ],
+  };
+
+  if (chatBtn) {
+    chatBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      chatBox.classList.toggle("hidden");
+    });
+  }
+
+  closeChat.addEventListener("click", () => chatBox.classList.add("hidden"));
+
+  function addMessage(text, sender) {
+    const row = document.createElement("div");
+    row.className = `message-row ${sender === "user" ? "sender" : "receiver"}`;
+    const bubble = document.createElement("div");
+    bubble.className = "message-bubble";
+    bubble.innerHTML = text;
+    row.appendChild(bubble);
+    chatBody.appendChild(row);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function showTyping() {
+    const row = document.createElement("div");
+    row.id = "typing";
+    row.className = "message-row receiver";
+    row.innerHTML = `<div class="typing-indicator"><div></div><div></div><div></div></div>`;
+    chatBody.appendChild(row);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function hideTyping() {
+    document.getElementById("typing")?.remove();
+  }
+
+  function aiResponse(msg) {
+    const m = msg.toLowerCase();
+    let response = "";
+
+    if (["bonjour","salut","hello"].some(w => m.includes(w))) {
+      response = AI_RESPONSES.greeting[Math.floor(Math.random()*2)];
+    } 
+    else if (m.includes("service")) response = AI_RESPONSES.services;
+    else if (m.includes("transport")) response = AI_RESPONSES.SeaTransport;
+    else if (m.includes("agence") || m.includes("courtage")) response = AI_RESPONSES.ShippingAgency;
+    else if (m.includes("manutention") || m.includes("stevedoring")) response = AI_RESPONSES.TerminalHandling;
+    else if (m.includes("tarif") || m.includes("devis")) response = AI_RESPONSES.pricing;
+    else if (m.includes("opération")) response = AI_RESPONSES.portfolio;
+    else if (m.includes("contact")) response = AI_RESPONSES.contact;
+    else response = AI_RESPONSES.default[Math.floor(Math.random()*3)];
+
+    addMessage(response, "ai");
+    addQuickReplies(msg);
+  }
+
+  const quickReplies = {
+    default: ["Découvrir nos services", "Demander un devis", "Parler à un conseiller"],
+    Services: ["Transport maritime", "Agence maritime", "Manutention portuaire"],
+    Tarifs: ["Demander un devis"],
+  };
+
+  function addQuickReplies(context) {
+    let list = quickReplies.default;
+    if (context === "Services") list = quickReplies.Services;
+    if (context === "Tarifs") list = quickReplies.Tarifs;
+
+    const container = document.createElement("div");
+    container.className = "quick-replies";
+
+    list.forEach(t => {
+      const b = document.createElement("div");
+      b.className = "quick-reply";
+      b.textContent = t;
+      b.onclick = () => {
+        addMessage(t, "user");
+        showTyping();
+        setTimeout(() => {
+          hideTyping();
+          aiResponse(t);
+        }, 1200);
+      };
+      container.appendChild(b);
+    });
+
+    chatBody.lastElementChild.appendChild(container);
+  }
+
+  document.querySelectorAll(".quick-reply").forEach(btn => {
+    btn.addEventListener("click", function () {
+      const text = this.dataset.reply;
+      addMessage(text, "user");
+      showTyping();
+      setTimeout(() => {
+        hideTyping();
+        aiResponse(text);
+      }, 1000);
+    });
+  });
+
+});
+</script>
+  
