@@ -31,7 +31,7 @@ body {
 
 /* The Main Blue Card */
 .main-card {
-    background-color: var(--primary-blue);
+    background-color:#1C4587;
     color: white;
     position: relative;
     z-index: 10;
