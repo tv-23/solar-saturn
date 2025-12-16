@@ -2,7 +2,7 @@
   .video-scroll-track {
     height: 200vh; /* Long track to allow slow scrolling animation */
     position: relative;
-    background-color: #ffffff;
+    background-color: #1c4587;
 }
 
 .sticky-viewport {
