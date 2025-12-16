@@ -409,45 +409,123 @@
 }
 
 /* =========================================
-    SLIDE 4: YELLOW FORKLIFT ANIMATIONS
-    ========================================= */
-.forklift-yellow-img {
-    max-width: 100%;
+    SLIDE 4: DUAL IMAGES ANIMATION
+   ========================================= */
+
+/* Container for the two images */
+.slide4-dual-container {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    padding-bottom: 20px;
+}
+
+/* --- IMAGE STYLES --- */
+
+/* Left Image */
+.slide4-img-left {
+    position: absolute;
+    bottom: 0;
+    left: 10%; /* Adjusts how close to center it gets */
+    width: 40%; /* Adjust size as needed */
+    max-width: 500px;
     height: auto;
-    max-height: 60vh;
     filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+    
+    /* Start position: Off-screen Left */
     transform: translateX(-100vw);
+    z-index: 11;
 }
 
-.slide-item.active .forklift-yellow-img {
-    animation: driveInLeft 1s ease-out forwards;
+/* Right Image */
+.slide4-img-right {
+    position: absolute;
+    bottom: 0;
+    right: 10%; /* Adjusts how close to center it gets */
+    width: 40%; /* Adjust size as needed */
+    max-width: 500px;
+    height: auto;
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+    
+    /* Start position: Off-screen Right */
+    transform: translateX(100vw);
+    z-index: 12;
 }
 
-.slide-item.exiting .forklift-yellow-img {
-    animation: driveOutRight 0.8s ease-in forwards;
+
+/* --- ANIMATIONS: ACTIVE (Entrance) --- */
+
+.slide-item.active .slide4-img-left {
+    /* Enter: Left -> Center */
+    animation: s4InLeft 1.2s ease-out forwards;
 }
 
-@keyframes driveInLeft {
-    0% {
-        transform: translateX(-100vw);
-        opacity: 0;
+.slide-item.active .slide4-img-right {
+    /* Enter: Right -> Center */
+    animation: s4InRight 1.2s ease-out forwards;
+}
+
+
+/* --- ANIMATIONS: EXITING (Exit) --- */
+
+.slide-item.exiting .slide4-img-left {
+    /* Exit: Center -> Left */
+    animation: s4OutLeft 0.8s ease-in forwards;
+}
+
+.slide-item.exiting .slide4-img-right {
+    /* Exit: Center -> Right */
+    animation: s4OutRight 0.8s ease-in forwards;
+}
+
+
+/* --- KEYFRAMES --- */
+
+/* Enter from Left */
+@keyframes s4InLeft {
+    0% { transform: translateX(-100vw); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+/* Enter from Right */
+@keyframes s4InRight {
+    0% { transform: translateX(100vw); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+/* Exit back to Left */
+@keyframes s4OutLeft {
+    0% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(-100vw); opacity: 0; }
+}
+
+/* Exit back to Right */
+@keyframes s4OutRight {
+    0% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(100vw); opacity: 0; }
+}
+
+/* Ensure text spacing is consistent */
+.slide-item:nth-child(4) .text-wrapper {
+    margin-top: 12vh;
+}
+
+/* Mobile Adjustments for Slide 4 */
+@media (max-width: 991px) {
+    .slide4-img-left {
+        width: 45%;
+        left: 0;
     }
-
-    100% {
-        transform: translateX(0);
-        opacity: 1;
+    .slide4-img-right {
+        width: 45%;
+        right: 0;
     }
-}
-
-@keyframes driveOutRight {
-    0% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateX(100vw);
-        opacity: 0;
+    .slide4-dual-container {
+        height: 35vh;
     }
 }
 

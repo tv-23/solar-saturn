@@ -1,4 +1,18 @@
-  /* --- 2. VIDEO SCROLL SECTION --- */
+/* Target the whole scrollbar */
+::-webkit-scrollbar {
+    width: 12px; /* width of vertical scrollbar */
+    height: 12px; /* height of horizontal scrollbar */
+  }
+  
+  /* The draggable part (thumb) */
+  ::-webkit-scrollbar-thumb {
+    background-color: #FF6347; /* color of the scrollbar thumb */
+    border-radius: 6px; /* round edges */
+    border: 3px solid #f0f0f0; /* optional: adds padding effect */
+  }
+  
+
+/* --- 2. VIDEO SCROLL SECTION --- */
   .video-scroll-track {
     height: 200vh; /* Long track to allow slow scrolling animation */
     position: relative;
