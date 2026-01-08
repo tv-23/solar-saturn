@@ -7,6 +7,10 @@ import "../../../public/style/map.css";
 
 <!-- CENTERED HEADER -->
 
+<style>
+    /* Styling for Country Names */
+
+</style>
 
 <div class="container our-headline">
     <div class="row justify-content-center mb-5">
@@ -16,16 +20,6 @@ import "../../../public/style/map.css";
     </div>
 </div>
 
-<!-- <div class="container">
-
-    <div class="row justify-content-center mb-5">
-        <div class="col-lg-8 text-center">
-            <span class="d-inline-block py-1 px-3 rounded-pill bg-light-orange text-secondary fw-bold text-uppercase small mb-2">
-                Where we are
-            </span>
-        </div>
-    </div>
-</div> -->
     <section id="logistics-map-section">
         
 
@@ -77,231 +71,255 @@ import "../../../public/style/map.css";
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
+  
   document.addEventListener("DOMContentLoaded", () => {
-
     const BRAND_ORANGE = '#F08B33';
-        const PATH_COLOR = '#FFFFFF'; 
+    const PATH_COLOR = '#1c4587';
+    const LAND_COLOR = '#f5933173'; // Custom land color (not white)
+    const BORDER_COLOR = '#1c4587'; // Custom border color
+
+    // 1. Initialize Map with Constraints (Prevents duplication)
+    const map = L.map('map', {
+        zoomControl: false,
+        zoomSnap: 0.1,
+        scrollWheelZoom: false,
+        minZoom: 2,
+        maxBounds: [[-90, -180], [90, 180]], // Locks the view to one world
+        maxBoundsViscosity: 1.0
+    }).setView([30.0, -7.0], 5.5);
+
+    // 2. Load World GeoJSON (The new background)
+    // Using a reliable CDN for world boundaries
+    fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson')
+    .then(res => res.json())
+    .then(data => {
+        L.geoJSON(data, {
+            style: {
+                fillColor: LAND_COLOR,
+                fillOpacity: 1,
+                color: BORDER_COLOR,
+                weight: 1
+            },
+            onEachFeature: function(feature, layer) {
+                // This adds the Country Name to the center of each polygon
+                if (feature.properties && feature.properties.name) {
+                    layer.bindTooltip(feature.properties.name, {
+                        permanent: true,
+                        direction: "center",
+                        className: "country-label"
+                    });
+                }
+            }
+        }).addTo(map);
         
-        // Initialize Map
-        const map = L.map('map', { 
-            zoomControl: false, // Default controls hidden
-            zoomSnap: 0.1,
-            scrollWheelZoom: false 
-        }).setView([30.0, -7.0], 5.5);
+        centersLayer.bringToFront();
+    });
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(map);
+    // --- ZOOM BUTTON LOGIC ---
+    document.getElementById('zoom-in').addEventListener('click', () => map.zoomIn());
+    document.getElementById('zoom-out').addEventListener('click', () => map.zoomOut());
 
-        // --- ZOOM BUTTON LOGIC ---
-        document.getElementById('zoom-in').addEventListener('click', () => {
-            map.zoomIn();
+    // --- DATA ---
+    const moroccoData = [
+        { name: "Casablanca", coords: [33.5731, -7.5898], address: "12, Rue El Oraibi Jilali", phone: "+212 522 435 090" },
+        { name: "Tanger", coords: [35.7595, -5.8340], address: "11, Angle Av.Med,V et Omar Ibn Khattab Rés.Mas Palomas 2, N73", phone: "+212 539 329 490" },
+        { name: "Agadir", coords: [30.4278, -9.5981], address: "Enceinte Port Anza", phone: "+212 528 299 330" },
+        { name: "Nador", coords: [35.1681, -2.9335], address: "Entrée Port Beni Ansar", phone: "+212 536 349 884" },
+        { name: "Mohammedia", coords: [33.6866, -7.3811], address: "Bd. Hassan II, Port Zone", phone: "+212 523 32 10 10" },
+        { name: "Jorf Lasfar", coords: [33.1198, -8.6363], address: "121, Route Sidi Bouzid, Imm. A7", phone: "+212 523 372 338" },
+        { name: "Dakhla", coords: [23.7000, -15.9500], address: "Route du Port, Dakhla South", phone: "+212 528 89 77 66" }
+    ];
+
+    const partnersData = [
+        { name: "Rotterdam", coords: [51.9225, 4.47917] }, { name: "New York", coords: [40.7128, -74.0060] },
+        { name: "Shanghai", coords: [31.2304, 121.4737] }, { name: "Dubai", coords: [25.2048, 55.2708] },
+        { name: "Santos", coords: [-23.9608, -46.3331] }, { name: "Lagos", coords: [6.5244, 3.3792] },
+        { name: "London", coords: [51.5074, -0.1278] }, { name: "Hamburg", coords: [53.5488, 9.9872] },
+        { name: "Marseille", coords: [43.2965, 5.3698] }, { name: "Tokyo", coords: [35.6762, 139.6503] },
+        { name: "Singapore", coords: [1.3521, 103.8198] }, { name: "Sydney", coords: [-33.8688, 151.2093] },
+        { name: "Montreal", coords: [45.5017, -73.5673] }, { name: "Cape Town", coords: [-33.9249, 18.4241] },
+        { name: "Istanbul", coords: [41.0082, 28.9784] }, { name: "Valencia", coords: [39.4699, -0.3763] },
+        { name: "Mumbai", coords: [19.0760, 72.8777] }, { name: "Jeddah", coords: [21.2854, 39.2376] },
+        { name: "Dakar", coords: [14.7167, -17.4677] }, { name: "Buenos Aires", coords: [-34.6037, -58.3816] },
+        { name: "Los Angeles", coords: [34.0522, -118.2437] }, { name: "Panama City", coords: [8.9824, -79.5199] },
+        { name: "Miami", coords: [25.7617, -80.1918] }, { name: "Abidjan", coords: [5.3600, -4.0083] }
+    ];
+
+    // --- LAYERS ---
+    const centersLayer = L.layerGroup().addTo(map); 
+    const networkLayer = L.layerGroup();            
+    const trackingLayer = L.layerGroup().addTo(map);
+    const markersMap = new Map();
+
+    // --- ICONS ---
+    function createLampIcon(size, type = 'active') {
+        const className = type === 'active' ? 'lamp-marker' : 'lamp-marker-grey';
+        return L.divIcon({
+            className: className,
+            iconSize: [size, size],
+            iconAnchor: [size/2, size/2]
         });
+    }
 
-        document.getElementById('zoom-out').addEventListener('click', () => {
-            map.zoomOut();
+    // --- INIT MARKERS ---
+    moroccoData.forEach(c => {
+    const m = L.marker(c.coords, { icon: createLampIcon(16, 'active') })
+        .bindTooltip(c.name, { 
+            permanent: true,     // Makes name always visible
+            direction: 'right', 
+            className: 'city-label', 
+            offset: [10, 0] 
         });
+    markersMap.set(c.name, m); 
+    centersLayer.addLayer(m);
+});
 
-        // --- DATA ---
-        const moroccoData = [
-            { name: "Casablanca", coords: [33.5731, -7.5898], address: "12, Rue El Oraibi Jilali", phone: "+212 522 435 090" },
-            { name: "Tanger", coords: [35.7595, -5.8340], address: "11, Angle Av.Med,V et Omar Ibn Khattab Rés.Mas Palomas 2, N73", phone: "+212 539 329 490" },
-            { name: "Agadir", coords: [30.4278, -9.5981], address: "Enceinte Port Anza", phone: "+212 528 299 330" },
-            { name: "Nador", coords: [35.1681, -2.9335], address: "Entrée Port Beni Ansar", phone: "+212 536 349 884" },
-            { name: "Mohammedia", coords: [33.6866, -7.3811], address: "Bd. Hassan II, Port Zone", phone: "+212 523 32 10 10" },
-            { name: "Jorf Lasfar", coords: [33.1198, -8.6363], address: "121, Route Sidi Bouzid, Imm. A7", phone: "+212 523 372 338" },
-            { name: "Dakhla", coords: [23.7000, -15.9500], address: "Route du Port, Dakhla South", phone: "+212 528 89 77 66" }
-        ];
+    // --- RESET ---
+    function resetMarkers() {
+        document.querySelectorAll('.center-item').forEach(el => el.classList.remove('selected'));
+        markersMap.forEach(marker => {
+            marker.setIcon(createLampIcon(16, 'active'));
+            marker.setZIndexOffset(0);
+        });
+    }
 
-        const partnersData = [
-            { name: "Rotterdam", coords: [51.9225, 4.47917] }, { name: "New York", coords: [40.7128, -74.0060] },
-            { name: "Shanghai", coords: [31.2304, 121.4737] }, { name: "Dubai", coords: [25.2048, 55.2708] },
-            { name: "Santos", coords: [-23.9608, -46.3331] }, { name: "Lagos", coords: [6.5244, 3.3792] },
-            { name: "London", coords: [51.5074, -0.1278] }, { name: "Hamburg", coords: [53.5488, 9.9872] },
-            { name: "Marseille", coords: [43.2965, 5.3698] }, { name: "Tokyo", coords: [35.6762, 139.6503] },
-            { name: "Singapore", coords: [1.3521, 103.8198] }, { name: "Sydney", coords: [-33.8688, 151.2093] },
-            { name: "Montreal", coords: [45.5017, -73.5673] }, { name: "Cape Town", coords: [-33.9249, 18.4241] },
-            { name: "Istanbul", coords: [41.0082, 28.9784] }, { name: "Valencia", coords: [39.4699, -0.3763] },
-            { name: "Mumbai", coords: [19.0760, 72.8777] }, { name: "Jeddah", coords: [21.2854, 39.2376] },
-            { name: "Dakar", coords: [14.7167, -17.4677] }, { name: "Buenos Aires", coords: [-34.6037, -58.3816] },
-            { name: "Los Angeles", coords: [34.0522, -118.2437] }, { name: "Panama City", coords: [8.9824, -79.5199] },
-            { name: "Miami", coords: [25.7617, -80.1918] }, { name: "Abidjan", coords: [5.3600, -4.0083] }
-        ];
+    // --- LIST GENERATION ---
+    const listContainer = document.getElementById('centers-list');
+    let currentSelectedCity = null;
 
-        // --- LAYERS ---
-        const centersLayer = L.layerGroup().addTo(map); 
-        const networkLayer = L.layerGroup();            
-        const trackingLayer = L.layerGroup().addTo(map);
-        const markersMap = new Map();
+    moroccoData.forEach(center => {
+        const item = document.createElement('div');
+        item.className = 'center-item';
+        item.innerHTML = `
+            <span class="center-name">${center.name}</span>
+            <span class="center-detail"><span class="icon">📍</span> ${center.address}</span>
+            <span class="center-detail"><span class="icon">📞</span> ${center.phone}</span>
+        `;
+        
+        item.addEventListener('click', () => {
+            if (currentSelectedCity === center.name) {
+                currentSelectedCity = null;
+                resetMarkers();
+            } else {
+                currentSelectedCity = center.name;
+                document.querySelectorAll('.center-item').forEach(el => el.classList.remove('selected'));
+                item.classList.add('selected');
+                moroccoData.forEach(c => {
+                    const marker = markersMap.get(c.name);
+                    if (c.name === center.name) {
+                        marker.setIcon(createLampIcon(16, 'active'));
+                        marker.setZIndexOffset(1000);
+                    } else {
+                        marker.setIcon(createLampIcon(12, 'inactive'));
+                        marker.setZIndexOffset(0);
+                    }
+                });
+            }
+        });
+        listContainer.appendChild(item);
+    });
 
-        // --- ICONS ---
-        function createLampIcon(size, type = 'active') {
-            const className = type === 'active' ? 'lamp-marker' : 'lamp-marker-grey';
-            return L.divIcon({
-                className: className,
-                iconSize: [size, size],
-                iconAnchor: [size/2, size/2]
-            });
+    const startSel = document.getElementById('start-select');
+    const endSel = document.getElementById('end-select');
+    moroccoData.forEach(c => startSel.add(new Option(c.name, c.name)));
+    partnersData.forEach(p => endSel.add(new Option(p.name, p.name)));
+
+    const state = { centers: true, network: false, tracking: false };
+    listContainer.style.display = 'block';
+
+    // --- BUTTON HANDLERS ---
+    document.getElementById('btn-centers').addEventListener('click', function() {
+        state.centers = !state.centers;
+        this.classList.toggle('active');
+        if(state.centers) {
+            map.addLayer(centersLayer);
+            listContainer.style.display = 'block';
+            resetMarkers();
+        } else {
+            map.removeLayer(centersLayer);
+            listContainer.style.display = 'none';
         }
+    });
 
-        // --- INIT MARKERS ---
-        moroccoData.forEach(c => {
-            const m = L.marker(c.coords, { icon: createLampIcon(16, 'active') })
-                .bindTooltip(c.name, { direction: 'top', className: 'custom-tooltip', offset: [0, -10] });
-            markersMap.set(c.name, m); 
-            centersLayer.addLayer(m);
-        });
-
-        // --- RESET ---
-        function resetMarkers() {
-            document.querySelectorAll('.center-item').forEach(el => el.classList.remove('selected'));
-            markersMap.forEach(marker => {
-                marker.setIcon(createLampIcon(16, 'active'));
-                marker.setZIndexOffset(0);
-            });
-        }
-
-        // --- LIST GENERATION ---
-        const listContainer = document.getElementById('centers-list');
-        let currentSelectedCity = null;
-
-        moroccoData.forEach(center => {
-            const item = document.createElement('div');
-            item.className = 'center-item';
-            item.innerHTML = `
-                <span class="center-name">${center.name}</span>
-                <span class="center-detail"><span class="icon">📍</span> ${center.address}</span>
-                <span class="center-detail"><span class="icon">📞</span> ${center.phone}</span>
-            `;
-            
-            item.addEventListener('click', () => {
-                if (currentSelectedCity === center.name) {
-                    currentSelectedCity = null;
-                    resetMarkers();
-                } else {
-                    currentSelectedCity = center.name;
-                    document.querySelectorAll('.center-item').forEach(el => el.classList.remove('selected'));
-                    item.classList.add('selected');
-                    moroccoData.forEach(c => {
-                        const marker = markersMap.get(c.name);
-                        if (c.name === center.name) {
-                            marker.setIcon(createLampIcon(16, 'active'));
-                            marker.setZIndexOffset(1000);
-                        } else {
-                            marker.setIcon(createLampIcon(12, 'inactive'));
-                            marker.setZIndexOffset(0);
-                        }
-                    });
-                }
-            });
-            listContainer.appendChild(item);
-        });
-
-        const startSel = document.getElementById('start-select');
-        const endSel = document.getElementById('end-select');
-        moroccoData.forEach(c => startSel.add(new Option(c.name, c.name)));
-        partnersData.forEach(p => endSel.add(new Option(p.name, p.name)));
-
-        const state = { centers: true, network: false, tracking: false };
-        listContainer.style.display = 'block';
-
-        // --- BUTTON HANDLERS ---
-        document.getElementById('btn-centers').addEventListener('click', function() {
-            state.centers = !state.centers;
-            this.classList.toggle('active');
-            if(state.centers) {
+    document.getElementById('btn-network').addEventListener('click', function() {
+        state.network = !state.network;
+        this.classList.toggle('active');
+        if(state.network) {
+            if(!state.centers) {
+                state.centers = true;
                 map.addLayer(centersLayer);
+                document.getElementById('btn-centers').classList.add('active');
                 listContainer.style.display = 'block';
-                currentSelectedCity = null;
-                resetMarkers();
-            } else {
-                map.removeLayer(centersLayer);
-                listContainer.style.display = 'none';
             }
-        });
+            map.flyTo([20, 0], 2.2, { duration: 1.5 });
+            populateNetwork();
+            map.addLayer(networkLayer);
+        } else {
+            map.removeLayer(networkLayer);
+            map.flyTo([30.0, -7.0], 5.5, { duration: 1.5 });
+        }
+    });
 
-        document.getElementById('btn-network').addEventListener('click', function() {
-            state.network = !state.network;
-            this.classList.toggle('active');
-            if(state.network) {
-                if(!state.centers) {
-                    state.centers = true;
-                    map.addLayer(centersLayer);
-                    document.getElementById('btn-centers').classList.add('active');
-                    listContainer.style.display = 'block';
-                }
-                currentSelectedCity = null;
-                resetMarkers();
-                map.flyTo([20, 0], 2.2, { duration: 1.5 });
-                populateNetwork();
-                map.addLayer(networkLayer);
-                markersMap.forEach(m => m.setIcon(createLampIcon(8, 'active')));
-            } else {
-                map.removeLayer(networkLayer);
-                map.flyTo([30.0, -7.0], 5.5, { duration: 1.5 });
-                markersMap.forEach(m => m.setIcon(createLampIcon(16, 'active')));
-            }
-        });
-
-        document.getElementById('btn-track').addEventListener('click', function() {
-            state.tracking = !state.tracking;
-            this.classList.toggle('active');
-            const form = document.getElementById('tracking-form-container');
-            if(state.tracking) form.style.display = 'block';
-            else {
-                form.style.display = 'none';
-                trackingLayer.clearLayers();
-                if(!state.network) map.flyTo([30.0, -7.0], 5.5, { duration: 1.5 });
-            }
-        });
-
-        document.getElementById('calc-btn').addEventListener('click', () => {
+    document.getElementById('btn-track').addEventListener('click', function() {
+        state.tracking = !state.tracking;
+        this.classList.toggle('active');
+        const form = document.getElementById('tracking-form-container');
+        if(state.tracking) form.style.display = 'block';
+        else {
+            form.style.display = 'none';
             trackingLayer.clearLayers();
-            if(state.network) document.getElementById('btn-network').click(); 
-            const sName = startSel.value;
-            const eName = endSel.value;
-            const sCoords = moroccoData.find(x => x.name == sName).coords;
-            const eCoords = partnersData.find(x => x.name == eName).coords;
-            const destMarker = L.marker(eCoords, { icon: createLampIcon(16, 'active') })
-                .bindTooltip(eName, { permanent:true, direction:'top', className:'custom-tooltip' });
-            trackingLayer.addLayer(destMarker);
-            const line = L.polyline([sCoords, eCoords], {
-                color: PATH_COLOR, weight: 3, className: 'animated-path'
+        }
+    });
+
+    document.getElementById('calc-btn').addEventListener('click', () => {
+        trackingLayer.clearLayers();
+        const sCoords = moroccoData.find(x => x.name == startSel.value).coords;
+        const eCoords = partnersData.find(x => x.name == endSel.value).coords;
+        
+        const destMarker = L.marker(eCoords, { icon: createLampIcon(16, 'active') })
+            .bindTooltip(endSel.value, { permanent:true, direction:'top', className:'custom-tooltip' });
+        
+        trackingLayer.addLayer(destMarker);
+        trackingLayer.addLayer(L.polyline([sCoords, eCoords], {
+            color: PATH_COLOR, weight: 3, className: 'animated-path'
+        }));
+        
+        map.flyToBounds(L.latLngBounds(sCoords, eCoords), { padding: [100, 100] });
+    });
+
+    function populateNetwork() {
+        networkLayer.clearLayers();
+        partnersData.forEach(p => {
+        const m = L.marker(p.coords, { icon: createLampIcon(6, 'active') })
+            .bindTooltip(p.name, { 
+                permanent: true,  // Makes name always visible
+                direction: 'top', 
+                className: 'city-label',
+                offset: [0, -5]
             });
-            trackingLayer.addLayer(line);
-            map.flyToBounds(L.latLngBounds(sCoords, eCoords), { padding: [100, 100] });
+        networkLayer.addLayer(m);
+    });
+        
+        const routes = [
+            {s:"Tanger", e:"Rotterdam"}, {s:"Tanger", e:"London"},
+            {s:"Casablanca", e:"New York"}, {s:"Casablanca", e:"Santos"},
+            {s:"Casablanca", e:"Dakar"}, {s:"Dakar", e:"Lagos"}
+        ];
+        
+        routes.forEach(r => {
+            const s = getCoords(r.s), e = getCoords(r.e);
+            if(s && e) {
+                networkLayer.addLayer(L.polyline([s, e], { 
+                    color: PATH_COLOR, weight: 1, opacity: 0.4, className:'animated-path' 
+                }));
+            }
         });
+    }
 
-        function populateNetwork() {
-            networkLayer.clearLayers();
-            partnersData.forEach(p => {
-                const m = L.marker(p.coords, { icon: createLampIcon(6, 'active') })
-                    .bindTooltip(p.name, { direction:'top', className:'custom-tooltip' });
-                networkLayer.addLayer(m);
-            });
-            const routes = [
-                {s:"Tanger", e:"Rotterdam"}, {s:"Tanger", e:"London"},
-                {s:"Casablanca", e:"New York"}, {s:"Casablanca", e:"Santos"},
-                {s:"Casablanca", e:"Dakar"}, {s:"Dakar", e:"Lagos"}, 
-                {s:"Rotterdam", e:"New York"}, {s:"Dubai", e:"Singapore"},
-                {s:"Singapore", e:"Shanghai"}, {s:"Shanghai", e:"Los Angeles"}
-            ];
-            routes.forEach(r => {
-                const s = getCoords(r.s);
-                const e = getCoords(r.e);
-                if(s && e) {
-                    const l = L.polyline([s, e], { 
-                        color: PATH_COLOR, weight: 1, opacity: 0.5, className:'animated-path' 
-                    });
-                    networkLayer.addLayer(l);
-                }
-            });
-        }
-
-        function getCoords(name) {
-            let f = moroccoData.find(x => x.name === name);
-            if(!f) f = partnersData.find(x => x.name === name);
-            return f ? f.coords : null;
-        }
-
+    function getCoords(name) {
+        let f = moroccoData.find(x => x.name === name) || partnersData.find(x => x.name === name);
+        return f ? f.coords : null;
+    }
 });
 
 </script>
