@@ -133,14 +133,29 @@ import "../../../public/style/map.css";
 
     // Sidebar
     const listContainer = document.getElementById('centers-list');
+    
     moroccoData.forEach(center => {
         const item = document.createElement('div');
         item.className = 'center-item';
-        item.innerHTML = `<span class="center-name">${center.name}</span><small>${center.address}</small>`;
+        item.innerHTML = `
+            <span class="center-name">${center.name}</span>
+            <small>${center.address}</small>
+        `;
+
         item.addEventListener('click', () => {
+            // 1. Remove 'selected' class from all other items
+            document.querySelectorAll('.center-item').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            // 2. Add 'selected' class to the clicked item
+            item.classList.add('selected');
+
+            // 3. Map interactions (Existing logic)
             map.flyTo(center.coords, 11);
             markersMap.get(center.name).openTooltip();
         });
+
         listContainer.appendChild(item);
     });
 
@@ -154,12 +169,22 @@ import "../../../public/style/map.css";
 
     // --- BUTTON HANDLERS ---
 
-    // BUTTON 1: Main Offices
-    document.getElementById('btn-centers').addEventListener('click', function() {
+   // BUTTON 1: Main Offices
+   document.getElementById('btn-centers').addEventListener('click', function() {
         state.centers = !state.centers;
         this.classList.toggle('active');
-        if(state.centers) { map.addLayer(centersLayer); listContainer.style.display = 'block'; }
-        else { map.removeLayer(centersLayer); listContainer.style.display = 'none'; }
+        
+        if(state.centers) {
+            map.addLayer(centersLayer);
+            listContainer.style.display = 'block';
+            map.flyTo([31, -7], 5.5);
+        } else {
+            map.removeLayer(centersLayer);
+            listContainer.style.display = 'none';
+            
+            // REMOVE SELECTION when closing the list
+            document.querySelectorAll('.center-item').forEach(el => el.classList.remove('selected'));
+        }
     });
 
     // BUTTON 2: Global Network (UPDATED TO SHOW BLUE PATHS)
