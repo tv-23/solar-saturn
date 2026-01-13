@@ -1,31 +1,84 @@
-.info-section { padding: 60px 20px; text-align: center; background: #1a1a1a; }
-    
-
-/* .country-label {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 8px;
-    font-weight: initial;
-    text-transform: uppercase;
-    pointer-events: none; 
+#map {
+    height: 600px;
+    width: 100%;
+    background-color: #004a99 !important;
 }
 
-.city-label {
+.leaflet-tile-pane {
+    filter: sepia(-800%) saturate(-800%) brightness(-850%) hue-rotate(-850deg);
+}
+
+.leaflet-container {
+    background: #004a99 !important;
+}
+
+.custom-tooltip {
+    background-color: #1a1d23 !important;
+    color: #F08B33 !important;
+    border: 1px solid #F08B33 !important;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.info-section {
+    padding: 60px 20px;
+    text-align: center;
+    background: #1a1a1a;
+}
+
+
+/* Tooltip styling for Morocco Cities (Hover) */
+.custom-tooltip {
+    background-color: #1a1d23 !important;
+    color: #F08B33 !important;
+    /* Brand Orange */
+    border: 1px solid #F08B33 !important;
+    font-weight: bold;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 13px;
+}
+
+/* Province/Boundary Styling */
+.boundary-line {
+    transition: fill 0.2s;
+}
+
+/* Permanent Labels for Cities (Global) */
+.city-label-permanent {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
-    color: black;
-    font-weight: bold;
-    text-shadow: 0 0 3px #000; 
-} */
+    color: #8a8e94;
+    font-size: 9px;
+    font-weight: 400;
+    pointer-events: none;
+}
 
 /* --- 2. THE MAP SECTION CONTAINER --- */
 #logistics-map-section {
-    position: relative; 
+    position: relative;
     width: 100%;
-    height: 120vh; 
+    height: 120vh;
     overflow: hidden;
     background-color: #0b0b0b;
     border-top: 1px solid #333;
@@ -33,47 +86,91 @@
 }
 
 #map {
-    width: 100%; height: 100%; z-index: 1; background: #1C4587;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: #1C4587;
 }
 
 /* --- 3. UI OVERLAY --- */
 .ui-overlay {
     position: absolute;
-    top: 50px; left: 5%; width: 380px; max-height: 80%;
+    top: 50px;
+    left: 5%;
+    width: 380px;
+    max-height: 80%;
     z-index: 1000;
-    display: flex; flex-direction: column; gap: 10px;
-    pointer-events: none; 
-    overflow-y: auto; scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+    overflow-y: auto;
+    scrollbar-width: none;
 }
-.ui-overlay::-webkit-scrollbar { display: none; }
-.ui-content { pointer-events: auto; }
+
+.ui-overlay::-webkit-scrollbar {
+    display: none;
+}
+
+.ui-content {
+    pointer-events: auto;
+}
 
 .ui-overlay h2 {
-    color: white; font-size: 2rem; margin: 0 0 10px 0;
+    color: white;
+    font-size: 2rem;
+    margin: 0 0 10px 0;
     text-shadow: 2px 2px 4px #000;
 }
-.ui-overlay p { color: #ccc; margin-bottom: 20px; text-shadow: 1px 1px 2px #000; }
+
+.ui-overlay p {
+    color: #ccc;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px #000;
+}
 
 /* --- 4. BUTTONS --- */
 .toggle-btn {
-    display: flex; align-items: center; justify-content: space-between;
-    background: rgba(0,0,0,0.8); border: 1px solid #444; color: #aaa;
-    padding: 15px 25px; border-radius: 12px; cursor: pointer;
-    transition: all 0.3s ease; margin-bottom: 5px; font-weight: 700;
-    text-transform: uppercase; font-size: 14px; backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #004a99;
+    border: 1px solid #444;
+    color: #aaa;
+    padding: 15px 25px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 14px;
+    backdrop-filter: blur(5px);
 }
-.toggle-btn:hover { border-color: #F08B33; color: #fff; }
+
+.toggle-btn:hover {
+    border-color: #F08B33;
+    color: #fff;
+}
 
 .toggle-btn.active {
-    background-color: rgba(240, 139, 51, 0.15); border-color: #F08B33;
-    color: #F08B33; box-shadow: 0 0 20px rgba(240, 139, 51, 0.2);
+    background-color: rgba(240, 139, 51, 0.15);
+    border-color: #F08B33;
+    color: #F08B33;
+    box-shadow: 0 0 20px rgba(240, 139, 51, 0.2);
 }
+
 .status-dot {
-    height: 8px; width: 8px; border-radius: 50%;
-    background-color: #555; transition: 0.3s;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: #fffaf0a6;
+    transition: 0.3s;
 }
+
 .toggle-btn.active .status-dot {
-    background-color: #F08B33; box-shadow: 0 0 8px #F08B33;
+    background-color: #F08B33;
+    box-shadow: 0 0 8px #F08B33;
 }
 
 /* --- 5. ZOOM CONTROLS (NEW) --- */
@@ -90,7 +187,7 @@
 .zoom-btn {
     width: 45px;
     height: 45px;
-    background: rgba(0,0,0,0.8);
+    background: #004a99;
     border: 1px solid #444;
     color: #fff;
     border-radius: 8px;
@@ -113,58 +210,175 @@
 
 /* --- 6. LIST & FORM --- */
 #centers-list {
-    display: none; background: rgba(0, 0, 0, 0.9);
-    border-left: 2px solid #F08B33; margin-left: 15px; margin-bottom: 15px;
-    padding: 5px; border-radius: 0 10px 10px 0;
-    animation: slideIn 0.3s ease-out; pointer-events: auto;
+    display: none;
+    background: white;
+    border-left: 2px solid #F08B33;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    padding: 5px;
+    border-radius: 0 10px 10px 0;
+    animation: slideIn 0.3s ease-out;
+    pointer-events: auto;
 }
-@keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
 
 .center-item {
-    padding: 12px; margin: 5px 0; border-radius: 6px;
-    cursor: pointer; transition: all 0.2s; border: 1px solid transparent;
+    padding: 12px;
+    margin: 5px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
 }
-.center-item:hover { background: rgba(255,255,255,0.05); }
-.center-item.selected { background: rgba(240, 139, 51, 0.2); border: 1px solid #F08B33; }
 
-.center-name { color: #fff; font-size: 14px; font-weight: bold; margin-bottom: 4px; display: block; }
-.center-detail { color: #aaa; font-size: 12px; display: flex; align-items: center; gap: 8px; margin-bottom: 2px;}
-.icon { color: #F08B33; font-size: 12px; }
+.center-item:hover {
+    background: rgb(253 201 155 / 49%);
+}
+
+.center-item.selected {
+    background: rgba(240, 139, 51, 0.2);
+    border: 1px solid #F08B33;
+}
+
+.center-name {
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.center-detail {
+    color: #aaa;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.icon {
+    color: #F08B33;
+    font-size: 12px;
+}
 
 #tracking-form-container {
-    display: none; background: rgba(10, 10, 10, 0.95);
-    border: 1px solid #F08B33; padding: 20px; border-radius: 15px;
-    margin-top: 10px; pointer-events: auto; animation: slideDown 0.3s ease-out;
+    display: none;
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid #F08B33;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 10px;
+    pointer-events: auto;
+    animation: slideDown 0.3s ease-out;
 }
-@keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-.form-label { display: block; color: #F08B33; font-size: 11px; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px;}
-.form-select { width: 100%; background: #222; border: 1px solid #444; color: white; padding: 12px; margin-bottom: 15px; border-radius: 8px; }
-.action-btn { width: 100%; background: #F08B33; color: #000; border: none; padding: 12px; font-weight: bold; cursor: pointer; border-radius: 8px; text-transform: uppercase; transition: 0.3s; }
-.action-btn:hover { background: #fff; box-shadow: 0 0 15px #F08B33; }
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-label {
+    display: block;
+    color: #F08B33;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.form-select {
+    width: 100%;
+    background: #222;
+    border: 1px solid #444;
+    color: white;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.action-btn {
+    width: 100%;
+    background: #F08B33;
+    color: #000;
+    border: none;
+    padding: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.action-btn:hover {
+    background: #fff;
+    box-shadow: 0 0 15px #F08B33;
+}
 
 /* --- 7. MAP MARKERS --- */
 .lamp-marker {
     background: radial-gradient(circle at 30% 30%, #ffd0a6, #F08B33);
-    border: 1px solid #fff; border-radius: 50%;
+    border: 1px solid #fff;
+    border-radius: 50%;
     box-shadow: 0 0 10px #F08B33, 0 0 20px rgba(240, 139, 51, 0.6);
     transition: all 0.5s ease;
 }
+
 .lamp-marker-grey {
     background: radial-gradient(circle at 30% 30%, #666, #333);
-    border: 1px solid #555; border-radius: 50%;
-    box-shadow: none; opacity: 0.6; transition: all 0.5s ease;
+    border: 1px solid #555;
+    border-radius: 50%;
+    box-shadow: none;
+    opacity: 0.6;
+    transition: all 0.5s ease;
 }
-.custom-tooltip {
-    background-color: #000 !important; border: 1px solid #F08B33 !important;
-    color: #fff !important; font-weight: bold; font-size: 13px;
-    padding: 5px 10px; border-radius: 4px; opacity: 1 !important;
-    box-shadow: 0 0 10px rgba(0,0,0,0.8);
-}
-.leaflet-tooltip-top:before { border-top-color: #F08B33; }
 
-@keyframes flow { to { stroke-dashoffset: -40; } }
-.animated-path {
-    stroke-dasharray: 6, 10; animation: flow 1s linear infinite;
-    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.7)); 
+.custom-tooltip {
+    background-color: #000 !important;
+    border: 1px solid #F08B33 !important;
+    color: #fff !important;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    opacity: 1 !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
-.leaflet-control-attribution { display: none; }
+
+.leaflet-tooltip-top:before {
+    border-top-color: #F08B33;
+}
+
+@keyframes flow {
+    to {
+        stroke-dashoffset: -40;
+    }
+}
+
+.animated-path {
+    stroke-dasharray: 6, 10;
+    animation: flow 1s linear infinite;
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.7));
+}
+
+.leaflet-control-attribution {
+    display: none;
+}

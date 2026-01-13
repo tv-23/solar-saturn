@@ -1,5 +1,5 @@
 ---
-import "../../../public/style/map.css";
+import "../../../public/style/map copy.css";
 
 ---
 
@@ -7,10 +7,6 @@ import "../../../public/style/map.css";
 
 <!-- CENTERED HEADER -->
 
-<style>
-    /* Styling for Country Names */
-
-</style>
 
 <div class="container our-headline">
     <div class="row justify-content-center mb-5">
@@ -20,6 +16,16 @@ import "../../../public/style/map.css";
     </div>
 </div>
 
+<!-- <div class="container">
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-8 text-center">
+            <span class="d-inline-block py-1 px-3 rounded-pill bg-light-orange text-secondary fw-bold text-uppercase small mb-2">
+                Where we are
+            </span>
+        </div>
+    </div>
+</div> -->
     <section id="logistics-map-section">
         
 
@@ -71,29 +77,35 @@ import "../../../public/style/map.css";
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-  
-  document.addEventListener("DOMContentLoaded", () => {
+ document.addEventListener("DOMContentLoaded", () => {
     const BRAND_ORANGE = '#F08B33';
-    const PATH_COLOR = '#003366'; // The Blue color for your paths
+    const PATH_COLOR = '#003366'; // Deep blue for ship paths
 
-    // 1. Initialize Map + Fix Duplication
-    const map = L.map('map', { 
-        zoomControl: false, 
+    // 1. Initialize Map with DUPLICATION FIXES
+    const map = L.map('map', {
+        zoomControl: false,
         scrollWheelZoom: false,
-        minZoom: 2.2,
-        maxBounds: [[-85, -180], [85, 180]],
+        minZoom: 2.2,                  // Prevents zooming out to see empty space
+        maxBounds: [[-85, -180], [85, 180]], // Locks the world edges
         maxBoundsViscosity: 1.0,
         worldCopyJump: false
-    }).setView([31.0, -7.0], 5.5);
+    }).setView([33.0, -7.0], 6);
 
-    // 2. Tile Layer
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
-        noWrap: true,
+    // 2. Add Detailed Tiles with naturally Blue Water (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        noWrap: true,               // STOPS DUPLICATION (The Multi-map issue)
         bounds: [[-90, -180], [90, 180]],
-        crossOrigin: true
+        crossOrigin: true           // Required for CSS filters to work
     }).addTo(map);
 
-    // 3. Data
+    // --- LAYERS ---
+    const centersLayer = L.layerGroup().addTo(map); 
+    const networkLayer = L.layerGroup();            
+    const trackingLayer = L.layerGroup().addTo(map);
+    const markersMap = new Map();
+
+    // --- DATA ---
     const moroccoData = [
         { name: "Casablanca", coords: [33.5731, -7.5898], address: "12, Rue El Oraibi Jilali" },
         { name: "Tanger", coords: [35.7595, -5.8340], address: "11, Angle Av.Med,V" },
@@ -108,110 +120,69 @@ import "../../../public/style/map.css";
         { name: "Rotterdam", coords: [51.9225, 4.47917] }, 
         { name: "New York", coords: [40.7128, -74.0060] },
         { name: "Shanghai", coords: [31.2304, 121.4737] }, 
-        { name: "Dubai", coords: [25.2048, 55.2708] },
-        { name: "Santos", coords: [-23.9608, -46.3331] }, 
-        { name: "Cape Town", coords: [-33.9249, 18.4241] }
+        { name: "Dubai", coords: [25.2048, 55.2708] }
     ];
 
-    // 4. Layers
-    const centersLayer = L.layerGroup().addTo(map); 
-    const networkLayer = L.layerGroup();            
-    const trackingLayer = L.layerGroup().addTo(map);
-    const markersMap = new Map();
-
     function createLampIcon(size) {
-        return L.divIcon({ className: 'lamp-marker', iconSize: [size, size], iconAnchor: [size/2, size/2] });
+        return L.divIcon({ 
+            className: 'lamp-marker', 
+            iconSize: [size, size], 
+            iconAnchor: [size/2, size/2] 
+        });
     }
 
-    // 5. Build Initial Markers
+    // --- MOROCCO MARKERS ---
     moroccoData.forEach(c => {
         const m = L.marker(c.coords, { icon: createLampIcon(16) })
-            .bindTooltip(`<strong>${c.name}</strong><br>${c.address}`, { direction: 'top', className: 'custom-tooltip', offset: [0, -10] });
+            .bindTooltip(`<strong>${c.name}</strong><br>${c.address}`, { 
+                direction: 'top', 
+                className: 'custom-tooltip', 
+                offset: [0, -10]
+            });
         markersMap.set(c.name, m); 
         centersLayer.addLayer(m);
     });
 
-    // Sidebar
+    // --- UI ACTIONS ---
+    document.getElementById('zoom-in').addEventListener('click', () => map.zoomIn());
+    document.getElementById('zoom-out').addEventListener('click', () => map.zoomOut());
+
+    // Sidebar interaction
     const listContainer = document.getElementById('centers-list');
     moroccoData.forEach(center => {
         const item = document.createElement('div');
         item.className = 'center-item';
-        item.innerHTML = `<span class="center-name">${center.name}</span><small>${center.address}</small>`;
+        item.innerHTML = `<span class="center-name">${center.name}</span><br><small>${center.address}</small>`;
         item.addEventListener('click', () => {
-            map.flyTo(center.coords, 11);
+            map.flyTo(center.coords, 10);
             markersMap.get(center.name).openTooltip();
         });
         listContainer.appendChild(item);
     });
 
-    // Tracking Form Population
-    const startSel = document.getElementById('start-select');
-    const endSel = document.getElementById('end-select');
-    moroccoData.forEach(c => startSel.add(new Option(c.name, c.name)));
-    partnersData.forEach(p => endSel.add(new Option(p.name, p.name)));
-
-    const state = { centers: true, network: false, tracking: false };
-
-    // --- BUTTON HANDLERS ---
-
-    // BUTTON 1: Main Offices
-    document.getElementById('btn-centers').addEventListener('click', function() {
-        state.centers = !state.centers;
-        this.classList.toggle('active');
-        if(state.centers) { map.addLayer(centersLayer); listContainer.style.display = 'block'; }
-        else { map.removeLayer(centersLayer); listContainer.style.display = 'none'; }
-    });
-
-    // BUTTON 2: Global Network (UPDATED TO SHOW BLUE PATHS)
+    // Network Toggle
     document.getElementById('btn-network').addEventListener('click', function() {
-        state.network = !state.network;
-        this.classList.toggle('active');
-        
-        if(state.network) {
+        if(map.hasLayer(networkLayer)) {
+            map.removeLayer(networkLayer);
+            map.flyTo([33, -7], 6);
+        } else {
             networkLayer.clearLayers();
-            
-            // 1. Draw Partner Markers
             partnersData.forEach(p => {
                 L.marker(p.coords, { icon: createLampIcon(8) })
                     .bindTooltip(p.name, { permanent: true, direction: 'top', className: 'city-label-permanent' })
                     .addTo(networkLayer);
             });
-
-            // 2. Draw Connection Paths in Blue
-            // We'll connect major hubs (Tanger/Casablanca) to the partners
-            const hubTanger = moroccoData.find(x => x.name === "Tanger").coords;
-            const hubCasa = moroccoData.find(x => x.name === "Casablanca").coords;
-
-            partnersData.forEach((p, index) => {
-                // Alternating hub connections for a cleaner look
-                const startPoint = index % 2 === 0 ? hubTanger : hubCasa;
-                
-                L.polyline([startPoint, p.coords], {
-                    color: PATH_COLOR,
-                    weight: 1.5,
-                    opacity: 0.5,
-                    dashArray: '5, 10', // Dashed look for network connections
-                    className: 'animated-path' // Re-uses the movement animation
-                }).addTo(networkLayer);
-            });
-
             map.addLayer(networkLayer);
             map.flyTo([20, 0], 2.5);
-        } else {
-            map.removeLayer(networkLayer);
-            map.flyTo([31, -7], 5.5);
         }
     });
 
-    // BUTTON 3: Track Ship Path
-    document.getElementById('btn-track').addEventListener('click', function() {
-        state.tracking = !state.tracking;
-        this.classList.toggle('active');
-        document.getElementById('tracking-form-container').style.display = state.tracking ? 'block' : 'none';
-        if(!state.tracking) trackingLayer.clearLayers();
-    });
+    // Tracking Setup
+    const startSel = document.getElementById('start-select');
+    const endSel = document.getElementById('end-select');
+    moroccoData.forEach(c => startSel.add(new Option(c.name, c.name)));
+    partnersData.forEach(p => endSel.add(new Option(p.name, p.name)));
 
-    // Calculate Route
     document.getElementById('calc-btn').addEventListener('click', () => {
         trackingLayer.clearLayers();
         const s = moroccoData.find(x => x.name == startSel.value).coords;
@@ -220,19 +191,10 @@ import "../../../public/style/map.css";
         const dest = L.marker(e, { icon: createLampIcon(16) })
             .bindTooltip(endSel.value, { permanent: true, direction: 'top', className: 'city-label-permanent' });
         
-        const line = L.polyline([s, e], { 
-            color: PATH_COLOR, 
-            weight: 3, 
-            className: 'animated-path' 
-        });
-        
+        const line = L.polyline([s, e], { color: PATH_COLOR, weight: 3, opacity: 0.8 });
         trackingLayer.addLayer(dest).addLayer(line);
         map.flyToBounds(L.latLngBounds(s, e), { padding: [100, 100] });
     });
-
-    // Zoom
-    document.getElementById('zoom-in').addEventListener('click', () => map.zoomIn());
-    document.getElementById('zoom-out').addEventListener('click', () => map.zoomOut());
 });
-  
+
 </script>
