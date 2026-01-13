@@ -275,7 +275,7 @@
 
 #tracking-form-container {
     display: none;
-    background: rgba(10, 10, 10, 0.95);
+    background: rgb(0 74 153);
     border: 1px solid #F08B33;
     padding: 20px;
     border-radius: 15px;
@@ -307,8 +307,8 @@
 
 .form-select {
     width: 100%;
-    background: #222;
-    border: 1px solid #444;
+    background: #22222269;
+    border: 1px solid #44444445;
     color: white;
     padding: 12px;
     margin-bottom: 15px;
