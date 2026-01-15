@@ -39,7 +39,7 @@ import "../../../public/style/video.css";
         document.addEventListener("DOMContentLoaded", function() {
             const track = document.getElementById('trackSection');
             const container = document.getElementById('videoContainer');
-            const overlayText = document.getElementById('overlayText');
+            // const overlayText = document.getElementById('overlayText');
             
             // Setup Vimeo Player
             const iframe = document.getElementById('vimeoPlayer');
@@ -80,11 +80,11 @@ import "../../../public/style/video.css";
                 // container.style.borderRadius = `${currentRadius}px`;
 
                 // Show text when fully zoomed
-                if (animFactor >= 0.95) {
-                    overlayText.style.opacity = '1';
-                } else {
-                    overlayText.style.opacity = '0';
-                }
+                // if (animFactor >= 0.95) {
+                //     overlayText.style.opacity = '1';
+                // } else {
+                //     overlayText.style.opacity = '0';
+                // }
             });
 
             // 2. INTERSECTION OBSERVER (Auto Play/Pause)

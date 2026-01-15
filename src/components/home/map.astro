@@ -75,23 +75,49 @@ import "../../../public/style/map.css";
   document.addEventListener("DOMContentLoaded", () => {
     const BRAND_ORANGE = '#F08B33';
     const PATH_COLOR = '#003366'; // The Blue color for your paths
+    const worldBounds = L.latLngBounds([-90, -180], [90, 180]);
+
 
     // 1. Initialize Map + Fix Duplication
     const map = L.map('map', { 
-        zoomControl: false, 
+        zoomControl: false,
         scrollWheelZoom: false,
-        minZoom: 2.2,
-        maxBounds: [[-85, -180], [85, 180]],
+        zoomSnap: 0.1,
+        zoomDelta: 0.5,
+        maxBounds: worldBounds,
         maxBoundsViscosity: 1.0,
         worldCopyJump: false
     }).setView([31.0, -7.0], 5.5);
 
+
+    setPerfectMinZoom();
+    window.addEventListener('resize', setPerfectMinZoom);
+
+    function setPerfectMinZoom() {
+        const mapContainer = document.getElementById('map');
+        const width = mapContainer.offsetWidth;
+        
+        // Formula to find zoom level that fits 360 degrees into 'width' pixels
+        // zoom = log2(width / 256)
+        const minZoom = Math.log2(width / 256);
+        
+        map.setMinZoom(minZoom);
+        
+        // If current zoom is too small, zoom in to the new minimum
+        if (map.getZoom() < minZoom) {
+            map.setZoom(minZoom);
+        }
+    }
+
     // 2. Tile Layer
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
         noWrap: true,
-        bounds: [[-90, -180], [90, 180]],
+        bounds: worldBounds,
         crossOrigin: true
     }).addTo(map);
+
+
+    map.setView([33, -7], 5.5);
 
     // 3. Data
     const moroccoData = [

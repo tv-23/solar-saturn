@@ -13,49 +13,130 @@ body {
 }
 
 /* --- 1. TOP BAR STYLING --- */
-.top-bar-luxury {
-    background-color: var(--sea-blue);
-    color: rgba(255, 255, 255, 0.9);
-    padding: 10px 0;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
+/* Container to center the floating island */
+.top-island-wrapper {
+    position: fixed;
+    top: 15px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 9999;
+    pointer-events: none; /* Allows clicking things behind the wrapper edges */
 }
 
-/* Left Side: Contact Info */
+.top-island {
+    pointer-events: auto;
+    background-color: var(--sea-blue);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    padding: 6px 15px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
 .top-info {
     display: flex;
     align-items: center;
+    gap: 8px;
 }
 
-.top-info-item {
+/* THE MORPHING ITEM */
+.island-item {
     display: flex;
     align-items: center;
-    margin-right: 25px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 8px 12px;
+    border-radius: 30px;
+    cursor: pointer;
+    max-width: 40px; /* Hidden labels by default */
+    overflow: hidden;
+    transition: max-width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s;
 }
 
-.top-info-item i {
+/* Expansion on Hover */
+.island-item:hover {
+    max-width: 350px;
+    background: var(--sea-orange);
+}
+
+.island-item i {
     color: var(--sea-orange);
     font-size: 14px;
-    margin-right: 8px;
+    min-width: 16px;
+    transition: color 0.3s;
 }
 
-/* Right Side: Social Media */
+.island-item:hover i {
+    color: var(--sea-blue); /* Invert icon color on orange background */
+}
+
+.island-label {
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.island-item:hover .island-label {
+    opacity: 1;
+    color: var(--sea-blue);
+}
+
+/* SOCIALS */
+.island-divider {
+    width: 1px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 15px;
+}
+
 .top-social {
     display: flex;
     align-items: center;
+    gap: 15px;
 }
 
 .top-social a {
     color: white;
-    margin-left: 20px;
     font-size: 14px;
-    transition: all 0.3s ease;
+    transition: transform 0.3s, color 0.3s;
 }
 
 .top-social a:hover {
     color: var(--sea-orange);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+}
+
+/* MOBILE RESPONSIVE LOGIC */
+@media (max-width: 768px) {
+    .top-island {
+        padding: 5px 10px;
+        transform: scale(0.9);
+    }
+    
+    .island-item {
+        max-width: 36px;
+        padding: 6px 10px;
+    }
+
+    /* On mobile, tapping an item expands it */
+    .island-item:active {
+        max-width: 280px;
+    }
+    
+    /* Hide the 3rd item (email) on small mobile to save space if needed */
+    .island-item:nth-child(3) {
+        display: none;
+    }
 }
 
 /* --- 2. MAIN HEADER (Curtain Style) --- */
@@ -190,14 +271,10 @@ body {
 
 /* Mobile Adjustments */
 @media (max-width: 991px) {
-    .top-bar-luxury { display: none; } /* Hide top bar on mobile or adjust to stack */
+    /* .top-bar-luxury { display: none; } */
     .overlay-content a { font-size: 2.5rem; }
-    .curtain-label { display: none; } /* Show only burger on mobile */
+    .curtain-label { display: none; }
 }
-
-
-
-
 
 .container.our-headline>div>h2 {
     font-size: 60px !important;

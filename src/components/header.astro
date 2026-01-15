@@ -1,44 +1,70 @@
 ---
 import "../../public/style/header.css";
 ---
+
 <!-- 1. TOP BAR -->
 <div class="top-bar-luxury">
     <div class="container d-flex justify-content-between align-items-center">
-        
         <!-- Left: Contact Info -->
-        <div class="top-info">
-            <div class="top-info-item">
-                <i class="bi bi-telephone-fill"></i>
-                <span>+212 522 435 090</span>
-            </div>
-            <div class="top-info-item">
-                <i class="bi bi-geo-alt-fill"></i>
-                <span>12, Rue Oraibi Jilali, Casablanca</span>
-            </div>
-            <div class="top-info-item d-none d-xl-flex"> <!-- Hidden on smaller screens -->
-                <i class="bi bi-envelope-fill"></i>
-                <span>contact@seatrust.ma</span>
+        <div class="top-island-wrapper">
+            <div class="top-island">
+                <!-- Contact Info Group -->
+                <div class="top-info">
+                    <div class="top-info-item island-item">
+                        <i class="bi bi-telephone-fill"></i>
+                        <a href="tel:+212522435090" class="island-label">
+                            <span>+212 522 435 090</span>
+                        </a>
+                    </div>
+                    
+                    <div class="top-info-item island-item">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <a href="https://www.google.com/maps/..." target="_blank" class="island-label">
+                            <span>12, Rue Oraibi Jilali, Casablanca</span>
+                        </a>
+                    </div>
+        
+                    <div class="top-info-item island-item">
+                        <i class="bi bi-envelope-fill"></i>
+                        <a href="mailto:contact@seatrust.ma" class="island-label">
+                            <span>contact@seatrust.ma</span>
+                        </a>
+                    </div>
+                </div>
+        
+                <!-- Vertical Divider -->
+                <div class="island-divider"></div>
+        
+                <!-- Social Media Group -->
+                <div class="top-social">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                    <a href="#"><i class="bi bi-twitter-x"></i></a>
+                </div>
             </div>
         </div>
 
         <!-- Right: Social Media -->
-        <div class="top-social">
+        <!-- <div class="top-social">
             <a href="#"><i class="bi bi-facebook"></i></a>
             <a href="#"><i class="bi bi-linkedin"></i></a>
             <a href="#"><i class="bi bi-twitter-x"></i></a>
-        </div>
+        </div> -->
     </div>
 </div>
 
 <!-- 2. MAIN HEADER -->
 <header class="header-curtain">
     <div class="container d-flex justify-content-between align-items-center">
-        
         <!-- Brand Logo -->
         <a href="/">
-            <img src="/images/SEATRUST-logo.png" class="logo-img" alt="Seatrust Group">
+            <img
+                src="/images/SEATRUST-logo.png"
+                class="logo-img"
+                alt="Seatrust Group"
+            />
         </a>
-        
+
         <!-- The Menu Trigger -->
         <div class="curtain-trigger" onclick="toggleMenu()">
             <span class="curtain-label">MENU</span>
@@ -48,7 +74,6 @@ import "../../public/style/header.css";
                 <div class="curtain-line"></div>
             </div>
         </div>
-
     </div>
 </header>
 
@@ -56,24 +81,45 @@ import "../../public/style/header.css";
 <div id="curtainMenu" class="curtain-overlay">
     <!-- Close Button -->
     <div class="close-curtain" onclick="toggleMenu()">&times;</div>
-    
+
     <!-- Menu Links -->
     <div class="overlay-content">
-        <a href="/">Home</a>
-        <a href="#">Seatrust</a>
-        <a href="#">Our Companies</a>
-        <a href="#">Partners</a>
-        <a href="/contact">Contact Us</a>
+        <a class="seatrust-nav" href="/">Home</a>
+        <a class="seatrust-nav" href="#about-section">Seatrust</a>
+        <a class="seatrust-nav" href="#our-companies">Our Companies</a>
+        <a class="seatrust-nav" href="#">Partners</a>
+        <a class="seatrust-nav" href="/contact">Contact Us</a>
     </div>
 </div>
 
 <!-- JavaScript for Toggle -->
 <script>
+    window.toggleMenu = function () {
+        const menu = document.getElementById("curtainMenu");
+        menu.classList.toggle("active");
+    };
 
-window.toggleMenu = function () {
+    document.querySelectorAll(".seatrust-nav").forEach((link) => {
+        link.addEventListener("click", () => {
+            toggleMenu();
+        });
+    });
 
-    const menu = document.getElementById('curtainMenu');
-    menu.classList.toggle('active');
-}
 
+    window.addEventListener("scroll", () => {
+    const wrapper = document.querySelector(".top-island-wrapper");
+    const island = document.querySelector(".top-island");
+
+    if (window.scrollY > 100) {
+        // Shrink the island slightly and fade it out a bit when scrolling
+        island.style.transform = "scale(0.85) translateY(-5px)";
+        island.style.opacity = "0.8";
+        island.style.background = "rgba(26, 66, 138, 0.8)"; // More transparent
+    } else {
+        // Restore to original state
+        island.style.transform = "scale(1) translateY(0)";
+        island.style.opacity = "1";
+        island.style.background = "var(--sea-blue)";
+    }
+});
 </script>
