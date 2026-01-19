@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEATRUST Luxury Header Concepts</title>
+
+    <!-- Bootstrap Icons & Google Fonts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --sea-blue: #1a428a;
+            --sea-orange: #F08B33;
+            --dark: #0f172a;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .demo-container {
+            padding: 120px 0;
+            border-bottom: 2px dashed #cbd5e1;
+            background: #f8fafc;
+            position: relative;
+        }
+
+        .concept-tag {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--sea-orange);
+            color: white;
+            padding: 4px 15px;
+            font-weight: 800;
+            font-size: 11px;
+            text-transform: uppercase;
+            border-radius: 20px;
+            z-index: 100;
+        }
+
+        /* Helpers */
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            padding: 0 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        .logo-placeholder {
+            font-weight: 800;
+            font-size: 24px;
+            letter-spacing: -1px;
+        }
+
+        .logo-placeholder span {
+            color: var(--sea-orange);
+        }
+
+        .btn-menu {
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+
+
+        /* ==========================================
+           CONCEPT 2: THE LIQUID HORIZON (Maritime Flow)
+           Animation: Bottom of header is a moving SVG wave.
+           Links have a floating "buoy" hover effect.
+        ========================================== */
+        .ex2-nav {
+            background: var(--sea-blue);
+            color: white;
+            position: relative;
+            padding-bottom: 30px;
+        }
+
+        .ex2-top {
+            background: rgba(0, 0, 0, 0.15);
+            height: 35px;
+            font-size: 11px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .ex2-header {
+            height: 90px;
+        }
+
+        .ex2-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 40px;
+            fill: #f8fafc;
+            animation: waveOrbit 12s linear infinite;
+        }
+
+        @keyframes waveOrbit {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .ex2-links a {
+            font-weight: 700;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .ex2-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: var(--sea-orange);
+            border-radius: 50%;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .ex2-links a:hover::after {
+            opacity: 1;
+            bottom: -15px;
+        }
+
+        /* ==========================================
+           CONCEPT 3: THE SCANNER HUD (High-Tech Tracking)
+           Animation: Scanning light travels across the header.
+           Elements have "Targeting" corners.
+        ========================================== */
+        .ex3-nav {
+            background: var(--dark);
+            color: white;
+            border-bottom: 1px solid var(--glass);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ex3-top {
+            height: 35px;
+            border-bottom: 1px solid var(--glass);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--sea-orange);
+        }
+
+        .ex3-header {
+            height: 100px;
+            position: relative;
+        }
+
+        .ex3-scanner {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(240, 139, 51, 0.15), transparent);
+            animation: hudScan 4s infinite linear;
+        }
+
+        @keyframes hudScan {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        .ex3-header .container {
+            border-left: 1px solid var(--glass);
+            border-right: 1px solid var(--glass);
+        }
+
+        .ex3-links a {
+            padding: 10px 20px;
+            border: 1px solid transparent;
+        }
+
+        .ex3-links a:hover {
+            border-color: var(--sea-orange);
+            background: rgba(240, 139, 51, 0.05);
+        }
+
+
+        /* ==========================================
+           CONCEPT 6: THE RADAR SCANNER (Global Intel)
+           Animation: A circular radar pulse expands from 
+           the logo, and links appear on "latitude" lines.
+        ========================================== */
+        :root {
+            --sea-blue: #1a428a;
+            --sea-orange: #F08B33;
+            --dark-navy: #0a1931;
+            --bg: #f0f2f5;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+        }
+
+        .demo-box {
+            padding: 140px 0;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+            background: #fff;
+        }
+
+        .label {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--dark-navy);
+            color: white;
+            padding: 5px 15px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            border-radius: 4px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            padding: 0 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 22px;
+            color: var(--sea-blue);
+        }
+
+        .logo-text span {
+            color: var(--sea-orange);
+        }
+
+        .ex6-nav {
+            background: var(--dark-navy);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ex6-top {
+            height: 35px;
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 11px;
+            color: #aaa;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ex6-header {
+            height: 90px;
+            position: relative;
+        }
+
+        .radar-circle {
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            width: 20px;
+            height: 20px;
+            background: var(--sea-orange);
+            border-radius: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 0 0 rgba(240, 139, 51, 0.4);
+            animation: radarPulse 3s infinite;
+        }
+
+        @keyframes radarPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(240, 139, 51, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 150px rgba(240, 139, 51, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(240, 139, 51, 0);
+            }
+        }
+
+        .ex6-links a {
+            margin: 0 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 13px;
+        }
+
+        .ex6-links a:hover {
+            color: var(--sea-orange);
+            text-shadow: 0 0 8px var(--sea-orange);
+        }
+
+
+
+
+        /* ==========================================
+           14. NEURAL PATHFINDING (Connectivity)
+           Animation: Lines connect the contact info nodes 
+           dynamically as if calculating a route.
+        ========================================== */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #eef2f7;
+        }
+
+        .demo-zone {
+            padding: 160px 0;
+            border-bottom: 2px solid #ddd;
+            background: #fff;
+            position: relative;
+        }
+
+        .tag {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--sea-orange);
+            color: #000;
+            padding: 4px 12px;
+            font-weight: 800;
+            font-size: 10px;
+            border-radius: 2px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            height: 100%;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 24px;
+            color: var(--sea-blue);
+        }
+
+        .logo span {
+            color: var(--sea-orange);
+        }
+
+        .ex14-nav {
+            background: var(--dark);
+            color: white;
+        }
+
+        .ex14-top {
+            height: 50px;
+            position: relative;
+        }
+
+        .node {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .node i {
+            color: var(--sea-orange);
+        }
+
+        .path-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--sea-orange), transparent);
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .ex14-header {
+            height: 80px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .ex14-links a {
+            font-family: 'JetBrains Mono';
+            font-size: 13px;
+            color: #888;
+        }
+
+        .ex14-links a:hover {
+            color: var(--sea-orange);
+        }
+
+        .ex14-top i.bi {
+
+            animation: radarPulse2 3s infinite;
+            border-radius: 100%;
+        }
+
+
+        @keyframes radarPulse2 {
+            0% {
+                box-shadow: 0 0 0 0 rgba(240, 139, 51, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(240, 139, 51, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(240, 139, 51, 0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <!-- EXAMPLE 2 -->
+    <section class="demo-container">
+        <div class="ex2-nav">
+            <div class="ex2-top">
+                <div class="container">
+                    <span>SEATRUST LOGISTICS — MARITIME SOLUTIONS</span>
+                    <span><i class="bi bi-geo-alt"></i> 12, Rue Oraibi Jilali, Casablanca</span>
+                </div>
+            </div>
+            <header class="ex2-header">
+                <div class="container">
+                    <div class="logo-placeholder">SEA<span>TRUST</span></div>
+                    <nav class="ex2-links">
+                        <a href="#">Solutions</a>
+                        <a href="#">Fleet</a>
+                        <a href="#">Network</a>
+                    </nav>
+                    <div style="display:flex; gap:20px;">
+                        <a href="tel:+212522435090"
+                            style="background:var(--sea-orange); padding:8px 15px; border-radius:4px; font-weight:700;">CALL
+                            HUB</a>
+                        <div style="display:flex; gap:15px; align-items:center;">
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#"><i class="bi bi-twitter-x"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <svg class="ex2-wave" preserveAspectRatio="none" viewBox="0 0 1440 100">
+                    <path d="M0,40 C320,100 420,0 720,40 C1020,80 1120,0 1440,40 L1440,100 L0,100 Z"></path>
+                    <path d="M0,50 C320,110 420,10 720,50 C1020,90 1120,10 1440,50 L1440,100 L0,100 Z" opacity="0.3">
+                    </path>
+                </svg>
+            </header>
+        </div>
+    </section>
+
+    <!-- EXAMPLE 3 -->
+    <section class="demo-container">
+        <div class="ex3-nav">
+            <div class="ex3-top">
+                <div class="container">
+                    <span>> STATUS: GLOBAL_ACTIVE</span>
+                    <span>> COORDS: 33.5731° N, 7.5898° W</span>
+                    <span><i class="bi bi-telephone"></i> +212 522 435 090</span>
+                </div>
+            </div>
+            <header class="ex3-header">
+                <div class="ex3-scanner"></div>
+                <div class="container">
+                    <div class="logo-placeholder">SEA<span>TRUST</span></div>
+                    <nav class="ex3-links">
+                        <a href="#">SOLUTIONS</a>
+                        <a href="#">FLEET</a>
+                        <a href="#">NETWORK</a>
+                    </nav>
+                    <div style="display:flex; gap:15px;">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                        <a href="#"
+                            style="color:var(--sea-orange); font-weight:800; border:1px solid; padding:5px 15px;">TRACKING</a>
+                    </div>
+                </div>
+            </header>
+        </div>
+    </section>
+
+    <!-- EXAMPLE 6 -->
+    <div class="demo-box">
+        <div class="ex6-nav">
+            <div class="ex6-top">
+                <div class="container">
+                    <div style="display:flex; gap:20px;">
+                        <span><i class="bi bi-geo-alt"></i> 12, Rue Oraibi Jilali, Casablanca</span>
+                        <span><i class="bi bi-telephone"></i> +212 522 435 090</span>
+                    </div>
+                    <div style="display:flex; gap:15px;">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <header class="ex6-header">
+                <div class="radar-circle"></div>
+                <div class="container">
+                    <div class="logo-text" style="color:white; margin-left: 40px;">SEA<span>TRUST</span></div>
+                    <nav class="ex6-links">
+                        <a href="#">Solutions</a>
+                        <a href="#">Fleet</a>
+                        <a href="#">Network</a>
+                    </nav>
+                    <a href="mailto:contact@seatrust.ma"
+                        style="border-bottom: 2px solid var(--sea-orange); padding-bottom: 5px; font-weight:700;">CONNECT@SEATRUST.MA</a>
+                </div>
+            </header>
+        </div>
+    </div>
+
+
+
+    <!-- EXAMPLE 14 -->
+    <div class="demo-zone">
+        <div class="ex14-nav">
+            <div class="ex14-top">
+                <div class="path-line"></div>
+                <div class="container">
+                    <div class="node"><i class="bi bi-circle-fill"></i> +212 522 435 090</div>
+                    <div class="node"><i class="bi bi-circle-fill"></i> 12, Rue Oraibi Jilali</div>
+                    <div class="node"><i class="bi bi-circle-fill"></i> contact@seatrust.ma</div>
+                </div>
+            </div>
+            <header class="ex14-header">
+                <div class="container">
+                    <div class="logo" style="color:white">SEA<span>TRUST</span></div>
+                    <nav class="ex14-links">
+                        <a href="#">[ SOLUTIONS ]</a>
+                        <a href="#">[ FLEET ]</a>
+                        <a href="#">[ NETWORK ]</a>
+                    </nav>
+                    <div class="socials-row">
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                        <a href="#"><i class="bi bi-twitter-x"></i></a>
+                    </div>
+                </div>
+            </header>
+        </div>
+    </div>
+
+</body>
+
+</html>
