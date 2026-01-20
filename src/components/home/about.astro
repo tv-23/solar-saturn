@@ -1,120 +1,82 @@
 ---
 import "../../../public/style/about.css";
+
+import { ui } from '../../src/i18n/ui';
+
+const { lang = 'en' } = Astro.props;
+const t = ui[lang];
+
 ---
 
 <!-- SECTION START -->
 <section class="mvv-section" id="about-section">
-    <!-- <div class="container our-headline">
-        <div class="row justify-content-center mb-5">
-            <h2>
-                The Seatrust <br /> Way
-            </h2>
-        </div>
-    </div> -->
-    
     <div class="container">
-    <div class="row align-items-center">
-        <!-- LEFT COLUMN: Navigation & Text -->
-        <div class="col-lg-6 pe-lg-5">
-            <!-- The Tabs -->
-            <div class="custom-nav">
-                <div
-                    class="nav-item-custom active"
-                    onclick="switchTab('mission')"
-                >
-                    Our Mission
+        <div class="row align-items-top">
+            <!-- LEFT COLUMN: Navigation & Text -->
+            <div class="col-lg-6 pe-lg-5">
+                <!-- The Tabs -->
+                <div class="custom-nav">
+                    <div
+                        class="nav-item-custom active"
+                        onclick="switchTab('mission')"
+                    >
+                        {t['about.tab.seatrust']}
+                    </div>
+                    <div class="nav-item-custom" onclick="switchTab('vision')">
+                        {t['about.tab.mission']}
+                    </div>
+                    <div class="nav-item-custom" onclick="switchTab('values')">
+                        {t['about.tab.values']}
+                    </div>
                 </div>
-                <div class="nav-item-custom" onclick="switchTab('vision')">
-                    Our Vision
+
+                <!-- Content: SEATRUST (ID Mission pour garder votre JS) -->
+                <div id="text-mission" class="tab-text-content active">
+                    <p class="sub-text">
+                        <span style="font-weight: bold;">{t['about.content.seatrust']}
+                    </p>
                 </div>
-                <div class="nav-item-custom" onclick="switchTab('values')">
-                    Our Commitments
+
+                <!-- Content: MISSION (ID Vision pour garder votre JS) -->
+                <div id="text-vision" class="tab-text-content">
+                    <p class="sub-text">
+                        {t['about.content.mission']}
+                    </p>
+                </div>
+
+                <!-- Content: VALUES -->
+                <div id="text-values" class="tab-text-content">
+                    <p class="sub-text">
+                        {t['about.content.values']}
+                    </p>
                 </div>
             </div>
 
-            <!-- Content: MISSION -->
-            <div id="text-mission" class="tab-text-content active">
-                <!-- <h2 class="main-headline">
-                        To create measurable value for our stakeholders while serving our customers and community.
-                    </h2> -->
-                <p class="sub-text">
-                    To provide reliable, efficient, and fully integrated
-                    logistics and maritime solutions that support global trade
-                    and connect businesses across international markets. We are
-                    committed to delivering excellence through industry
-                    expertise, operational precision, and a strong focus on
-                    trust, safety, and customer satisfaction.
-                </p>
-                <!-- <p class="sub-text">
-                        Excellence in execution, technology, and capacity—driven by people who care about your cargo as much as you do.
-                    </p> -->
-            </div>
-
-            <!-- Content: VISION -->
-            <div id="text-vision" class="tab-text-content">
-                <!-- <h2 class="main-headline">
-                        To become the leading maritime bridge connecting Africa to the global economy.
-                    </h2> -->
-                <p class="sub-text">
-                    To become a trusted global leader in logistics and maritime
-                    services, recognized for innovation, operational
-                    reliability, and sustainable growth. We aim to create
-                    long-term value for our clients and partners by seamlessly
-                    integrating air, land, and sea transportation solutions
-                    worldwide.
-                </p>
-                <!-- <p class="sub-text">
-                        We see a future where borders are just lines on a map, not barriers to your business growth.
-                    </p> -->
-            </div>
-
-            <!-- Content: VALUES -->
-            <div id="text-values" class="tab-text-content">
-                <!-- <h2 class="main-headline">
-                        Integrity, Innovation, and Unwavering Dedication to Safety.
-                    </h2> -->
-                <p class="sub-text">
-                    We are committed to delivering dependable, efficient, and
-                    fully compliant logistics and maritime services that meet
-                    international standards. Through continuous improvement,
-                    strong partnerships, and a customer-focused approach, we
-                    ensure smooth operations, timely delivery, and long-term
-                    success for our clients.
-                </p>
-            </div>
-        </div>
-
-        <!-- RIGHT COLUMN: Images -->
-        <div class="col-lg-6">
-            <div class="image-display-area">
-                <!-- Image 1: Mission -->
-                <img
-                    src="/images/about/seatrust-1.png"
-                    alt="Mission Team Meeting"
-                    class="mvv-image active"
-                    id="img-mission"
-                />
-
-                <!-- Image 2: Vision -->
-                <img
-                    src="/images/about/4.png"
-                    alt="Vision Future"
-                    class="mvv-image"
-                    id="img-vision"
-                />
-
-                <!-- Image 3: Values -->
-                <img
-                    src="/images/about/5.png"
-                    alt="Values Handshake"
-                    class="mvv-image"
-                    id="img-values"
+            <!-- RIGHT COLUMN: Images -->
+            <div class="col-lg-6">
+                <div class="image-display-area">
+                    <img
+                        src="/images/about/seatrust-1.png"
+                        alt="Mission Team Meeting"
+                        class="mvv-image active"
+                        id="img-mission"
+                    />
+                    <img
+                        src="/images/about/4.png"
+                        alt="Vision Future"
+                        class="mvv-image"
+                        id="img-vision"
+                    />
+                    <img
+                        src="/images/about/5.png"
+                        alt="Values Handshake"
+                        class="mvv-image"
+                        id="img-values"
                     />
                 </div>
+            </div>
         </div>
     </div>
-</div>
-
 </section>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
