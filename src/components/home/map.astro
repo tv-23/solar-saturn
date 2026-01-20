@@ -51,8 +51,17 @@ import "../../../public/style/map.css";
             <div id="tracking-form-container">
                 <label class="form-label">ORIGIN (MOROCCO)</label>
                 <select id="start-select" class="form-select"></select>
+            
                 <label class="form-label">DESTINATION (WORLD)</label>
                 <select id="end-select" class="form-select"></select>
+            
+                <!-- NEW FIELDS -->
+                <label class="form-label">EMAIL ADDRESS</label>
+                <input type="email" id="user-email" class="form-input" placeholder="email@example.com" required>
+            
+                <label class="form-label">PHONE NUMBER</label>
+                <input type="tel" id="user-phone" class="form-input" placeholder="+212 600 000 000" required>
+            
                 <button id="calc-btn" class="action-btn">Calculate Route</button>
             </div>
         </div>
@@ -66,6 +75,36 @@ import "../../../public/style/map.css";
     <!-- THE ACTUAL MAP DIV -->
     <div id="map"></div>
 
+
+    <!-- THE BOTTOM SHEET (Mobile Only) -->
+<div class="bottom-sheet" id="mobile-sheet">
+    <div class="sheet-handle-area" id="sheet-header">
+        <div class="drag-handle"></div>
+        <span class="sheet-title">Logistics Dashboard</span>
+    </div>
+    
+    <div class="sheet-body">
+        <!-- The same buttons from your desktop UI, but styled for the sheet -->
+        <div id="btn-centers-mobile" class="sheet-btn">
+            <i class="bi bi-building"></i> Main Offices (7)
+        </div>
+        <div id="mobile-centers-list" class="nested-list"></div>
+
+        <div id="btn-network-mobile" class="sheet-btn">
+            <i class="bi bi-globe"></i> Global Connections (24)
+        </div>
+
+        <div id="btn-track-mobile" class="sheet-btn">
+            <i class="bi bi-truck"></i> Track Ship Path
+        </div>
+
+        <!-- The Tracking Form moves here when on mobile -->
+        <div id="mobile-tracking-container" class="nested-form">
+            <!-- Form inputs injected here by JS or cloned -->
+        </div>
+    </div>
+</div>
+
 </section>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -76,6 +115,33 @@ import "../../../public/style/map.css";
     const BRAND_ORANGE = '#F08B33';
     const PATH_COLOR = '#003366'; // The Blue color for your paths
     const worldBounds = L.latLngBounds([-90, -180], [90, 180]);
+
+    const sheet = document.getElementById('mobile-sheet');
+    const sheetHeader = document.getElementById('sheet-header');
+
+
+    // TOGGLE SHEET POSITION
+    sheetHeader.addEventListener('click', () => {
+        sheet.classList.toggle('expanded');
+    });
+
+
+    document.getElementById('btn-centers-mobile').addEventListener('click', () => {
+        // Trigger the same logic as the desktop button
+        document.getElementById('btn-centers').click(); 
+        // Optional: Close sheet halfway after clicking?
+    });
+
+    document.getElementById('btn-network-mobile').addEventListener('click', () => {
+        document.getElementById('btn-network').click();
+        sheet.classList.remove('expanded'); // Auto-close to show the map lines
+    });
+
+    document.getElementById('btn-track-mobile').addEventListener('click', () => {
+        // Show the form inside the sheet
+        const form = document.getElementById('mobile-tracking-container');
+        form.style.display = (form.style.display === 'block') ? 'none' : 'block';
+    });
 
 
     // 1. Initialize Map + Fix Duplication
@@ -264,22 +330,53 @@ import "../../../public/style/map.css";
 
     // Calculate Route
     document.getElementById('calc-btn').addEventListener('click', () => {
-        trackingLayer.clearLayers();
-        const s = moroccoData.find(x => x.name == startSel.value).coords;
-        const e = partnersData.find(x => x.name == endSel.value).coords;
+    // 1. Get references to the input fields
+    const emailInput = document.getElementById('user-email');
+    const phoneInput = document.getElementById('user-phone');
+
+    // 2. Validation: Check if Email and Phone are provided
+    if (!emailInput.value.trim() || !phoneInput.value.trim()) {
+        alert("Please enter your Email and Phone Number to see the route.");
         
-        const dest = L.marker(e, { icon: createLampIcon(16) })
-            .bindTooltip(endSel.value, { permanent: true, direction: 'top', className: 'city-label-permanent' });
-        
-        const line = L.polyline([s, e], { 
-            color: PATH_COLOR, 
-            weight: 3, 
-            className: 'animated-path' 
+        // Optional: Highlight the fields in red to show they are missing
+        if (!emailInput.value.trim()) emailInput.style.borderColor = "#F08B33";
+        if (!phoneInput.value.trim()) phoneInput.style.borderColor = "#F08B33";
+        return; 
+    }
+
+    // 3. Reset styles if they were previously highlighted
+    emailInput.style.borderColor = "#444";
+    phoneInput.style.borderColor = "#444";
+
+    // 4. Clear existing layers (Original logic starts here)
+    trackingLayer.clearLayers();
+
+    // 5. Find Coordinates
+    const s = moroccoData.find(x => x.name == startSel.value).coords;
+    const e = partnersData.find(x => x.name == endSel.value).coords;
+    
+    // 6. Create Destination Marker
+    const dest = L.marker(e, { icon: createLampIcon(16) })
+        .bindTooltip(endSel.value, { 
+            permanent: true, 
+            direction: 'top', 
+            className: 'city-label-permanent' 
         });
-        
-        trackingLayer.addLayer(dest).addLayer(line);
-        map.flyToBounds(L.latLngBounds(s, e), { padding: [100, 100] });
+    
+    // 7. Create Animated Polyline
+    const line = L.polyline([s, e], { 
+        color: PATH_COLOR, 
+        weight: 3, 
+        className: 'animated-path' 
     });
+    
+    // 8. Add to Map and Zoom
+    trackingLayer.addLayer(dest).addLayer(line);
+    map.flyToBounds(L.latLngBounds(s, e), { padding: [100, 100] });
+
+    // Optional: Log data for lead capture
+    console.log("Routing Request From:", emailInput.value, "| Phone:", phoneInput.value);
+});
 
     // Zoom
     document.getElementById('zoom-in').addEventListener('click', () => map.zoomIn());

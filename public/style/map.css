@@ -315,6 +315,28 @@
     border-radius: 8px;
 }
 
+.form-input {
+    width: 100%;
+    background: #22222269;
+    border: 1px solid #44444445;
+    color: white;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    font-weight: 400;
+}
+
+.form-input:focus,.form-select:focus {
+    border-color: #F08B33; /* Highlights in your brand orange */
+    outline: none;
+}
+
+/* Ensure labels have consistent spacing */
+.form-label {
+    margin-top: 5px;
+    display: block;
+}
+
 .action-btn {
     width: 100%;
     background: #F08B33;
@@ -381,4 +403,83 @@
 
 .leaflet-control-attribution {
     display: none;
+}
+
+
+
+
+
+/* Hide desktop UI on mobile */
+@media (max-width: 768px) {
+    .ui-overlay { display: none !important; }
+    
+    .bottom-sheet {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #004a99;
+        border-radius: 20px 20px 0 0;
+        z-index: 2000;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* 1. Peek state: only header is visible */
+        transform: translateY(calc(100% - 60px)); 
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    /* 2. Expanded state */
+    .bottom-sheet.expanded {
+        transform: translateY(0);
+    }
+
+    .sheet-handle-area {
+        padding: 15px;
+        text-align: center;
+        cursor: pointer;
+        border-bottom: 1px solid #333;
+    }
+
+    .drag-handle {
+        width: 40px;
+        height: 4px;
+        background: #444;
+        border-radius: 2px;
+        margin: 0 auto 10px;
+    }
+
+    .sheet-title {
+        color: #F08B33;
+        font-weight: 800;
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 1px;
+    }
+
+    .sheet-body { padding: 20px; }
+
+    .sheet-btn {
+        background: #252930;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* Move Zoom buttons to the middle-right on mobile to avoid the sheet */
+    .zoom-controls {
+        top: 50% !important;
+        transform: translateY(-50%);
+        right: 10px !important;
+    }
+}
+
+/* Hide Sheet on Desktop */
+@media (min-width: 769px) {
+    .bottom-sheet { display: none; }
 }
