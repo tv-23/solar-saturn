@@ -174,7 +174,7 @@ body {
 
 .desktop-header-socials a {
     color: white;
-    font-size: 20px;
+    font-size: 15px;
     transition: 0.3s;
 }
 
@@ -196,7 +196,7 @@ body {
     left: 0;
     width: 200%;
     height: 45px;
-    fill: #0094ff;
+    fill: #0099ff;
     animation: waveOrbit 5s linear infinite;
     pointer-events: none;
 }
@@ -230,6 +230,11 @@ body {
 .mobile-overlay.active {
     right: 0;
 }
+
+.mobile-overlay a.active {
+    color: #F08B33;
+}
+
 
 .mobile-overlay a {
     color: white;
@@ -286,7 +291,19 @@ body {
     }
 
     .btn-call {
-        padding: 8px 15px;
+        padding: 10px 20px;
         font-size: 12px;
     }
+
+    .ex2-top i.bi{
+        font-size: 15px;
+    }
+}
+
+
+.container.our-headline>div>h2 {
+    font-size: 60px !important;
+    font-weight: 900;
+    font-family: system-ui;
+    text-transform: uppercase;
 }
