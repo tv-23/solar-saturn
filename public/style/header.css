@@ -307,3 +307,7 @@ body {
     font-family: system-ui;
     text-transform: uppercase;
 }
+
+.logo-box img {
+    width: 200px;
+}

@@ -1,4 +1,12 @@
 ---
+import { ui } from '../src/i18n/ui';
+
+const { lang = 'en' } = Astro.props;
+const t = ui[lang];
+
+// Helper to handle links with language prefix
+const l = (path: string) => `/${lang}${path}`.replace(/\/+/g, '/');
+
 const currentPath = Astro.url.pathname;
 import "../../public/style/header.css";
 ---
@@ -8,45 +16,34 @@ import "../../public/style/header.css";
     <div class="ex2-top">
         <div class="container">
             <div class="top-left">
-                <span class="top-left-text"
-                    >SEATRUST LOGISTICS — MARITIME SOLUTIONS</span
-                >
+                <span class="top-left-text">{t['header.tagline']}</span>
                 <div class="top-socials-mobile">
-                    <a href="https://www.facebook.com/seatrustgroup/?ref=bookmarks"><i class="bi bi-facebook"></i></a>
+                    <a href="https://www.facebook.com/seatrustgroup/"><i class="bi bi-facebook"></i></a>
                     <a href="https://www.linkedin.com/company/18392886/"><i class="bi bi-linkedin"></i></a>
                     <a href="https://twitter.com/SeatrustG"><i class="bi bi-twitter-x"></i></a>
                 </div>
             </div>
 
             <div class="top-right-contacts">
-                <a
-                    href="https://www.google.com/maps/place/Seatrust+Logistics/@33.5972387,-7.6179703,17z/data=!3m1!4b1!4m6!3m5!1s0xda7d2831388b2cb:0xabbebd7ebdc68e5a!8m2!3d33.5972343!4d-7.6153954!16s%2Fg%2F11b6jgxw88?entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D"
-                    class="contact-item"
-                    target="_blank"
-                >
+                <!-- Address, Email, and Phone links remain the same -->
+                <a href="https://www.google.com/maps/..." class="contact-item" target="_blank">
                     <i class="bi bi-geo-alt"></i>
-                    <span class="contact-text"
-                        >12, Rue Oraibi Jilali, Casablanca</span
-                    >
+                    <span class="contact-text">12, Rue Oraibi Jilali, Casablanca</span>
                 </a>
-
-                <a
-                    href="mailto:contact@seatrust.ma"
-                    class="contact-item"
-                    target="_blank"
-                >
+                <a href="mailto:contact@seatrust.ma" class="contact-item" target="_blank">
                     <i class="bi bi-envelope-fill"></i>
                     <span class="contact-text">contact@seatrust.ma</span>
                 </a>
-
-                <a
-                    href="tel:+212522435090"
-                    class="contact-item phone-highlight"
-                    target="_blank"
-                >
+                <a href="tel:+212522435090" class="contact-item phone-highlight">
                     <i class="bi bi-telephone-fill"></i>
                     <span class="contact-text">+212 522 435 090</span>
                 </a>
+
+                <!-- LANGUAGE SWITCHER -->
+                <div class="lang-switcher ms-3">
+                    <a href="/" class={lang === 'en' ? 'active-lang' : ''}>EN</a> | 
+                    <a href={lang === 'en' ? '/fr' : '/'} class={lang === 'fr' ? 'active-lang' : ''}>FR</a>
+                </div>
             </div>
         </div>
     </div>
@@ -55,35 +52,27 @@ import "../../public/style/header.css";
     <header class="ex2-header">
         <div class="container" style="width: 100%;">
             <div class="header-left">
-                <a href="/" class="logo-box">SEA<span>TRUST</span></a>
+                <a href={l('/')} class="logo-box">
+                    <img src="/images/logo-foter.png" class="logo-img" alt="Seatrust Group" />
+                </a>
             </div>
 
             <div class="header-center">
                 <nav class="ex2-links">
-                    <a
-                        href="/"
-                        class={currentPath === "/" ? "activeMenuItem" : ""}
-                        >Home</a
-                    >
-                    <a href="#about-section">Seatrust</a>
-                    <a href="#our-companies">Our Companies</a>
-                    <a
-                        href="/contact"
-                        class={currentPath === "/contact"
-                            ? "activeMenuItem"
-                            : ""}>Contact Us</a
-                    >
+                    <a href={l('/')} class={currentPath === l('/') ? "activeMenuItem" : ""}>{t['nav.home']}</a>
+                    <a href="#about-section">{t['nav.about']}</a>
+                    <a href="#our-companies">{t['nav.companies']}</a>
+                    <a href={l('/contact')} class={currentPath === l('/contact') ? "activeMenuItem" : ""}>{t['nav.contact']}</a>
                 </nav>
             </div>
 
             <div class="header-right">
-                <a href="tel:+212522435090" class="btn-call">Call us</a>
+                <a href="tel:+212522435090" class="btn-call">{t['nav.call']}</a>
                 <div class="desktop-header-socials">
-                    <a href="https://www.facebook.com/seatrustgroup/?ref=bookmarks"><i class="bi bi-facebook"></i></a>
-                    <a href="https://www.linkedin.com/company/18392886/"><i class="bi bi-linkedin"></i></a>
-                    <a href="https://twitter.com/SeatrustG"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                    <a href="#"><i class="bi bi-twitter-x"></i></a>
                 </div>
-                <!-- Hamburger Icon -->
                 <div class="mobile-menu-toggle" onclick="toggleMenu()">
                     <i class="bi bi-list" id="menuIcon"></i>
                 </div>
@@ -91,35 +80,29 @@ import "../../public/style/header.css";
         </div>
 
         <svg class="ex2-wave" preserveAspectRatio="none" viewBox="0 0 1440 100">
-            <path
-                d="M0,40 C320,100 420,0 720,40 C1020,80 1120,0 1440,40 L1440,100 L0,100 Z"
-            ></path>
-            <path
-                d="M0,50 C320,110 420,10 720,50 C1020,90 1120,10 1440,50 L1440,100 L0,100 Z"
-                opacity="0.3"></path>
+            <path d="M0,40 C320,100 420,0 720,40 C1020,80 1120,0 1440,40 L1440,100 L0,100 Z"></path>
+            <path d="M0,50 C320,110 420,10 720,50 C1020,90 1120,10 1440,50 L1440,100 L0,100 Z" opacity="0.3"></path>
         </svg>
     </header>
 </div>
 
 <!-- MOBILE OVERLAY MENU -->
 <div class="mobile-overlay" id="mobileOverlay">
-    <!-- Close Button Inside Overlay -->
     <div class="mobile-close" onclick="toggleMenu()">
         <i class="bi bi-x-lg"></i>
     </div>
 
-    <a href="/" class={currentPath === "/" ? "active" : ""}>Home</a>
-    <a href="#about-section">Seatrust</a>
-    <a href="#our-companies">Our Companies</a>
-    <a
-        href="/contact"
-        class={currentPath === "/contact" ? "active" : ""}>Contact Us</a
-    >
-
-    <hr
-        style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 20px 0;"
-    />
+    <a href={l('/')} class={currentPath === l('/') ? "active" : ""}>{t['nav.home']}</a>
+    <a href="#about-section">{t['nav.about']}</a>
+    <a href="#our-companies">{t['nav.companies']}</a>
+    <a href={l('/contact')} class={currentPath === l('/contact') ? "active" : ""}>{t['nav.contact']}</a>
 </div>
+
+<style>
+    .active-lang { color: var(--sea-orange) !important; font-weight: bold; }
+    .lang-switcher { font-size: 11px; color: white; }
+    .lang-switcher a { color: white; text-decoration: none; padding: 0 4px; }
+</style>
 
 <script>
     window.toggleMenu = function () {

@@ -1,15 +1,16 @@
 ---
 import "../../../public/style/map.css";
-
 ---
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
 
 <!-- CENTERED HEADER -->
 
 <style>
     /* Styling for Country Names */
-
 </style>
 
 <div class="container our-headline">
@@ -20,9 +21,7 @@ import "../../../public/style/map.css";
     </div>
 </div>
 
-    <section id="logistics-map-section">
-        
-
+<section id="logistics-map-section">
     <!-- UI OVERLAY -->
     <div class="ui-overlay">
         <div class="ui-content">
@@ -51,18 +50,31 @@ import "../../../public/style/map.css";
             <div id="tracking-form-container">
                 <label class="form-label">ORIGIN (MOROCCO)</label>
                 <select id="start-select" class="form-select"></select>
-            
+
                 <label class="form-label">DESTINATION (WORLD)</label>
                 <select id="end-select" class="form-select"></select>
-            
+
                 <!-- NEW FIELDS -->
                 <label class="form-label">EMAIL ADDRESS</label>
-                <input type="email" id="user-email" class="form-input" placeholder="email@example.com" required>
-            
+                <input
+                    type="email"
+                    id="user-email"
+                    class="form-input"
+                    placeholder="email@example.com"
+                    required
+                />
+
                 <label class="form-label">PHONE NUMBER</label>
-                <input type="tel" id="user-phone" class="form-input" placeholder="+212 600 000 000" required>
-            
-                <button id="calc-btn" class="action-btn">Calculate Route</button>
+                <input
+                    type="tel"
+                    id="user-phone"
+                    class="form-input"
+                    placeholder="+212 600 000 000"
+                    required
+                />
+
+                <button id="calc-btn" class="action-btn">Calculate Route</button
+                >
             </div>
         </div>
     </div>
@@ -75,312 +87,446 @@ import "../../../public/style/map.css";
     <!-- THE ACTUAL MAP DIV -->
     <div id="map"></div>
 
-
     <!-- THE BOTTOM SHEET (Mobile Only) -->
-<div class="bottom-sheet" id="mobile-sheet">
-    <div class="sheet-handle-area" id="sheet-header">
-        <div class="drag-handle"></div>
-        <span class="sheet-title">Logistics Dashboard</span>
+    <div class="bottom-sheet" id="mobile-sheet">
+        <div class="sheet-handle-area" id="sheet-header">
+            <div class="drag-handle"></div>
+            <span class="sheet-title">Logistics Dashboard</span>
+        </div>
+
+        <div class="sheet-body">
+            <!-- The same buttons from your desktop UI, but styled for the sheet -->
+            <div id="btn-centers-mobile" class="sheet-btn">
+                <i class="bi bi-building"></i> Main Offices (7)
+            </div>
+            <div id="mobile-centers-list" class="nested-list"></div>
+
+            <div id="btn-network-mobile" class="sheet-btn">
+                <i class="bi bi-globe"></i> Global Connections (24)
+            </div>
+
+            <div id="btn-track-mobile" class="sheet-btn">
+                <i class="bi bi-truck"></i> Track Ship Path
+            </div>
+
+            <!-- The Tracking Form moves here when on mobile -->
+            <div id="mobile-tracking-container" style="display: none;" class="nested-form">
+                <!-- FORM -->
+                <div>
+                    <label class="form-label">ORIGIN (MOROCCO)</label>
+                    <select id="start-select" class="form-select"></select>
+
+                    <label class="form-label">DESTINATION (WORLD)</label>
+                    <select id="end-select" class="form-select"></select>
+
+                    <!-- NEW FIELDS -->
+                    <label class="form-label">EMAIL ADDRESS</label>
+                    <input
+                        type="email"
+                        id="user-email"
+                        class="form-input"
+                        placeholder="email@example.com"
+                        required
+                    />
+
+                    <label class="form-label">PHONE NUMBER</label>
+                    <input
+                        type="tel"
+                        id="user-phone"
+                        class="form-input"
+                        placeholder="+212 600 000 000"
+                        required
+                    />
+
+                    <button id="calc-btn" class="action-btn"
+                        >Calculate Route</button
+                    >
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <div class="sheet-body">
-        <!-- The same buttons from your desktop UI, but styled for the sheet -->
-        <div id="btn-centers-mobile" class="sheet-btn">
-            <i class="bi bi-building"></i> Main Offices (7)
-        </div>
-        <div id="mobile-centers-list" class="nested-list"></div>
-
-        <div id="btn-network-mobile" class="sheet-btn">
-            <i class="bi bi-globe"></i> Global Connections (24)
-        </div>
-
-        <div id="btn-track-mobile" class="sheet-btn">
-            <i class="bi bi-truck"></i> Track Ship Path
-        </div>
-
-        <!-- The Tracking Form moves here when on mobile -->
-        <div id="mobile-tracking-container" class="nested-form">
-            <!-- Form inputs injected here by JS or cloned -->
-        </div>
-    </div>
-</div>
-
 </section>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-  
-  document.addEventListener("DOMContentLoaded", () => {
-    const BRAND_ORANGE = '#F08B33';
-    const PATH_COLOR = '#003366'; // The Blue color for your paths
-    const worldBounds = L.latLngBounds([-90, -180], [90, 180]);
+    document.addEventListener("DOMContentLoaded", () => {
+        const BRAND_ORANGE = "#F08B33";
+        const PATH_COLOR = "#003366"; // The Blue color for your paths
+        const worldBounds = L.latLngBounds([-90, -180], [90, 180]);
 
-    const sheet = document.getElementById('mobile-sheet');
-    const sheetHeader = document.getElementById('sheet-header');
+        const sheet = document.getElementById("mobile-sheet");
+        const sheetHeader = document.getElementById("sheet-header");
 
+        // TOGGLE SHEET POSITION
+        sheetHeader.addEventListener("click", () => {
+            sheet.classList.toggle("expanded");
+        });
 
-    // TOGGLE SHEET POSITION
-    sheetHeader.addEventListener('click', () => {
-        sheet.classList.toggle('expanded');
-    });
+        document
+            .getElementById("btn-centers-mobile")
+            .addEventListener("click", () => {
+                // Trigger the same logic as the desktop button
+                document.getElementById("btn-centers").click();
+                // Optional: Close sheet halfway after clicking?
+            });
 
+        document
+            .getElementById("btn-network-mobile")
+            .addEventListener("click", () => {
+                document.getElementById("btn-network").click();
+                sheet.classList.remove("expanded"); // Auto-close to show the map lines
+            });
 
-    document.getElementById('btn-centers-mobile').addEventListener('click', () => {
-        // Trigger the same logic as the desktop button
-        document.getElementById('btn-centers').click(); 
-        // Optional: Close sheet halfway after clicking?
-    });
+        document
+            .getElementById("btn-track-mobile")
+            .addEventListener("click", () => {
+                // Show the form inside the sheet
+                const form = document.getElementById(
+                    "mobile-tracking-container",
+                );
+                form.style.display =
+                    form.style.display === "block" ? "none" : "block";
+            });
 
-    document.getElementById('btn-network-mobile').addEventListener('click', () => {
-        document.getElementById('btn-network').click();
-        sheet.classList.remove('expanded'); // Auto-close to show the map lines
-    });
+        // 1. Initialize Map + Fix Duplication
+        const map = L.map("map", {
+            zoomControl: false,
+            scrollWheelZoom: false,
+            zoomSnap: 0.1,
+            zoomDelta: 0.5,
+            maxBounds: worldBounds,
+            maxBoundsViscosity: 1.0,
+            worldCopyJump: false,
+        }).setView([31.0, -7.0], 5.5);
 
-    document.getElementById('btn-track-mobile').addEventListener('click', () => {
-        // Show the form inside the sheet
-        const form = document.getElementById('mobile-tracking-container');
-        form.style.display = (form.style.display === 'block') ? 'none' : 'block';
-    });
+        setPerfectMinZoom();
+        window.addEventListener("resize", setPerfectMinZoom);
 
+        function setPerfectMinZoom() {
+            const mapContainer = document.getElementById("map");
+            const width = mapContainer.offsetWidth;
 
-    // 1. Initialize Map + Fix Duplication
-    const map = L.map('map', { 
-        zoomControl: false,
-        scrollWheelZoom: false,
-        zoomSnap: 0.1,
-        zoomDelta: 0.5,
-        maxBounds: worldBounds,
-        maxBoundsViscosity: 1.0,
-        worldCopyJump: false
-    }).setView([31.0, -7.0], 5.5);
+            // Formula to find zoom level that fits 360 degrees into 'width' pixels
+            // zoom = log2(width / 256)
+            const minZoom = Math.log2(width / 256);
 
+            map.setMinZoom(minZoom);
 
-    setPerfectMinZoom();
-    window.addEventListener('resize', setPerfectMinZoom);
-
-    function setPerfectMinZoom() {
-        const mapContainer = document.getElementById('map');
-        const width = mapContainer.offsetWidth;
-        
-        // Formula to find zoom level that fits 360 degrees into 'width' pixels
-        // zoom = log2(width / 256)
-        const minZoom = Math.log2(width / 256);
-        
-        map.setMinZoom(minZoom);
-        
-        // If current zoom is too small, zoom in to the new minimum
-        if (map.getZoom() < minZoom) {
-            map.setZoom(minZoom);
+            // If current zoom is too small, zoom in to the new minimum
+            if (map.getZoom() < minZoom) {
+                map.setZoom(minZoom);
+            }
         }
-    }
 
-    // 2. Tile Layer
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
-        noWrap: true,
-        bounds: worldBounds,
-        crossOrigin: true
-    }).addTo(map);
+        // 2. Tile Layer
+        L.tileLayer(
+            "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png",
+            {
+                noWrap: true,
+                bounds: worldBounds,
+                crossOrigin: true,
+            },
+        ).addTo(map);
 
+        map.setView([33, -7], 5.5);
 
-    map.setView([33, -7], 5.5);
+        // 3. Data
+        const moroccoData = [
+    {
+        name: "Casablanca",
+        coords: [33.5731, -7.5898],
+        address: "12, Rue El Oraibi Jilali",
+    },
+    {
+        name: "Tanger",
+        coords: [35.7595, -5.834],
+        address: "11, Angle Av.Med,V",
+    },
+    {
+        name: "Rabat (Bouregreg)",
+        coords: [34.0209, -6.8416],
+        address: "Quai de la Marina, Bouregreg",
+    },
+    {
+        name: "Mohammedia",
+        coords: [33.6866, -7.3811],
+        address: "Bd. Hassan II",
+    },
+    {
+        name: "Jorf Lasfar",
+        coords: [33.1198, -8.6363],
+        address: "121, Route Sidi Bouzid",
+    },
+    {
+        name: "Safi",
+        coords: [32.2994, -9.2372],
+        address: "Zone Portuaire, Safi",
+    },
+    {
+        name: "Agadir",
+        coords: [30.4278, -9.5981],
+        address: "Enceinte Port Anza",
+    },
+    {
+        name: "Nador",
+        coords: [35.1681, -2.9335],
+        address: "Entrée Port Beni Ansar",
+    },
+    {
+        name: "Tan-Tan",
+        coords: [28.4380, -11.1032],
+        address: "Port de Tan-Tan (El Ouatia)",
+    },
+    {
+        name: "Tarfaya",
+        coords: [27.9392, -12.9261],
+        address: "Avenue Mohammed V, Port Area",
+    },
+    {
+        name: "Laayoune",
+        coords: [27.1253, -13.4125],
+        address: "Port de Laayoune (Marsa)",
+    },
+    {
+        name: "Boujdour",
+        coords: [26.1259, -14.4820],
+        address: "Quartier Administratif, Port Area",
+    },
+    {
+        name: "Dakhla",
+        coords: [23.7, -15.95],
+        address: "Route du Port, Dakhla South",
+    },
+];
 
-    // 3. Data
-    const moroccoData = [
-        { name: "Casablanca", coords: [33.5731, -7.5898], address: "12, Rue El Oraibi Jilali" },
-        { name: "Tanger", coords: [35.7595, -5.8340], address: "11, Angle Av.Med,V" },
-        { name: "Agadir", coords: [30.4278, -9.5981], address: "Enceinte Port Anza" },
-        { name: "Nador", coords: [35.1681, -2.9335], address: "Entrée Port Beni Ansar" },
-        { name: "Mohammedia", coords: [33.6866, -7.3811], address: "Bd. Hassan II" },
-        { name: "Jorf Lasfar", coords: [33.1198, -8.6363], address: "121, Route Sidi Bouzid" },
-        { name: "Dakhla", coords: [23.7000, -15.9500], address: "Route du Port" }
-    ];
+        const partnersData = [
+            { name: "Rotterdam", coords: [51.9225, 4.47917] },
+            { name: "New York", coords: [40.7128, -74.006] },
+            { name: "Shanghai", coords: [31.2304, 121.4737] },
+            { name: "Dubai", coords: [25.2048, 55.2708] },
+            { name: "Santos", coords: [-23.9608, -46.3331] },
+            { name: "Cape Town", coords: [-33.9249, 18.4241] },
+        ];
 
-    const partnersData = [
-        { name: "Rotterdam", coords: [51.9225, 4.47917] }, 
-        { name: "New York", coords: [40.7128, -74.0060] },
-        { name: "Shanghai", coords: [31.2304, 121.4737] }, 
-        { name: "Dubai", coords: [25.2048, 55.2708] },
-        { name: "Santos", coords: [-23.9608, -46.3331] }, 
-        { name: "Cape Town", coords: [-33.9249, 18.4241] }
-    ];
+        // 4. Layers
+        const centersLayer = L.layerGroup().addTo(map);
+        const networkLayer = L.layerGroup();
+        const trackingLayer = L.layerGroup().addTo(map);
+        const markersMap = new Map();
 
-    // 4. Layers
-    const centersLayer = L.layerGroup().addTo(map); 
-    const networkLayer = L.layerGroup();            
-    const trackingLayer = L.layerGroup().addTo(map);
-    const markersMap = new Map();
+        function createLampIcon(size) {
+            return L.divIcon({
+                className: "lamp-marker",
+                iconSize: [size, size],
+                iconAnchor: [size / 2, size / 2],
+            });
+        }
 
-    function createLampIcon(size) {
-        return L.divIcon({ className: 'lamp-marker', iconSize: [size, size], iconAnchor: [size/2, size/2] });
-    }
+        // 5. Build Initial Markers
+        moroccoData.forEach((c) => {
+            const m = L.marker(c.coords, {
+                icon: createLampIcon(16),
+            }).bindTooltip(`<strong>${c.name}</strong><br>${c.address}`, {
+                direction: "top",
+                className: "custom-tooltip",
+                offset: [0, -10],
+            });
+            markersMap.set(c.name, m);
+            centersLayer.addLayer(m);
+        });
 
-    // 5. Build Initial Markers
-    moroccoData.forEach(c => {
-        const m = L.marker(c.coords, { icon: createLampIcon(16) })
-            .bindTooltip(`<strong>${c.name}</strong><br>${c.address}`, { direction: 'top', className: 'custom-tooltip', offset: [0, -10] });
-        markersMap.set(c.name, m); 
-        centersLayer.addLayer(m);
-    });
+        // Sidebar
+        const listContainer = document.getElementById("centers-list");
 
-    // Sidebar
-    const listContainer = document.getElementById('centers-list');
-    
-    moroccoData.forEach(center => {
-        const item = document.createElement('div');
-        item.className = 'center-item';
-        item.innerHTML = `
+        moroccoData.forEach((center) => {
+            const item = document.createElement("div");
+            item.className = "center-item";
+            item.innerHTML = `
             <span class="center-name">${center.name}</span>
             <small>${center.address}</small>
         `;
 
-        item.addEventListener('click', () => {
-            // 1. Remove 'selected' class from all other items
-            document.querySelectorAll('.center-item').forEach(el => {
-                el.classList.remove('selected');
+            item.addEventListener("click", () => {
+                // 1. Remove 'selected' class from all other items
+                document.querySelectorAll(".center-item").forEach((el) => {
+                    el.classList.remove("selected");
+                });
+
+                // 2. Add 'selected' class to the clicked item
+                item.classList.add("selected");
+
+                // 3. Map interactions (Existing logic)
+                map.flyTo(center.coords, 11);
+                markersMap.get(center.name).openTooltip();
             });
 
-            // 2. Add 'selected' class to the clicked item
-            item.classList.add('selected');
-
-            // 3. Map interactions (Existing logic)
-            map.flyTo(center.coords, 11);
-            markersMap.get(center.name).openTooltip();
+            listContainer.appendChild(item);
         });
 
-        listContainer.appendChild(item);
-    });
+        // Tracking Form Population
+        const startSel = document.getElementById("start-select");
+        const endSel = document.getElementById("end-select");
+        moroccoData.forEach((c) => startSel.add(new Option(c.name, c.name)));
+        partnersData.forEach((p) => endSel.add(new Option(p.name, p.name)));
 
-    // Tracking Form Population
-    const startSel = document.getElementById('start-select');
-    const endSel = document.getElementById('end-select');
-    moroccoData.forEach(c => startSel.add(new Option(c.name, c.name)));
-    partnersData.forEach(p => endSel.add(new Option(p.name, p.name)));
+        const state = { centers: true, network: false, tracking: false };
 
-    const state = { centers: true, network: false, tracking: false };
+        // --- BUTTON HANDLERS ---
 
-    // --- BUTTON HANDLERS ---
+        // BUTTON 1: Main Offices
+        document
+            .getElementById("btn-centers")
+            .addEventListener("click", function () {
+                state.centers = !state.centers;
+                this.classList.toggle("active");
 
-   // BUTTON 1: Main Offices
-   document.getElementById('btn-centers').addEventListener('click', function() {
-        state.centers = !state.centers;
-        this.classList.toggle('active');
-        
-        if(state.centers) {
-            map.addLayer(centersLayer);
-            listContainer.style.display = 'block';
-            map.flyTo([31, -7], 5.5);
-        } else {
-            map.removeLayer(centersLayer);
-            listContainer.style.display = 'none';
-            
-            // REMOVE SELECTION when closing the list
-            document.querySelectorAll('.center-item').forEach(el => el.classList.remove('selected'));
-        }
-    });
+                if (state.centers) {
+                    map.addLayer(centersLayer);
+                    listContainer.style.display = "block";
+                    map.flyTo([31, -7], 5.5);
+                } else {
+                    map.removeLayer(centersLayer);
+                    listContainer.style.display = "none";
 
-    // BUTTON 2: Global Network (UPDATED TO SHOW BLUE PATHS)
-    document.getElementById('btn-network').addEventListener('click', function() {
-        state.network = !state.network;
-        this.classList.toggle('active');
-        
-        if(state.network) {
-            networkLayer.clearLayers();
-            
-            // 1. Draw Partner Markers
-            partnersData.forEach(p => {
-                L.marker(p.coords, { icon: createLampIcon(8) })
-                    .bindTooltip(p.name, { permanent: true, direction: 'top', className: 'city-label-permanent' })
-                    .addTo(networkLayer);
+                    // REMOVE SELECTION when closing the list
+                    document
+                        .querySelectorAll(".center-item")
+                        .forEach((el) => el.classList.remove("selected"));
+                }
             });
 
-            // 2. Draw Connection Paths in Blue
-            // We'll connect major hubs (Tanger/Casablanca) to the partners
-            const hubTanger = moroccoData.find(x => x.name === "Tanger").coords;
-            const hubCasa = moroccoData.find(x => x.name === "Casablanca").coords;
+        // BUTTON 2: Global Network (UPDATED TO SHOW BLUE PATHS)
+        document
+            .getElementById("btn-network")
+            .addEventListener("click", function () {
+                state.network = !state.network;
+                this.classList.toggle("active");
 
-            partnersData.forEach((p, index) => {
-                // Alternating hub connections for a cleaner look
-                const startPoint = index % 2 === 0 ? hubTanger : hubCasa;
-                
-                L.polyline([startPoint, p.coords], {
-                    color: PATH_COLOR,
-                    weight: 1.5,
-                    opacity: 0.5,
-                    dashArray: '5, 10', // Dashed look for network connections
-                    className: 'animated-path' // Re-uses the movement animation
-                }).addTo(networkLayer);
+                if (state.network) {
+                    networkLayer.clearLayers();
+
+                    // 1. Draw Partner Markers
+                    partnersData.forEach((p) => {
+                        L.marker(p.coords, { icon: createLampIcon(8) })
+                            .bindTooltip(p.name, {
+                                permanent: true,
+                                direction: "top",
+                                className: "city-label-permanent",
+                            })
+                            .addTo(networkLayer);
+                    });
+
+                    // 2. Draw Connection Paths in Blue
+                    // We'll connect major hubs (Tanger/Casablanca) to the partners
+                    const hubTanger = moroccoData.find(
+                        (x) => x.name === "Tanger",
+                    ).coords;
+                    const hubCasa = moroccoData.find(
+                        (x) => x.name === "Casablanca",
+                    ).coords;
+
+                    partnersData.forEach((p, index) => {
+                        // Alternating hub connections for a cleaner look
+                        const startPoint =
+                            index % 2 === 0 ? hubTanger : hubCasa;
+
+                        L.polyline([startPoint, p.coords], {
+                            color: PATH_COLOR,
+                            weight: 1.5,
+                            opacity: 0.5,
+                            dashArray: "5, 10", // Dashed look for network connections
+                            className: "animated-path", // Re-uses the movement animation
+                        }).addTo(networkLayer);
+                    });
+
+                    map.addLayer(networkLayer);
+                    map.flyTo([20, 0], 2.5);
+                } else {
+                    map.removeLayer(networkLayer);
+                    map.flyTo([31, -7], 5.5);
+                }
             });
 
-            map.addLayer(networkLayer);
-            map.flyTo([20, 0], 2.5);
-        } else {
-            map.removeLayer(networkLayer);
-            map.flyTo([31, -7], 5.5);
-        }
-    });
+        // BUTTON 3: Track Ship Path
+        document
+            .getElementById("btn-track")
+            .addEventListener("click", function () {
+                state.tracking = !state.tracking;
+                this.classList.toggle("active");
+                document.getElementById(
+                    "tracking-form-container",
+                ).style.display = state.tracking ? "block" : "none";
+                if (!state.tracking) trackingLayer.clearLayers();
+            });
 
-    // BUTTON 3: Track Ship Path
-    document.getElementById('btn-track').addEventListener('click', function() {
-        state.tracking = !state.tracking;
-        this.classList.toggle('active');
-        document.getElementById('tracking-form-container').style.display = state.tracking ? 'block' : 'none';
-        if(!state.tracking) trackingLayer.clearLayers();
-    });
+        // Calculate Route
+        document.getElementById("calc-btn").addEventListener("click", () => {
+            // 1. Get references to the input fields
+            const emailInput = document.getElementById("user-email");
+            const phoneInput = document.getElementById("user-phone");
 
-    // Calculate Route
-    document.getElementById('calc-btn').addEventListener('click', () => {
-    // 1. Get references to the input fields
-    const emailInput = document.getElementById('user-email');
-    const phoneInput = document.getElementById('user-phone');
+            // 2. Validation: Check if Email and Phone are provided
+            if (!emailInput.value.trim() || !phoneInput.value.trim()) {
+                alert(
+                    "Please enter your Email and Phone Number to see the route.",
+                );
 
-    // 2. Validation: Check if Email and Phone are provided
-    if (!emailInput.value.trim() || !phoneInput.value.trim()) {
-        alert("Please enter your Email and Phone Number to see the route.");
-        
-        // Optional: Highlight the fields in red to show they are missing
-        if (!emailInput.value.trim()) emailInput.style.borderColor = "#F08B33";
-        if (!phoneInput.value.trim()) phoneInput.style.borderColor = "#F08B33";
-        return; 
-    }
+                // Optional: Highlight the fields in red to show they are missing
+                if (!emailInput.value.trim())
+                    emailInput.style.borderColor = "#F08B33";
+                if (!phoneInput.value.trim())
+                    phoneInput.style.borderColor = "#F08B33";
+                return;
+            }
 
-    // 3. Reset styles if they were previously highlighted
-    emailInput.style.borderColor = "#444";
-    phoneInput.style.borderColor = "#444";
+            // 3. Reset styles if they were previously highlighted
+            emailInput.style.borderColor = "#444";
+            phoneInput.style.borderColor = "#444";
 
-    // 4. Clear existing layers (Original logic starts here)
-    trackingLayer.clearLayers();
+            // 4. Clear existing layers (Original logic starts here)
+            trackingLayer.clearLayers();
 
-    // 5. Find Coordinates
-    const s = moroccoData.find(x => x.name == startSel.value).coords;
-    const e = partnersData.find(x => x.name == endSel.value).coords;
-    
-    // 6. Create Destination Marker
-    const dest = L.marker(e, { icon: createLampIcon(16) })
-        .bindTooltip(endSel.value, { 
-            permanent: true, 
-            direction: 'top', 
-            className: 'city-label-permanent' 
+            // 5. Find Coordinates
+            const s = moroccoData.find((x) => x.name == startSel.value).coords;
+            const e = partnersData.find((x) => x.name == endSel.value).coords;
+
+            // 6. Create Destination Marker
+            const dest = L.marker(e, { icon: createLampIcon(16) }).bindTooltip(
+                endSel.value,
+                {
+                    permanent: true,
+                    direction: "top",
+                    className: "city-label-permanent",
+                },
+            );
+
+            // 7. Create Animated Polyline
+            const line = L.polyline([s, e], {
+                color: PATH_COLOR,
+                weight: 3,
+                className: "animated-path",
+            });
+
+            // 8. Add to Map and Zoom
+            trackingLayer.addLayer(dest).addLayer(line);
+            map.flyToBounds(L.latLngBounds(s, e), { padding: [100, 100] });
+
+            // Optional: Log data for lead capture
+            console.log(
+                "Routing Request From:",
+                emailInput.value,
+                "| Phone:",
+                phoneInput.value,
+            );
         });
-    
-    // 7. Create Animated Polyline
-    const line = L.polyline([s, e], { 
-        color: PATH_COLOR, 
-        weight: 3, 
-        className: 'animated-path' 
+
+        // Zoom
+        document
+            .getElementById("zoom-in")
+            .addEventListener("click", () => map.zoomIn());
+        document
+            .getElementById("zoom-out")
+            .addEventListener("click", () => map.zoomOut());
     });
-    
-    // 8. Add to Map and Zoom
-    trackingLayer.addLayer(dest).addLayer(line);
-    map.flyToBounds(L.latLngBounds(s, e), { padding: [100, 100] });
-
-    // Optional: Log data for lead capture
-    console.log("Routing Request From:", emailInput.value, "| Phone:", phoneInput.value);
-});
-
-    // Zoom
-    document.getElementById('zoom-in').addEventListener('click', () => map.zoomIn());
-    document.getElementById('zoom-out').addEventListener('click', () => map.zoomOut());
-});
-  
 </script>

@@ -444,7 +444,7 @@
     .drag-handle {
         width: 40px;
         height: 4px;
-        background: #444;
+        background: white;
         border-radius: 2px;
         margin: 0 auto 10px;
     }
@@ -460,8 +460,8 @@
     .sheet-body { padding: 20px; }
 
     .sheet-btn {
-        background: #252930;
-        color: white;
+        background: #F08B33;
+        color: #333;
         padding: 15px;
         border-radius: 8px;
         margin-bottom: 10px;
