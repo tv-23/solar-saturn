@@ -181,7 +181,7 @@
         opacity: 0.4;
     }
     .panel-icon {
-        top: 30px;
+        top: 15px;
         left: 30px;
         transform: none;
         font-size: 2.5rem;
@@ -195,4 +195,15 @@
         opacity: 1;
         transform: translate(0,0);
     }
+}
+
+
+.panel-icon {
+    width: 100px;
+    height: 100px;
+}
+
+.panel-icon img {
+    height: 100%;
+    width: auto;
 }
