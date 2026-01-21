@@ -37,7 +37,7 @@
 }
 
 /* Typography & List Styling */
-h1.hero-title {
+.wecargo-section h1.hero-title {
     font-size: 4rem;
     font-weight: 700;
     line-height: 1.1;
