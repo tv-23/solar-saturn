@@ -5,9 +5,9 @@ const { lang = 'en' } = Astro.props;
 const t = ui[lang];
 
 // Helper to handle links with language prefix
-const l = (path: string) => `/${lang}${path}`.replace(/\/+/g, '/');
 
 const currentPath = Astro.url.pathname;
+const l = (path: string) => `/${lang}/${path}`;
 import "../../public/style/header.css";
 ---
 
@@ -37,6 +37,7 @@ import "../../public/style/header.css";
                 <a href="tel:+212522435090" class="contact-item phone-highlight">
                     <i class="bi bi-telephone-fill"></i>
                     <span class="contact-text">+212 522 435 090</span>
+                    
                 </a>
 
                 <!-- LANGUAGE SWITCHER -->
@@ -59,10 +60,11 @@ import "../../public/style/header.css";
 
             <div class="header-center">
                 <nav class="ex2-links">
-                    <a href={l('/')} class={currentPath === l('/') ? "activeMenuItem" : ""}>{t['nav.home']}</a>
+                    <a href={l('/') === '/en//' ? '/' : '/fr/'} 
+                    class={(currentPath == '/' || currentPath == '/fr') ? "activeMenuItem" : ""}>{t['nav.home']}</a>
                     <a href="#about-section">{t['nav.about']}</a>
                     <a href="#our-companies">{t['nav.companies']}</a>
-                    <a href={l('/contact')} class={currentPath === l('/contact') ? "activeMenuItem" : ""}>{t['nav.contact']}</a>
+                    <a href={l('contact')} class={(currentPath == '/contact' || currentPath == '/fr/contact') ? "activeMenuItem" : ""}>{t['nav.contact']}</a>
                 </nav>
             </div>
 
