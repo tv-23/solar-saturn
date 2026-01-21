@@ -1,5 +1,10 @@
 ---
 import "../../../public/style/slider.css";
+import { ui } from "../../src/i18n/ui";
+
+const { lang = "en" } = Astro.props;
+const t = ui[lang];
+const sliders = t["sliders.items"];
 ---
 
 <div class="hero-slider">
@@ -23,11 +28,11 @@ import "../../../public/style/slider.css";
                         style="color:#1C4587"
                         class="display-3 fw-bold text-uppercase hero-title"
                     >
-                        Sea Freight And Shipping <br />
+                        {sliders[0]['title_1']} <br />
                     </h1>
 
                     <h4 class="display-6 fw-bold">
-                        Smart Ocean Freight Solutions Worldwide
+                        {sliders[0]['title_2']}
                     </h4>
                 </div>
 
@@ -59,11 +64,11 @@ import "../../../public/style/slider.css";
                     style="color:#1C4587"
                     class="display-4 fw-bold text-uppercase hero-title"
                 >
-                    Road And Trucking Logistics <br />
+                {sliders[1]['title_1']} <br />
                 </h1>
 
                 <h4 class="display-6 fw-bold">
-                    Reliable Trucking for Every Mile
+                    {sliders[1]['title_1']}
                 </h4>
             </div>
         </div>
@@ -97,11 +102,11 @@ import "../../../public/style/slider.css";
                         style="color:#1C4587"
                         class="display-3 fw-bold text-uppercase hero-title mb-4"
                     >
-                        Shipping Agency Services <br />
+                    {sliders[2]['title_1']} <br />
                     </h1>
 
                     <h4 class="display-6 fw-bold">
-                        Professional Port And Vessel Agency Solutions
+                        {sliders[2]['title_1']}
                     </h4>
                 </div>
 
@@ -133,10 +138,10 @@ import "../../../public/style/slider.css";
                     style="color:#1C4587"
                     class="display-4 fw-bold text-uppercase hero-title"
                 >
-                    Air Freight Solutions<br />
+                {sliders[3]['title_1']}<br />
                 </h1>
                 <h4 class="display-6 fw-bold">
-                    Fast, Secure And Global Air Cargo Services
+                    {sliders[3]['title_1']}
                 </h4>
             </div>
 

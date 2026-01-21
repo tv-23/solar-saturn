@@ -12,22 +12,20 @@ import FloatingContainer from "../../components/home/floating-container.astro";
 import Video from "../../components/home/video.astro";
 import Layout from "../../layouts/Layout.astro";
 
-const lang = 'fr';
+const lang = "fr";
 ---
 
-
 <Layout lang={lang}>
-    <Header lang={lang} />
-    
-	<Slider />
-	<About lang={lang}  />
+	<Header lang={lang} />
+	<Slider lang={lang} />
+	<About lang={lang} />
 	<Video />
-	<OurValues />
-	<OurCompanies />
-	<FloatingContainer/>
+	<OurValues lang={lang} />
+	<OurCompanies lang={lang} />
+	<FloatingContainer lang={lang} />
 	<br />
 	<br />
 	<MAP />
-	<CTA/>
-    <Footer/>
+	<CTA />
+	<Footer />
 </Layout>

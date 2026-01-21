@@ -1,131 +1,120 @@
 ---
 import "../../../public/style/our-values.css";
+
+import { ui } from "../../src/i18n/ui";
+
+const { lang = "en" } = Astro.props;
+const t = ui[lang];
+const vlaues = t["our_values.secion.items"];
 ---
 
 <section
     class="about-modern py-5 position-relative overflow-hidden"
     id="our-values"
 >
-    <!-- <div class="container py-lg-5">
-        <div class="row justify-content-center mb-5">
-            <div class="col-lg-8 text-center">
-                <span
-                    class="d-inline-block py-1 px-3 rounded-pill bg-light-orange text-secondary fw-bold text-uppercase small mb-2"
-                >
-                    Our Values
-                </span>
-            </div>
-        </div>
-    </div> -->
-
     <div class="container our-headline">
         <div class="row justify-content-center mb-5">
             <h2>
-                Our <br /> Values
+                {t["our_values.secion.name"]["p1"]}
+                <br />
+                {t["our_values.secion.name"]["p2"]}
             </h2>
         </div>
     </div>
 
     <div class="container-fluid p-0">
         <div class="main-wrapper">
-            
             <!-- LEFT (30% Width): The Curve -->
             <div class="curve-container">
-                <svg class="intro-curve" viewBox="0 0 400 600" preserveAspectRatio="none">
+                <svg
+                    class="intro-curve"
+                    viewBox="0 0 400 600"
+                    preserveAspectRatio="none"
+                >
                     <defs>
                         <!-- BLUE GRADIENT for the Curve -->
-                        <linearGradient id="gradientBlue" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <linearGradient
+                            id="gradientBlue"
+                            x1="0%"
+                            y1="100%"
+                            x2="100%"
+                            y2="0%"
+                        >
                             <!-- Start: Very light blue / Transparent -->
-                            <stop offset="0%" style="stop-color:#dcebf7;stop-opacity:0" />
+                            <stop
+                                offset="0%"
+                                style="stop-color:#dcebf7;stop-opacity:0"
+                            ></stop>
                             <!-- Middle: Fading in blue -->
-                            <stop offset="40%" style="stop-color:#3c72ba;stop-opacity:0.4" />
+                            <stop
+                                offset="40%"
+                                style="stop-color:#3c72ba;stop-opacity:0.4"
+                            ></stop>
                             <!-- End: Solid Blue (#3c72ba) -->
-                            <stop offset="100%" style="stop-color:#3c72ba;stop-opacity:1" />
+                            <stop
+                                offset="100%"
+                                style="stop-color:#3c72ba;stop-opacity:1"
+                            ></stop>
                         </linearGradient>
                     </defs>
                     <!-- Curve Path -->
-                    <path d="M -50 600 Q 150 550 398 2" class="curve-path" />
+                    <path d="M -50 600 Q 150 550 398 2" class="curve-path"
+                    ></path>
                 </svg>
             </div>
 
             <!-- RIGHT (Rest): Timeline -->
             <div class="timeline-column" id="timelineRef">
-                
                 <!-- Vertical Lines -->
                 <div class="vertical-track"></div>
                 <div class="active-line" id="scrollLine"></div>
 
                 <!-- ITEM 01 -->
-                <div class="timeline-item" style="margin-top: 30px;">
-                    <div class="dot"></div>
-                    <div class="content">
-                        <div class="text-secondary">01</div>
-                        <h4 class="fw-bold">RESPONSIBILITY</h4>
-                        <p class="text-desc">
-                            We act responsibly in every operation by ensuring safety, compliance, and reliability across all logistics activities. Seatrust is committed to protecting cargo, people, and the environment while meeting regulatory and ethical standards.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- ITEM 02 -->
-                <div class="timeline-item">
-                    <div class="dot"></div>
-                    <div class="content">
-                        <div class="text-secondary">02</div>
-                        <h4 class="fw-bold">COMMITMENT</h4>
-                        <p class="text-desc">
-                            We are fully committed to delivering efficient, high-quality logistics solutions that meet our clients’ expectations. Through dedication, expertise, and continuous improvement, Seatrust builds long-term partnerships based on trust and performance.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- ITEM 03 -->
-                <div class="timeline-item">
-                    <div class="dot"></div>
-                    <div class="content">
-                        <div class="text-secondary">03</div>
-                        <h4 class="fw-bold">PROXIMITY</h4>
-                        <p class="text-desc">
-                            We maintain close relationships with our clients by offering responsive, personalized, and locally grounded support. Seatrust’s proximity ensures clear communication, fast decision-making, and solutions adapted to each client’s needs.
-                        </p>
-                    </div>
-                </div>
-
+                {
+                    vlaues.map((value) => (
+                        <div class="timeline-item" style="margin-top: 30px;">
+                            <div class="dot" />
+                            <div class="content">
+                                <div class="text-secondary">{value.nbr}</div>
+                                <h4 class="fw-bold">{value.title}</h4>
+                                <p class="text-desc">{value.description}</p>
+                            </div>
+                        </div>
+                    ))
+                }
             </div>
         </div>
     </div>
-
 </section>
 
-
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-            const timelineCol = document.getElementById('timelineRef');
-            const scrollLine = document.getElementById('scrollLine');
-            const items = document.querySelectorAll('.timeline-item');
-            
-            const drawTriggerOffset = window.innerHeight / 2; 
+    document.addEventListener("DOMContentLoaded", () => {
+        const timelineCol = document.getElementById("timelineRef");
+        const scrollLine = document.getElementById("scrollLine");
+        const items = document.querySelectorAll(".timeline-item");
 
-            function updateScroll() {
-                const rect = timelineCol.getBoundingClientRect();
-                const topOfTimeline = rect.top; 
-                
-                let lineLength = drawTriggerOffset - topOfTimeline;
-                if (lineLength < 0) lineLength = 0;
-                
-                scrollLine.style.height = `${lineLength}px`;
+        const drawTriggerOffset = window.innerHeight / 2;
 
-                items.forEach(item => {
-                    const itemTop = item.offsetTop;
-                    if (lineLength > itemTop + 10) {
-                        item.classList.add('revealed');
-                    } else {
-                        item.classList.remove('revealed');
-                    }
-                });
-            }
+        function updateScroll() {
+            const rect = timelineCol.getBoundingClientRect();
+            const topOfTimeline = rect.top;
 
-            window.addEventListener('scroll', updateScroll);
-            updateScroll(); 
-        });
+            let lineLength = drawTriggerOffset - topOfTimeline;
+            if (lineLength < 0) lineLength = 0;
+
+            scrollLine.style.height = `${lineLength}px`;
+
+            items.forEach((item) => {
+                const itemTop = item.offsetTop;
+                if (lineLength > itemTop + 10) {
+                    item.classList.add("revealed");
+                } else {
+                    item.classList.remove("revealed");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", updateScroll);
+        updateScroll();
+    });
 </script>
