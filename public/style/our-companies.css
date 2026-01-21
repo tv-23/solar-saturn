@@ -116,7 +116,7 @@
     font-size: 1rem;
     opacity: 0;
     line-height: 1.6;
-    max-width: 400px;
+    max-width: 100%;
     margin-bottom: 20px;
     border-left: 3px solid var(--secondary-orange);
     padding-left: 15px;
@@ -137,34 +137,36 @@
 }
 
 /* --- HOVER STATE (MAGIC HAPPENS HERE) --- */
-.elastic-panel:hover {
-    flex: 3; /* Grow wide */
-    filter: grayscale(0%); /* Full Color */
-}
-
-.elastic-panel:hover::before {
-    opacity: 0.3; /* Lighten overlay */
-    background: linear-gradient(to bottom, transparent, #000); /* Fade to black at bottom for text readability */
-}
-
-.elastic-panel:hover .panel-icon {
-    top: 15%; /* Move icon up */
-    left: 40px;
-    transform: translate(0, 0) scale(0.6); /* Shrink icon */
-    color: var(--secondary-orange);
-}
-
-.elastic-panel:hover .panel-content {
-    transform: translateY(0); /* Slide content up */
-}
-
-.elastic-panel:hover .panel-title,
-.elastic-panel:hover .panel-desc,
-.elastic-panel:hover .panel-btn {
-    opacity: 1;
-    transform: translate(0, 0);
-}
-
+@media (min-width: 992px) {
+    .elastic-panel:hover {
+        flex: 3; /* Grow wide */
+        filter: grayscale(0%); /* Full Color */
+    }
+  
+    .elastic-panel:hover::before {
+        opacity: 0.3; /* Lighten overlay */
+        background: linear-gradient(to bottom, transparent, #000); /* Fade to black at bottom for text readability */
+    }
+  
+    .elastic-panel:hover .panel-icon {
+        top: 15%; /* Move icon up */
+        left: 40px;
+        transform: translate(0, 0) scale(0.6); /* Shrink icon */
+        color: var(--secondary-orange);
+    }
+  
+    .elastic-panel:hover .panel-content {
+        transform: translateY(0); /* Slide content up */
+    }
+  
+    .elastic-panel:hover .panel-title,
+    .elastic-panel:hover .panel-desc,
+    .elastic-panel:hover .panel-btn {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+  }
+  
 /* --- MOBILE ADJUSTMENTS --- */
 @media (max-width: 991px) {
     .elastic-container {
@@ -182,10 +184,11 @@
     }
     .panel-icon {
         top: 15px;
-        left: 30px;
+        left: calc(100% - 80px);
         transform: none;
         font-size: 2.5rem;
         color: var(--secondary-orange);
+        width: 70px !important;
     }
     .panel-content {
         transform: translateY(0);
@@ -204,6 +207,6 @@
 }
 
 .panel-icon img {
-    height: 100%;
-    width: auto;
+    height: auto;
+    width: 100%;
 }

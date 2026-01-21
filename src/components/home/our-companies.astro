@@ -1,5 +1,11 @@
 ---
 import "../../../public/style/our-companies.css";
+
+import { ui } from "../../src/i18n/ui";
+
+const { lang = "en" } = Astro.props;
+const t = ui[lang];
+const companies = t["our_companies.secion.items"];
 ---
 
 <section
@@ -9,116 +15,38 @@ import "../../../public/style/our-companies.css";
     <div class="container our-headline">
         <div class="row justify-content-center mb-5">
             <h2>
-                Our <br /> Companies
+                {t["our_companies.secion.name"]["p1"]}
+                <br />
+                {t["our_companies.secion.name"]["p2"]}
             </h2>
         </div>
     </div>
 
-    <!-- <div class="container py-lg-5">
-        <div class="row justify-content-center mb-5">
-            <div class="col-lg-8 text-center">
-                <span
-                    class="d-inline-block py-1 px-3 rounded-pill bg-light-orange text-secondary fw-bold text-uppercase small mb-2"
-                >
-                    Our Companies
-                </span>
-            </div>
-        </div>
-    </div> -->
-
     <div class="elastic-container">
         <!-- 1. MSS -->
-        <div
-            class="elastic-panel"
-            style="background-image: url(images/companies/Mss.jpg);"
-        >
-            <!-- Icon Center -->
-            <div class="panel-icon">
-                <img src="/images/companies/1.jpg" alt="" />
-            </div>
-            <!-- Hidden Content -->
-            <div class="panel-content">
-                <h3 class="panel-title">MSS</h3>
-                <p class="panel-desc">
-                    Maritime Ship Services. Your trusted shipping agency
-                    providing crew changes, vessel consignment, and husbandry
-                    across all ports.
-                </p>
-                <a href="https://mss.ma/" target="_blank" class="panel-btn">Discover MSS</a>
-            </div>
-        </div>
-
-        <!-- 2. INTERNAVI -->
-        <div
-            class="elastic-panel"
-            style="background-image: url(images/companies/Internavi.jpg);"
-        >
-            <div class="panel-icon">
-                <img src="/images/companies/5.jpg" alt="" />
-            </div>
-            <div class="panel-content">
-                <h3 class="panel-title">INTERNAVI</h3>
-                <p class="panel-desc">
-                    Global container line representation and freight forwarding
-                    solutions connecting you to the world.
-                </p>
-                <a href="https://internavi.ma/" target="_blank" class="panel-btn">Global Network</a>
-            </div>
-        </div>
-
-        <!-- 3. BTS -->
-        <div
-            class="elastic-panel"
-            style="background-image: url(images/companies/bst.png);"
-        >
-            <div class="panel-icon">
-                <img src="/images/companies/4.jpg" alt="" />
-            </div>
-            <div class="panel-content">
-                <h3 class="panel-title">BTS</h3>
-                <p class="panel-desc">
-                    Global container line representation and freight forwarding
-                    solutions connecting you to the world.
-                </p>
-                <a href="https://bts.ma/" target="_blank" class="panel-btn">Global Network</a>
-            </div>
-        </div>
-
-        <!-- 4. SEATRADE / LOGISTICS -->
-        <div
-            class="elastic-panel"
-            style="background-image: url(images/companies/unireef.jpg);"
-        >
-            <div class="panel-icon">
-                <img src="/images/companies/3.jpg" alt="" />
-            </div>
-            <div class="panel-content">
-                <h3 class="panel-title">UNIREEF</h3>
-                <p class="panel-desc">
-                    Bureau Technique de Surveillance. Certified cargo
-                    inspections, quality control, and tallying services.
-                </p>
-                <a href="https://unireef.ma/" target="_blank" class="panel-btn">View Services</a>
-            </div>
-        </div>
-
-        <!-- 5.Own -->
-        <div
-            class="elastic-panel"
-            style="background-image: url(images/companies/own.jpg);"
-        >
-            <div class="panel-icon">
-                <img src="/images/companies/2.jpg" alt="" />
-            </div>
-            <div class="panel-content">
-                <h3 class="panel-title">OWN</h3>
-                <p class="panel-desc">
-                    High-precision technical repairs, reefer maintenance, and
-                    electronic solutions keeping your fleet operational.
-                </p>
-                <a href="https://own.ma/" target="_blank" class="panel-btn">Technical Solutions</a>
-            </div>
-        </div>
+        {
+            companies.map((company) => (
+                <div
+                    class="elastic-panel"
+                    style={`background-image: url(${company.img_1});`}
+                >
+                    <div class="panel-icon">
+                        <img src={company.img_2} alt="" />
+                    </div>
+                    <div class="panel-content">
+                        <h3 class="panel-title">{company.title}</h3>
+                        <p class="panel-desc">{company.description}</p>
+                        <a
+                            href={company.url}
+                            target="_blank"
+                            class="panel-btn"
+                        >
+                            Discover {company.title}
+                        </a>
+                    </div>
+                </div>
+            ))
+        }
     </div>
 </section>
 
@@ -127,13 +55,13 @@ import "../../../public/style/our-companies.css";
     const panels = document.querySelectorAll(".elastic-panel");
 
     panels.forEach((panel) => {
-        panel.addEventListener("click", () => {
-            // Remove active class from all
-            panels.forEach((p) => (p.style.flex = "1"));
-            // Add flex grow to clicked
-            if (window.innerWidth > 991) {
-                panel.style.flex = "3";
-            }
-        });
-    });
+  panel.addEventListener("click", () => {
+    // Run only on desktop
+    if (window.innerWidth > 991) {
+      panels.forEach((p) => (p.style.flex = "1"));
+      panel.style.flex = "3";
+    }
+  });
+});
+
 </script>
