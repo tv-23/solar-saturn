@@ -121,10 +121,49 @@ export const ui = {
         img_1:"images/companies/bst.png",
         img_2:"/images/companies/4.jpg",
         title: 'BTS',
-        description: "BTS Control est une société indépendante d’inspection et de contrôle, spécialisée dans la vérification des marchandises et des navires. Son expertise et le respect des normes internationales garantissent des inspections fiables et précises.",
+        description: "BTS Control is an independent inspection and survey company providing verification and control services for goods and vessels. Its expertise and compliance with international standards ensure reliable and accurate inspections.",
         url:'https://bts.ma/'
       },
+    ],
+
+    // Why SEATRUST
+    'why_seatrust.secion.name':{
+      'p1':'Why',
+      'p2':'SEATRUST ?',
+    },
+    'why_seatrust.secion.items': [
+      {
+        nbr: '01',
+        title: 'End-to-End Operational Control',
+        description: 'We provide a complete import/export management model, from transportation planning to customs clearance and field coordination, ensuring full control and consistency throughout the process.'
+      },
+      {
+        nbr: '02',
+        title: 'Direct Presence Across All Moroccan Ports',
+        description: 'With teams operating across all Moroccan ports, we guarantee maximum responsiveness, immediate intervention, and continuous operational support nationwide.'
+      },
+      {
+        nbr: '03',
+        title: 'Strong Customs & Regulatory Expertise',
+        description: 'Our deep knowledge of customs procedures and compliance requirements enables secure clearance, risk reduction, and full regulatory adherence.'
+      },
+      {
+        nbr: '04',
+        title: 'Execution Excellence & On-Time Performance',
+        description: 'We focus on reliability and speed through structured processes, proactive coordination, and reduced operational delays, protecting both time and cost efficiency.'
+      },
+      {
+        nbr: '05',
+        title: 'Real-Time Follow-Up & Transparent Communication',
+        description: 'We ensure clear visibility and proactive updates through continuous follow-up, tracking, and reporting, supporting fast decision-making and operational confidence.'
+      },
+      {
+        nbr: '06',
+        title: 'Tailor-Made Solutions for Every Sector',
+        description: 'We design adapted solutions for each sector and shipment type (Agricultural, Agri-food, industrial, commercial,...), ensuring flexibility, service excellence, and client satisfaction.'
+      },
     ]
+    
   },
   fr: {
     'header.tagline': 'SEATRUST LOGISTICS — Transports & Logistiques Maritimes',
@@ -242,6 +281,44 @@ export const ui = {
         title: 'BTS',
         description: "BTS Control est une société indépendante d’inspection et de contrôle, spécialisée dans la vérification des marchandises et des navires. Son expertise et le respect des normes internationales garantissent des inspections fiables et précises.",
         url:'https://bts.ma/'
+      },
+    ],
+
+    // Why SEATRUST
+    'why_seatrust.secion.name':{
+      'p1':'Pourquoi',
+      'p2':'SEATRUST ?',
+    },
+    'why_seatrust.secion.items': [
+      {
+        nbr:'01',
+        title:'Pilotage logistique End-to-End (de bout en bout)',
+        description:'Une prise en charge complète des opérations import/export : transport, transit, dédouanement et coordination terrain, avec un pilotage structuré et maîtrisé.'
+      },
+      {
+        nbr:'02',
+        title:'Présence directe sur l’ensemble des ports marocains',
+        description:'Une présence directe sur l’ensemble des ports marocains, garantissant réactivité maximale, intervention immédiate et continuité opérationnelle.'
+      },
+      {
+        nbr:'03',
+        title:'Expertise douanière & maîtrise de la conformité',
+        description:'Une expertise approfondie des procédures douanières et réglementaires, permettant sécurisation des dossiers, réduction des risques et conformité totale.'
+      },
+      {
+        nbr:'04',
+        title:'Excellence opérationnelle & respect des délais',
+        description:'Une organisation orientée performance : délais maîtrisés, exécution rigoureuse, réduction des temps d’attente et optimisation des coûts indirects.'
+      },
+      {
+        nbr:'05',
+        title:'Suivi en temps réel & communication transparente',
+        description:'Un suivi opérationnel clair et fluide, avec visibilité, reporting et communication proactive, pour une prise de décision rapide.'
+      },
+      {
+        nbr:'06',
+        title:'Solutions logistique sur mesure adaptées à chaque secteur',
+        description:'Des solutions adaptées aux besoins et contraintes de chaque secteur (Agro, industrie, distribution…), avec une approche flexible orientée résultats.'
       },
     ]
   },

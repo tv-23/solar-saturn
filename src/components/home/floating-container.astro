@@ -1,5 +1,11 @@
 ---
 import "../../../public/style/floating-container.css";
+
+import { ui } from "../../src/i18n/ui";
+
+const { lang = "en" } = Astro.props;
+const t = ui[lang];
+const data = t["why_seatrust.secion.items"];
 ---
 
 <div class="container-fluid wecargo-section">
@@ -14,50 +20,22 @@ import "../../../public/style/floating-container.css";
         <div class="col-lg-5 offset-lg-1 content-col">
             
             <h1 class="hero-title">
-                We goes the extra<br>
-                mile for you
+                {t["why_seatrust.secion.name"]["p1"]}<br>
+                {t["why_seatrust.secion.name"]["p2"]}
             </h1>
 
             <div class="services-list">
                 <!-- 01 -->
+                {
+                    data.map((d) => (
                 <div class="service-item">
-                    <span class="service-num">01</span>
-                    <h3 class="service-title">Full Truckload</h3>
-                    <p class="service-desc">Shipping ground? We help you get ahead with optimized routing.</p>
-                    <i class="bi bi-arrow-right arrow-icon"></i>
+                    <span class="service-num">{d.nbr}</span>
+                    <h3 class="service-title">{d.title}</h3>
+                    <p class="service-desc">{d.description}</p>
+                    {/* <i class="bi bi-arrow-right arrow-icon"></i> */}
                 </div>
-
-                <!-- 02 -->
-                <div class="service-item">
-                    <span class="service-num">02</span>
-                    <h3 class="service-title">Volume Shipping</h3>
-                    <p class="service-desc">Sending almost – but not quite – a truckload? We help you make the most of every mile.</p>
-                    <i class="bi bi-arrow-right arrow-icon"></i>
-                </div>
-
-                <!-- 03 -->
-                <div class="service-item">
-                    <span class="service-num">03</span>
-                    <h3 class="service-title">Less Than Truckload</h3>
-                    <p class="service-desc">Cost-effective solutions for smaller freight that doesn't fill a whole truck.</p>
-                    <i class="bi bi-arrow-right arrow-icon"></i>
-                </div>
-
-                <!-- 04 -->
-                <div class="service-item">
-                    <span class="service-num">04</span>
-                    <h3 class="service-title">Intermodal Solutions</h3>
-                    <p class="service-desc">Combining rail and road for sustainable, long-distance logistics.</p>
-                    <i class="bi bi-arrow-right arrow-icon"></i>
-                </div>
-
-                <!-- 05 -->
-                <div class="service-item">
-                    <span class="service-num">05</span>
-                    <h3 class="service-title">Expedited Freight</h3>
-                    <p class="service-desc">When time is money, we ensure your cargo arrives on the dot.</p>
-                    <i class="bi bi-arrow-right arrow-icon"></i>
-                </div>
+                 ))
+                }
             </div>
 
         </div>
