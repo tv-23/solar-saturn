@@ -3,10 +3,13 @@ import "../../public/style/contact.css";
 import Header from "../components/header.astro";
 import Footer from "../components/footer.astro";
 import Layout from "../layouts/Layout.astro";
+
+const lang = 'en';
+
 ---
 
 <Layout>
-<Header />
+<Header lang={lang} />
 
 <!-- Header Section -->
 <header class="contact-header">
@@ -146,7 +149,7 @@ import Layout from "../layouts/Layout.astro";
     </div>
 </section>
 
-<Footer />
+<Footer lang={lang} />
 
 
 </Layout>

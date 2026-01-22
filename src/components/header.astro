@@ -9,8 +9,14 @@ const t = ui[lang];
 const currentPath = Astro.url.pathname;
 const l = (path: string) => `/${lang}/${path}`;
 import "../../public/style/header.css";
----
 
+
+// true if French
+const isFr = currentPath.startsWith('/fr');
+
+// active language
+const activeLang = isFr ? 'fr' : 'en';
+---
 <div class="ex2-nav">
     <!-- TOP BAR -->
     <div class="ex2-top">
@@ -60,11 +66,11 @@ import "../../public/style/header.css";
 
             <div class="header-center">
                 <nav class="ex2-links">
-                    <a href={l('/') === '/en//' ? '/' : '/fr/'} 
+                    <a href={activeLang === 'en' ? '/' : '/fr'} 
                     class={(currentPath == '/' || currentPath == '/fr') ? "activeMenuItem" : ""}>{t['nav.home']}</a>
                     <a href="#about-section">{t['nav.about']}</a>
                     <a href="#our-companies">{t['nav.companies']}</a>
-                    <a href={l('contact')} class={(currentPath == '/contact' || currentPath == '/fr/contact') ? "activeMenuItem" : ""}>{t['nav.contact']}</a>
+                    <a href={activeLang === 'en' ? '/contact' : '/fr/contact'}  class={(currentPath == '/contact' || currentPath == '/fr/contact') ? "activeMenuItem" : ""}>{t['nav.contact']}</a>
                 </nav>
             </div>
 
