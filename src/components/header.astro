@@ -70,7 +70,7 @@ const activeLang = isFr ? 'fr' : 'en';
                     class={(currentPath == '/' || currentPath == '/fr/') ? "activeMenuItem" : ""}>{t['nav.home']}</a>
                     <a href="#about-section">{t['nav.about']}</a>
                     <a href="#our-companies">{t['nav.companies']}</a>
-                    <a href={activeLang === 'en' ? '/contact' : '/fr/contact'}  class={(currentPath == '/contact' || currentPath == '/fr/contact') ? "activeMenuItem" : ""}>{t['nav.contact']}</a>
+                    <a href={activeLang === 'en' ? '/contact' : '/fr/contact'}  class={(currentPath == '/contact' || currentPath == '/fr/contact/') ? "activeMenuItem" : ""}>{t['nav.contact']}</a>
                 </nav>
             </div>
 
