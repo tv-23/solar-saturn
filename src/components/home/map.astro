@@ -1,5 +1,9 @@
 ---
 import "../../../public/style/map.css";
+import { ui } from "../../src/i18n/ui";
+
+const { lang = "en" } = Astro.props;
+const t = ui[lang];
 ---
 
 <link
@@ -9,14 +13,10 @@ import "../../../public/style/map.css";
 
 <!-- CENTERED HEADER -->
 
-<style>
-    /* Styling for Country Names */
-</style>
-
 <div class="container our-headline">
     <div class="row justify-content-center mb-5">
         <h2>
-            Where <br /> we are
+            {t["where_we_are.secion.name"]["p1"]} <br /> {t["where_we_are.secion.name"]["p2"]}
         </h2>
     </div>
 </div>
@@ -27,7 +27,7 @@ import "../../../public/style/map.css";
         <div class="ui-content">
             <!-- BUTTON 1: CENTERS -->
             <div id="btn-centers" class="toggle-btn active">
-                <span>Main offices (7)</span>
+                <span>{t["where_we_are.secion.btns"][0].title}</span>
                 <div class="status-dot"></div>
             </div>
 
@@ -36,26 +36,26 @@ import "../../../public/style/map.css";
 
             <!-- BUTTON 2: NETWORK -->
             <div id="btn-network" class="toggle-btn">
-                <span>Global Connections (24)</span>
+                <span>{t["where_we_are.secion.btns"][1].title}</span>
                 <div class="status-dot"></div>
             </div>
 
             <!-- BUTTON 3: TRACKING -->
             <div id="btn-track" class="toggle-btn">
-                <span>Track Ship Path</span>
+                <span>{t["where_we_are.secion.btns"][2].title}</span>
                 <div class="status-dot"></div>
             </div>
 
             <!-- FORM -->
             <div id="tracking-form-container">
-                <label class="form-label">ORIGIN (MOROCCO)</label>
+                <label class="form-label">{t["where_we_are.secion.form"][0].labels[0].title}</label>
                 <select id="start-select" class="form-select"></select>
 
-                <label class="form-label">DESTINATION (WORLD)</label>
+                <label class="form-label">{t["where_we_are.secion.form"][0].labels[1].title}</label>
                 <select id="end-select" class="form-select"></select>
 
                 <!-- NEW FIELDS -->
-                <label class="form-label">EMAIL ADDRESS</label>
+                <label class="form-label">{t["where_we_are.secion.form"][0].labels[2].title}</label>
                 <input
                     type="email"
                     id="user-email"
@@ -64,7 +64,7 @@ import "../../../public/style/map.css";
                     required
                 />
 
-                <label class="form-label">PHONE NUMBER</label>
+                <label class="form-label">{t["where_we_are.secion.form"][0].labels[3].title}</label>
                 <input
                     type="tel"
                     id="user-phone"
@@ -73,7 +73,7 @@ import "../../../public/style/map.css";
                     required
                 />
 
-                <button id="calc-btn" class="action-btn">Calculate Route</button
+                <button id="calc-btn" class="action-btn">{t["where_we_are.secion.form"][1].button}</button
                 >
             </div>
         </div>
