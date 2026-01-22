@@ -448,3 +448,12 @@
      min-width: 100%;
    }
  }
+
+ .header-info p.bot-name {font-size: 16px;font-weight: 600 !important;margin-bottom: 10px;}
+
+.header-info p.bot-signature {
+    font-weight: initial !important;
+    text-align: center;
+    color: #e1dede;
+    margin: 0;
+}
