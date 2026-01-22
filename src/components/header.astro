@@ -59,7 +59,7 @@ const activeLang = isFr ? 'fr' : 'en';
     <header class="ex2-header">
         <div class="container" style="width: 100%;">
             <div class="header-left">
-                <a href={l('/')} class="logo-box">
+                <a href={activeLang === 'en' ? '/' : '/fr'}  class="logo-box">
                     <img src="/images/logo-foter.png" class="logo-img" alt="Seatrust Group" />
                 </a>
             </div>
