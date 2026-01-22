@@ -88,6 +88,7 @@ export const ui = {
       'p1':'Our',
       'p2':'Companies',
     },
+    'our_companies.secion.btn':'Discover',
     'our_companies.secion.items': [
       {
         img_1:"images/companies/unireef.jpg",
@@ -246,6 +247,7 @@ export const ui = {
       'p1':'Nos',
       'p2':'Entreprises',
     },
+    'our_companies.secion.btn':'Découvrir',
     'our_companies.secion.items': [
       {
         img_1:"images/companies/unireef.jpg",
