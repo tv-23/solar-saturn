@@ -91,35 +91,35 @@ export const ui = {
     'our_companies.secion.btn': 'Discover',
     'our_companies.secion.items': [
       {
-        img_1: "images/companies/unireef.jpg",
+        img_1: "/images/companies/unireef.jpg",
         img_2: "/images/companies/3.jpg",
         title: 'Unireef',
         description: 'Unireef is a shipping company specializing in ship chartering and global transport solutions. With strong expertise in reefer shipping, it ensures fast and dedicated export of Moroccan citrus and vegetables.',
         url: 'https://unireef.ma/'
       },
       {
-        img_1: "images/companies/Mss.jpg",
+        img_1: "/images/companies/Mss.jpg",
         img_2: "/images/companies/1.jpg",
         title: 'MSS',
         description: 'Maritime Ship Services provides ship agency, brokerage, and freight forwarding services across major Moroccan ports. With strong operational expertise, the company ensures efficient vessel handling and optimized transport solutions.',
         url: 'https://mss.ma/'
       },
       {
-        img_1: "images/companies/Internavi.jpg",
+        img_1: "/images/companies/Internavi.jpg",
         img_2: "/images/companies/5.jpg",
         title: 'INTERNAVI',
         description: "As a port handling operator in Agadir and shareholder of the second terminal, INTERNAVI provides efficient cargo handling and port storage services through proven expertise and modern cargo management.",
         url: 'https://internavi.ma/'
       },
       {
-        img_1: "images/companies/own.jpg",
+        img_1: "/images/companies/own.jpg",
         img_2: "/images/companies/2.jpg",
         title: 'OWN',
         description: "OWN provides customs clearance, freight forwarding, warehousing, and transport services for import and export operations. Its digitalized processes ensure fast and efficient cargo handling at ports and airports.",
         url: 'https://own.ma/'
       },
       {
-        img_1: "images/companies/bst.png",
+        img_1: "/images/companies/bst.png",
         img_2: "/images/companies/4.jpg",
         title: 'BTS',
         description: "BTS Control is an independent inspection and survey company providing verification and control services for goods and vessels. Its expertise and compliance with international standards ensure reliable and accurate inspections.",
@@ -296,35 +296,35 @@ export const ui = {
     'our_companies.secion.btn': 'Découvrir',
     'our_companies.secion.items': [
       {
-        img_1: "images/companies/unireef.jpg",
+        img_1: "/images/companies/unireef.jpg",
         img_2: "/images/companies/3.jpg",
         title: 'Unireef',
         description: 'Unireef est une compagnie maritime spécialisée dans l’affrètement de navires et les solutions de transport international. Elle assure l’exportation rapide et dédiée des agrumes et légumes marocains par navires frigorifiques.',
         url: 'https://unireef.ma/'
       },
       {
-        img_1: "images/companies/Mss.jpg",
+        img_1: "/images/companies/Mss.jpg",
         img_2: "/images/companies/1.jpg",
         title: 'MSS',
         description: 'Maritime Ship Services propose des services d’agence maritime, de courtage et de freight forwarding dans les principaux ports marocains. L’entreprise garantit une gestion efficace des navires et des solutions de transport optimisées.',
         url: 'https://mss.ma/'
       },
       {
-        img_1: "images/companies/Internavi.jpg",
+        img_1: "/images/companies/Internavi.jpg",
         img_2: "/images/companies/5.jpg",
         title: 'INTERNAVI',
         description: "Opérateur de manutention au port d’Agadir et actionnaire du second terminal, INTERNAVI dispose du savoir-faire nécessaire pour assurer efficacement les opérations de manutention et d’entreposage portuaire.",
         url: 'https://internavi.ma/'
       },
       {
-        img_1: "images/companies/own.jpg",
+        img_1: "/images/companies/own.jpg",
         img_2: "/images/companies/2.jpg",
         title: 'OWN',
         description: "OWN propose des services de dédouanement, de freight forwarding, d’entreposage et de transport pour les opérations d’import-export. La digitalisation de ses processus garantit un traitement rapide et efficace des marchandises dans les ports et aéroports.",
         url: 'https://own.ma/'
       },
       {
-        img_1: "images/companies/bst.png",
+        img_1: "/images/companies/bst.png",
         img_2: "/images/companies/4.jpg",
         title: 'BTS',
         description: "BTS Control est une société indépendante d’inspection et de contrôle, spécialisée dans la vérification des marchandises et des navires. Son expertise et le respect des normes internationales garantissent des inspections fiables et précises.",
