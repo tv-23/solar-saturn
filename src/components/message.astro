@@ -1,15 +1,38 @@
 ---
 import "../../public/style/message.css";
+
+const lang = Astro.url.pathname.startsWith('/fr') ? 'fr' : 'en';
+
+const t = {
+  fr: {
+    tagline: "SEATRUST GROUP | Intégrateur Logistique",
+    welcome: "Bonjour 👋 Bienvenue chez <strong>SEATRUST GROUP</strong>.<br><br>Je peux vous aider à demander un devis, suivre une opération ou contacter notre équipe d’experts.<br><br>Que souhaitez-vous faire ?",
+    btn_quote: "🚢 Demander un devis",
+    btn_track: "📦 Suivi / Assistance",
+    btn_transit: "🧾 Transit & Dédouanement",
+    btn_faq: "❓ Questions (FAQ)",
+    btn_expert: "☎️ Parler à un expert",
+    placeholder: "Écrivez ici..."
+  },
+  en: {
+    tagline: "SEATRUST GROUP | Logistics Integrator",
+    welcome: "Hello 👋 Welcome to <strong>SEATRUST GROUP</strong>.<br><br>I can help you request a quote, track an operation, or contact our team of experts.<br><br>What would you like to do?",
+    btn_quote: "🚢 Request a quote",
+    btn_track: "📦 Tracking / Assistance",
+    btn_transit: "🧾 Transit & Customs",
+    btn_faq: "❓ Quick Questions (FAQ)",
+    btn_expert: "☎️ Talk to an expert",
+    placeholder: "Write here..."
+  }
+}[lang];
 ---
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-<!-- Icône Flottante (Trigger) -->
 <!-- <div class="chat-icon" id="chatTrigger">
   <i class="bi bi-chat-dots-fill"></i>
 </div> -->
 
-<!-- Conteneur Principal du Chat -->
 <div class="chat-container hidden" id="chatContainer">
   <!-- HEADER -->
   <div class="chat-header">
@@ -17,38 +40,31 @@ import "../../public/style/message.css";
         <div class="online-status-dot"></div>
         <div style="text-align: left;">
             <strong style="display: block; font-size: 14px;">SEATRUST Connect</strong>
-            <small style="font-size: 9px; opacity: 0.8;">SEATRUST GROUP | Multimodal Logistics Integrator</small>
+            <small style="font-size: 9px; opacity: 0.8;">{t.tagline}</small>
         </div>
     </div>
-    <button class="close-btn" id="closeChatBtn">
-      <i class="bi bi-x"></i>
-    </button>
+    <button class="close-btn" id="closeChatBtn"><i class="bi bi-x"></i></button>
   </div>
 
-  <!-- ZONE DE MESSAGES -->
+  <!-- CORPS DU CHAT (Contenu Initial) -->
   <div class="chat-body" id="chatBody">
     <div class="message-row receiver">
-      <div class="message-bubble">
-        Bonjour 👋 Bienvenue chez <strong>SEATRUST GROUP</strong>.<br><br>
-        Je peux vous aider à demander un devis, suivre une opération ou contacter notre équipe d’experts Logistique et/ou Transit & Douane.<br><br>
-        Que souhaitez-vous faire ?
-      </div>
+      <div class="message-bubble" set:html={t.welcome}></div>
     </div>
-
-    <!-- BOUTONS D'ACCUEIL -->
+    
     <div class="quick-replies" id="initialActions">
-        <div class="quick-reply" onclick="window.startFlow('QUOTE')">🚢 Demander un devis</div>
-        <div class="quick-reply" onclick="window.startFlow('TRACK')">📦 Suivre / Assistance</div>
-        <div class="quick-reply" onclick="window.startFlow('TRANSIT')">🧾 Transit & Dédouanement</div>
-        <div class="quick-reply" onclick="window.startFlow('FAQ')">❓ Questions (FAQ)</div>
-        <div class="quick-reply" onclick="window.startFlow('EXPERT')">☎️ Parler à un expert</div>
+        <div class="quick-reply" onclick="window.startFlow('QUOTE')">{t.btn_quote}</div>
+        <div class="quick-reply" onclick="window.startFlow('TRACK')">{t.btn_track}</div>
+        <div class="quick-reply" onclick="window.startFlow('TRANSIT')">{t.btn_transit}</div>
+        <div class="quick-reply" onclick="window.startFlow('FAQ')">{t.btn_faq}</div>
+        <div class="quick-reply" onclick="window.startFlow('EXPERT')">{t.btn_expert}</div>
     </div>
   </div>
 
-  <!-- FOOTER (Masqué par défaut car on utilise des formulaires) -->
+  <!-- FOOTER -->
   <div class="user-input hidden" id="chatFooter">
       <div class="input-wrapper">
-        <input type="text" id="chatMessageInput" placeholder="Écrivez ici..." autocomplete="off" />
+        <input type="text" id="chatMessageInput" placeholder={t.placeholder} autocomplete="off" />
         <button class="send" id="sendMsgBtn"><i class="bi bi-send-fill"></i></button>
       </div>
   </div>
@@ -57,266 +73,401 @@ import "../../public/style/message.css";
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-  // Initialisation des données globales
-  window.leadData = {
-    type: "", origin: "", destination: "", commodity: "", 
-    reefer: "Non", temp: "", volume: "", frequency: "", 
-    urgency: "", name: "", company: "", email: "", phone: "",
-    holding: "", expertLabel: "", contactPref: "", slot: ""
-  };
+       // --- 1. DÉTECTION DE LA LANGUE ET DICTIONNAIRE ---
+  const lang = window.location.pathname.startsWith('/fr') ? 'fr' : 'en';
 
-  // --- LOGIQUE DE ROUTAGE VERS FILIALES ---
-  window.calculateRouting = function() {
-    const cargo = window.leadData.commodity.toLowerCase();
-    const isReefer = window.leadData.reefer === "Oui";
-    
-    if (isReefer || ["agricole", "agroalimentaire", "froid", "périssable", "fruits", "légumes"].some(w => cargo.includes(w))) {
-        window.leadData.holding = "UNIREEF";
-        window.leadData.expertLabel = "expert chaîne du froid / Reefer";
-    } else if (window.leadData.type === "Transit" || ["transit", "dédouanement", "douane", "hs code"].some(w => cargo.includes(w))) {
-        window.leadData.holding = "OWN";
-        window.leadData.expertLabel = "expert transit & douane";
-    } else if (["formalités", "port", "bl", "hipping agency", "escale"].some(w => cargo.includes(w))) {
-        window.leadData.holding = "INTERNAVI";
-        window.leadData.expertLabel = "expert port & documentation";
-    } else if (["transport", "routier", "camion", "domestique", "distribution"].some(w => cargo.includes(w))) {
-        window.leadData.holding = "BTS";
-        window.leadData.expertLabel = "équipe support surveillance & contrôle";
-    } else {
-        window.leadData.holding = "MSS";
-        window.leadData.expertLabel = "expert maritime & multimodal";
-    }
-  };
+const t = {
+  fr: {
+    track_welcome: "👋 D’accord ! Pour suivre une opération ou demander une assistance, veuillez entrer votre <strong>numéro de BL / Booking</strong>.",
+    track_form_title: "🔍 Détails de l'assistance",
+    track_type: "Type : Suivi ou Assistance",
+    btn_quote: "🚢 Demander un devis",
+    btn_track: "📦 Suivi / Assistance",
+    btn_transit: "🧾 Transit & Dédouanement",
+    btn_faq: "❓ Questions rapides (FAQ)",
+    btn_expert: "☎️ Parler à un expert",
+    step1_title: "<strong>STEP 1 — Qualification</strong><br>Quel est votre axe d'échange principal ?",
+    step_scope: "Quel périmètre de service souhaitez-vous ?",
+    step_equip: "Sélectionnez le mode de transport / équipement :",
+    step_add: "Avez-vous besoin de services additionnels ?",
+    step2_title: "<strong>🟢 STEP 2 — Key Questions</strong><br>Quel est le type d'opération ?",
+    step_origin: "Quelle est l'origine de l'expédition ?",
+    step_dest: "Quelle est la destination ? (Pays / Ville)",
+    step_cargo: "Quel type de marchandise expédiez-vous ?",
+    step_temp: "Veuillez indiquer la température requise :",
+    step_vol: "Précisez le volume de l'expédition :",
+    step_freq: "À quelle fréquence expédiez-vous ?",
+    step_date_title: "📅 Date de départ souhaitée",
+    step_contact_title: "👤 Vos Coordonnées",
+    faq_title: "<strong>Choisissez une catégorie :</strong>",
+    faq_write: "<strong>Écrivez votre question :</strong><br><small>(ex: Quels documents pour l’import ?)</small>",
+    summary_title: "📌 Récapitulatif de votre demande",
+    confirm_send: "✅ Oui, confirmer",
+    modify: "❌ Modifier",
+    final_msg: "✅ Votre demande a été transmise à l'équipe",
+    pref_contact: "Comment préférez-vous être contacté ?",
+    signature: "SEATRUST GROUP | Multimodal Logistics Integrator",
+    error_req: "Veuillez remplir les champs obligatoires",
+    placeholder_text: "Écrivez ici..."
+  },
+  en: {
+    track_welcome: "👋 Sure! To track an operation or request assistance, please enter your <strong>BL / Booking number</strong>.",
+    track_form_title: "🔍 Assistance Details",
+    track_type: "Type: Tracking or Assistance",
+    btn_quote: "🚢 Request a Quote",
+    btn_track: "📦 Tracking / Assistance",
+    btn_transit: "🧾 Transit & Customs",
+    btn_faq: "❓ Quick Questions (FAQ)",
+    btn_expert: "☎️ Talk to an Expert",
+    step1_title: "<strong>STEP 1 — Qualification</strong><br>What is your main trade lane?",
+    step_scope: "What service scope do you require?",
+    step_equip: "Select transport mode / equipment:",
+    step_add: "Do you require additional services?",
+    step2_title: "<strong>🟢 STEP 2 — Key Questions</strong><br>What type of operation is this?",
+    step_origin: "What is the origin of the shipment?",
+    step_dest: "What is the destination? (Country / City)",
+    step_cargo: "What type of cargo are you shipping?",
+    step_temp: "Please indicate the required temperature:",
+    step_vol: "Specify the shipment volume:",
+    step_freq: "How frequent are your shipments?",
+    step_date_title: "📅 Desired departure date",
+    step_contact_title: "👤 Contact Details",
+    faq_title: "<strong>Choose a category:</strong>",
+    faq_write: "<strong>Write your question:</strong><br><small>(ex: Which documents for import?)</small>",
+    summary_title: "📌 Request Summary",
+    confirm_send: "✅ Yes, confirm",
+    modify: "❌ Edit",
+    final_msg: "✅ Your request has been sent to the team",
+    pref_contact: "How should an expert contact you?",
+    signature: "SEATRUST GROUP | Multimodal Logistics Integrator",
+    error_req: "Please fill in required fields",
+    placeholder_text: "Write here..."
+  }
+}[lang];
 
-  // --- FONCTIONS D'INTERFACE ---
-  window.addBotMsg = function(html) {
-    const chatBody = document.getElementById("chatBody");
-    const row = document.createElement("div");
-    row.className = "message-row receiver";
-    row.innerHTML = `<div class="message-bubble">${html}</div>`;
-    chatBody.appendChild(row);
-    chatBody.scrollTop = chatBody.scrollHeight;
-  };
+// --- 2. OBJET DE DONNÉES GLOBAL ---
+window.leadData = {
+  flow: "", tradeLane: "", scope: "", equipment: "", addServices: "",
+  opType: "", origin: "", destination: "", commodity: "", 
+  reefer: "Non", temperature: "", volume: "", frequency: "", departureDate: "",
+  blNumber: "", trackType: "", faqCategory: "", faqQuestion: "",
+  name: "", company: "", email: "", phone: "", holding: "", expertLabel: ""
+};
 
-  window.addUserMsg = function(text) {
-    const chatBody = document.getElementById("chatBody");
-    const row = document.createElement("div");
-    row.className = "message-row sender";
-    row.innerHTML = `<div class="message-bubble">${text}</div>`;
-    chatBody.appendChild(row);
-    chatBody.scrollTop = chatBody.scrollHeight;
-  };
+// --- 3. UI HELPERS ---
+window.addBotMsg = function(html) {
+  const chatBody = document.getElementById("chatBody");
+  const row = document.createElement("div");
+  row.className = "message-row receiver";
+  row.innerHTML = `<div class="message-bubble">${html}</div>`;
+  chatBody.appendChild(row);
+  chatBody.scrollTop = chatBody.scrollHeight;
+};
 
-  // --- GESTION DES FLUX (Flows) ---
-  window.startFlow = function(flow) {
-    document.getElementById("initialActions")?.remove();
-    
-    if (flow === 'QUOTE' || flow === 'TRANSIT') {
-      window.leadData.type = flow === 'QUOTE' ? "Maritime/Multimodal" : "Transit";
-      window.addUserMsg(flow === 'QUOTE' ? "Demander un devis" : "Transit & Dédouanement");
-      window.addBotMsg("C'est entendu. Pour vous fournir une cotation précise, merci de renseigner l'itinéraire :");
-      window.renderStep1Form();
-    } else if (flow === 'TRACK') {
-        window.addUserMsg("Suivre une opération");
-        window.addBotMsg("Veuillez saisir votre numéro de dossier ou BL pour obtenir l'assistance opérationnelle.");
-        document.getElementById("chatFooter").classList.remove("hidden");
-    } else if (flow === 'FAQ') {
-        window.addBotMsg("<strong>FAQ Rapide :</strong><br>• Cotation : < 24h<br>• Couverture : Tous les ports du Maroc<br>• Transit : OWN est notre bureau spécialisé.");
-    } else {
-        window.addUserMsg("Parler à un expert");
-        window.renderContactForm();
-    }
-  };
+window.addUserMsg = function(text) {
+  const chatBody = document.getElementById("chatBody");
+  const row = document.createElement("div");
+  row.className = "message-row sender";
+  row.innerHTML = `<div class="message-bubble">${text}</div>`;
+  chatBody.appendChild(row);
+  chatBody.scrollTop = chatBody.scrollHeight;
+};
 
-  // FORMULAIRE ÉTAPE 1 : ITINERAIRE
-  window.renderStep1Form = function() {
-    const html = `
-      <div class="contact-form">
-        <h3>📍 Itinéraire & Type</h3>
-        <div class="form-group">
-            <label>Type d'opération</label>
-            <select id="input_type">
-                <option value="Export">Export Maroc</option>
-                <option value="Import">Import vers Maroc</option>
-                <option value="Transit">Transit uniquement</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Origine (Port/Ville)</label>
-            <input type="text" id="input_origin" placeholder="Ex: Tanger Med">
-        </div>
-        <div class="form-group">
-            <label>Destination (Pays/Ville)</label>
-            <input type="text" id="input_dest" placeholder="Ex: New York, USA">
-        </div>
-        <button class="submit-btn" onclick="window.submitStep1()">Suivant</button>
-      </div>`;
-    window.addBotMsg(html);
-  };
+window.renderButtons = function(labels, callback) {
+  const chatBody = document.getElementById("chatBody");
+  const container = document.createElement("div");
+  container.className = "quick-replies";
+  labels.forEach(l => {
+      const btn = document.createElement("div");
+      btn.className = "quick-reply";
+      btn.textContent = l;
+      btn.onclick = () => {
+          container.remove();
+          window.addUserMsg(l);
+          callback(l);
+      };
+      container.appendChild(btn);
+  });
+  chatBody.appendChild(container);
+  chatBody.scrollTop = chatBody.scrollHeight;
+};
 
-  window.submitStep1 = function() {
-    const type = document.getElementById("input_type").value;
-    const origin = document.getElementById("input_origin").value;
-    const dest = document.getElementById("input_dest").value;
-    if(!origin || !dest) return alert("Veuillez remplir l'origine et la destination.");
-    
-    window.leadData.type = type;
-    window.leadData.origin = origin;
-    window.leadData.destination = dest;
-    
-    window.addUserMsg(`${type} de ${origin} à ${dest}`);
-    window.addBotMsg("Parfait. Maintenant, précisez la nature de la cargaison :");
-    window.renderStep2Form();
-  };
+// --- 4. GESTION DES FLUX ---
+window.startFlow = function(flow) {
+  document.getElementById("initialActions")?.remove();
+  window.leadData.flow = flow;
 
-  // FORMULAIRE ÉTAPE 2 : CARGO & VOLUMES
-  window.renderStep2Form = function() {
-    const html = `
-      <div class="contact-form">
-        <h3>📦 Détails Logistiques</h3>
-        <div class="form-group">
-            <label>Marchandise</label>
-            <select id="input_commodity">
-                <option value="Agricole">Agricole / Périssable</option>
-                <option value="Machines">Machines / Équipements</option>
-                <option value="Packaging">Packaging</option>
-                <option value="Autre">Autre</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Froid (Reefer) ?</label>
-            <select id="input_reefer">
-                <option value="Non">Non (Ambiant)</option>
-                <option value="Oui">Oui (Contrôlé)</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Volume (20'/40'/LCL)</label>
-            <input type="text" id="input_volume" placeholder="Ex: 2x 40ft High Cube">
-        </div>
-        <div class="form-group">
-            <label>Urgence (Date départ)</label>
-            <input type="text" id="input_urgency" placeholder="Ex: Semaine prochaine">
-        </div>
-        <button class="submit-btn" onclick="window.submitStep2()">Suivant</button>
-      </div>`;
-    window.addBotMsg(html);
-  };
+  if (flow === 'QUOTE' || flow === 'TRANSIT') {
+      window.addUserMsg(flow === 'QUOTE' ? t.btn_quote : t.btn_transit);
+      window.renderQuoteStep1();
+  } else if (flow === 'TRACK') {
+      window.addUserMsg(t.btn_track);
+      window.addBotMsg(t.track_welcome);
+      window.renderTextStep((val) => {
+          window.leadData.blNumber = val;
+          window.renderTrackingForm();
+      });
+  } else if (flow === 'FAQ') {
+      window.addUserMsg(t.btn_faq);
+      window.renderFAQFlow();
+  } else if (flow === 'EXPERT') {
+      window.addUserMsg(t.btn_expert);
+      window.renderContactForm();
+  }
+};
 
-  window.submitStep2 = function() {
-    window.leadData.commodity = document.getElementById("input_commodity").value;
-    window.leadData.reefer = document.getElementById("input_reefer").value;
-    window.leadData.volume = document.getElementById("input_volume").value;
-    window.leadData.urgency = document.getElementById("input_urgency").value;
-    
-    window.addUserMsg(`${window.leadData.commodity} | Volume: ${window.leadData.volume}`);
-    window.addBotMsg("Merci. Enfin, merci d'indiquer vos coordonnées pour recevoir le devis.");
-    window.renderContactForm();
-  };
+// --- FLOW: DEVIS (STEP 1 & 2) ---
+window.renderQuoteStep1 = function() {
+  window.addBotMsg(t.step1_title);
+  const lanes = lang === 'fr' ? ["Export Maroc → USA", "Export Maroc → Canada", "Export Maroc → Europe", "Export Maroc → autre", "Import vers Maroc"] : ["Export Morocco → USA", "Export Morocco → Canada", "Export Morocco → Europe", "Export Morocco → Other", "Import to Morocco"];
+  window.renderButtons(lanes, (val) => {
+      window.leadData.tradeLane = val;
+      window.addBotMsg(t.step_scope);
+      window.renderButtons(["Door-to-door", "Conventionnelle", "Quai à Quai"], (scope) => {
+          window.leadData.scope = scope;
+          window.addBotMsg(t.step_equip);
+          window.renderButtons(["LCL", "FCL", "Frigorifique", "DRY Standard", "CA Atmosphère Control"], (eq) => {
+              window.leadData.equipment = eq;
+              if(eq.includes("Frigorifique") || eq.includes("CA")) window.leadData.reefer = "Oui";
+              window.addBotMsg(t.step_add);
+              const services = lang === 'fr' ? ["Dédouanement", "Escale", "Manutention", "Contrôles", "Equipage", "Aucun"] : ["Customs", "Agency", "Handling", "Inspections", "Crew", "None"];
+              window.renderButtons(services, (s) => {
+                  window.leadData.addServices = s;
+                  window.addBotMsg("Thank you. Let’s move on to the details.");
+                  setTimeout(window.renderQuoteStep2, 800);
+              });
+          });
+      });
+  });
+};
 
-  // FORMULAIRE ÉTAPE 3 : COORDONNÉES
-  window.renderContactForm = function() {
-    const html = `
-      <div class="contact-form">
-        <h3>👤 Vos Coordonnées</h3>
-        <div class="form-group">
-            <label>Nom & Prénom</label>
-            <input type="text" id="input_name" placeholder="Votre nom">
-        </div>
-        <div class="form-group">
-            <label>Société</label>
-            <input type="text" id="input_company" placeholder="Votre entreprise">
-        </div>
-        <div class="form-group">
-            <label>Email Professionnel</label>
-            <input type="email" id="input_email" placeholder="email@domaine.com">
-        </div>
-        <div class="form-group">
-            <label>Téléphone / WhatsApp</label>
-            <input type="tel" id="input_phone" placeholder="+212 ...">
-        </div>
-        <button class="submit-btn" onclick="window.submitContact()">Voir le récapitulatif</button>
-      </div>`;
-    window.addBotMsg(html);
-  };
+window.renderQuoteStep2 = function() {
+  window.addBotMsg(t.step2_title);
+  window.renderButtons(["Export", "Import", "Transit uniquement", "Transport"], (op) => {
+      window.leadData.opType = op;
+      window.addBotMsg(t.step_origin);
+      window.renderButtons(["Tanger Med", "Casablanca", "Agadir", "Nador", "Other"], (o) => {
+          window.leadData.origin = o;
+          window.addBotMsg(t.step_dest);
+          window.renderTextStep((d) => {
+              window.leadData.destination = d;
+              window.addBotMsg(t.step_cargo);
+              const cargo = lang === 'fr' ? ["Agricole", "Agroalimentaire", "Packaging", "Machines", "Autre"] : ["Agriculture", "Food", "Packaging", "Machines", "Other"];
+              window.renderButtons(cargo, (c) => {
+                  window.leadData.commodity = c;
+                  if(window.leadData.reefer === "Oui") {
+                      window.addBotMsg(t.step_temp);
+                      window.renderButtons(["Ambiant", "Reefer (Indiquez °C)", "Unknown"], (temp) => {
+                          window.leadData.temperature = temp;
+                          window.renderVolumeStep();
+                      });
+                  } else { window.renderVolumeStep(); }
+              });
+          });
+      });
+  });
+};
 
-  window.submitContact = function() {
-    window.leadData.name = document.getElementById("input_name").value;
-    window.leadData.company = document.getElementById("input_company").value;
-    window.leadData.email = document.getElementById("input_email").value;
-    window.leadData.phone = document.getElementById("input_phone").value;
+window.renderVolumeStep = function() {
+  window.addBotMsg(t.step_vol);
+  window.renderButtons(["20’ container", "40’ container", "45’ container", "Tonnage"], (v) => {
+      window.leadData.volume = v;
+      window.addBotMsg(t.step_freq);
+      window.renderButtons(["Ponctuel", "Hebdo", "Mensuel", "Campagne"], (f) => {
+          window.leadData.frequency = f;
+          window.renderDateForm();
+      });
+  });
+};
 
-    if(!window.leadData.name || !window.leadData.email) return alert("Nom et Email requis.");
-    
-    window.addUserMsg(`${window.leadData.name} - ${window.leadData.company}`);
-    window.calculateRouting();
-    window.renderSummary();
-  };
+// --- FLOW: SUIVI (TRACKING) ---
+window.renderTrackingForm = function() {
+  const html = `
+    <div class="contact-form">
+      <h3>${t.track_form_title}</h3>
+      <div class="form-group"><label>Nom + Société</label><input type="text" id="t_name" placeholder="Ahmed / SEATRUST"></div>
+      <div class="form-group"><label>Email / Téléphone</label><input type="text" id="t_contact" placeholder="contact@mail.com"></div>
+      <div class="form-group"><label>Origine / Destination (Optionnel)</label><input type="text" id="t_route"></div>
+      <div class="form-group"><label>${t.track_type}</label><select id="t_kind"><option value="Suivi">✅ Suivi</option><option value="Assistance">🧰 Assistance</option></select></div>
+      <button class="submit-btn" onclick="window.submitTrackForm()" style="width:100%; margin-top:10px;">Suivant</button>
+    </div>`;
+  window.addBotMsg(html);
+};
 
-  // RÉCAPITULATIF & CONFIRMATION DE RAPPEL
-  window.renderSummary = function() {
-    const html = `
-      <div class="summary-box">
-        <strong>📌 Récapitulatif de votre demande</strong><br>
-        • Type : ${window.leadData.type}<br>
-        • Trajet : ${window.leadData.origin} ➔ ${window.leadData.destination}<br>
-        • Marchandise : ${window.leadData.commodity}<br>
-        • Reefer : ${window.leadData.reefer}<br>
-        • Volume : ${window.leadData.volume}<br>
-        • Société : ${window.leadData.company}<br><br>
-        ✅ Demande enregistrée sous l'ID: <strong>ST-${Date.now().toString().slice(-6)}</strong>
-      </div>
-      <br>Souhaitez-vous être rappelé par un expert <strong>${window.leadData.holding}</strong> ?
-      <div class="quick-replies" style="margin-top:10px">
-        <div class="quick-reply" onclick="window.confirmCallback('OUI')">✅ Oui</div>
-        <div class="quick-reply" onclick="window.confirmCallback('NON')">❌ Non</div>
-      </div>`;
-    window.addBotMsg(html);
-  };
+window.submitTrackForm = function() {
+  window.leadData.name = document.getElementById("t_name").value;
+  window.leadData.email = document.getElementById("t_contact").value;
+  window.leadData.origin = document.getElementById("t_route").value;
+  window.leadData.trackType = document.getElementById("t_kind").value;
+  if(!window.leadData.name || !window.leadData.email) return alert(t.error_req);
+  window.renderFinalSummary();
+};
 
-  window.confirmCallback = function(choice) {
-    if(choice === 'OUI') {
-        window.addUserMsg("Oui, je souhaite être rappelé.");
-        window.addBotMsg(`Parfait. Comment l'expert <strong>${window.leadData.holding}</strong> doit-il vous contacter ?`);
-        const html = `
-            <div class="quick-replies">
-                <div class="quick-reply" onclick="window.finalStep('Appel')">📞 Appel téléphonique</div>
-                <div class="quick-reply" onclick="window.finalStep('WhatsApp')">💬 WhatsApp</div>
-                <div class="quick-reply" onclick="window.finalStep('Email')">✉️ Email</div>
-            </div>`;
-        window.addBotMsg(html);
-    } else {
-        window.addUserMsg("Non, merci.");
-        window.finalStep('Email uniquement');
-    }
-  };
+// --- FLOW: FAQ ---
+window.renderFAQFlow = function() {
+  window.addBotMsg(t.faq_title);
+  const cats = ["🚢 Maritime", "🧾 Transit", "⚓ Port", "📦 Affrètement", "🧯 Inspections", "🗂️ Autres", "☎️ Expert"];
+  window.renderButtons(cats, (cat) => {
+      if(cat.includes("Expert")) return window.renderContactForm();
+      window.leadData.faqCategory = cat;
+      window.addBotMsg(t.faq_write);
+      window.renderTextStep((q) => {
+          window.leadData.faqQuestion = q;
+          window.renderContactForm();
+      });
+  });
+};
 
-  window.finalStep = function(pref) {
-    window.leadData.contactPref = pref;
-    window.addBotMsg(`Merci ${window.leadData.name}. Un <strong>${window.leadData.expertLabel}</strong> traitera votre demande en priorité.`);
-    window.addBotMsg("Signature : <em>SEATRUST GROUP | Multimodal Logistics Integrator</em>");
-    console.log("SENDING TO CRM/SALES TEAM:", window.leadData);
-    // Ici intégration EmailJS possible
-  };
+// --- FORMULAIRES COMMUNS ---
+window.renderDateForm = function() {
+  const html = `
+    <div class="contact-form">
+      <h3>${t.step_date_title}</h3>
+      <input type="date" id="q_date" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:5px;">
+      <button class="submit-btn" onclick="window.submitDate()" style="width:100%; margin-top:10px;">Suivant</button>
+    </div>`;
+  window.addBotMsg(html);
+};
 
-  // GESTION DES BOUTONS DE TRIGGER
-  document.getElementById("chatTrigger").onclick = function() {
-    document.getElementById("chatContainer").classList.toggle("hidden");
-  };
+window.submitDate = function() {
+  const d = document.getElementById("q_date").value;
+  if(!d) return alert(t.error_req);
+  window.leadData.departureDate = d;
+  window.renderContactForm();
+};
 
-  document.getElementById("closeChatBtn").onclick = function() {
-    document.getElementById("chatContainer").classList.add("hidden");
-  };
+window.renderContactForm = function() {
+  const html = `
+    <div class="contact-form">
+      <h3>${t.step_contact_title}</h3>
+      <div class="form-group"><label>Nom</label><input type="text" id="c_name"></div>
+      <div class="form-group"><label>Société</label><input type="text" id="c_comp"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="c_mail"></div>
+      <div class="form-group"><label>Téléphone</label><input type="tel" id="c_tel"></div>
+      <button class="submit-btn" onclick="window.submitFinalLead()" style="width:100%; margin-top:10px;">Valider</button>
+    </div>`;
+  window.addBotMsg(html);
+};
 
-  // Saisie libre (uniquement pour le tracking)
-  document.getElementById("sendMsgBtn").onclick = function() {
-    const input = document.getElementById("chatMessageInput");
-    if(input.value.trim()) {
-        window.addUserMsg(input.value);
-        window.addBotMsg("Transmission des informations de suivi à l'équipe opérationnelle...");
-        input.value = "";
-    }
+window.submitFinalLead = function() {
+  window.leadData.name = document.getElementById("c_name").value;
+  window.leadData.company = document.getElementById("c_comp").value;
+  window.leadData.email = document.getElementById("c_mail").value;
+  window.leadData.phone = document.getElementById("c_tel").value;
+  if(!window.leadData.name || !window.leadData.email) return alert(t.error_req);
+  window.renderFinalSummary();
+};
+
+// --- FINAL: RÉCAPITULATIF & ROUTAGE ---
+window.renderFinalSummary = function() {
+  // LOGIQUE DE ROUTAGE (Holding Calculation)
+  const cargo = (window.leadData.commodity || "").toLowerCase();
+  const equipment = (window.leadData.equipment || "").toLowerCase();
+  const services = (window.leadData.addServices || "").toLowerCase();
+  const faq = (window.leadData.faqCategory || "").toLowerCase();
+  const scope = (window.leadData.scope || "").toLowerCase();
+
+  // On regroupe tout le contexte pour une recherche plus précise
+  const context = cargo + equipment + services + faq + scope;
+
+  if (window.leadData.reefer === "Oui" || /agri|froid|reefer/i.test(context)) {
+      window.leadData.holding = "UNIREEF";
+      window.leadData.expertLabel = lang === 'fr' ? "expert chaîne du froid / Reefer" : "cold chain / Reefer expert";
+  } else if (/transit|douane/i.test(context) || window.leadData.opType === "Transit") {
+      window.leadData.holding = "OWN";
+      window.leadData.expertLabel = lang === 'fr' ? "expert transit & douane" : "transit & customs expert";
+  } else if (/port|escale|manutention|agency/i.test(context)) {
+      window.leadData.holding = "INTERNAVI";
+      window.leadData.expertLabel = lang === 'fr' ? "expert port & documentation" : "port & documentation expert";
+  } else if (/maritime|traversée|planning|multimodal/i.test(context)) {
+      window.leadData.holding = "MSS";
+      window.leadData.expertLabel = lang === 'fr' ? "expert maritime & multimodal" : "maritime & multimodal expert";
+  } else if (/transport domestique|distribution|coordination|complémentaire/i.test(context)) {
+      window.leadData.holding = "BTS";
+      window.leadData.expertLabel = lang === 'fr' ? "équipe support & coordination" : "support & coordination team";
+  } else {
+      window.leadData.holding = "SEATRUST GROUP";
+      window.leadData.expertLabel = lang === 'fr' ? "expert logistique" : "logistics expert";
+  }
+
+  // CONSTRUCTION DU RÉCAPITULATIF (SANS LIGNES VIDES)
+  let rows = `<strong>${t.summary_title}</strong><br>`;
+  if(window.leadData.blNumber) rows += `• BL / Booking : ${window.leadData.blNumber}<br>`;
+  
+  // Type Logic (D2D support)
+  let type = window.leadData.opType || window.leadData.trackType;
+  if(window.leadData.scope?.includes("door")) type = "D2D";
+  if(type) rows += `Type : ${type}<br>`;
+
+  if(window.leadData.origin) rows += `Origine : ${window.leadData.origin}<br>`;
+  if(window.leadData.destination) rows += `Destination : ${window.leadData.destination}<br>`;
+  if(window.leadData.commodity) rows += `Marchandise : ${window.leadData.commodity}<br>`;
+  
+  let reeferVal = window.leadData.reefer;
+  if(window.leadData.temperature && reeferVal === "Oui") reeferVal += ` (${window.leadData.temperature})`;
+  rows += `Reefer : ${reeferVal}<br>`;
+
+  if(window.leadData.volume) rows += `Volume : ${window.leadData.volume}<br>`;
+  if(window.leadData.departureDate) rows += `Date souhaitée : ${window.leadData.departureDate}<br>`;
+  if(window.leadData.faqQuestion) rows += `Question : ${window.leadData.faqQuestion}<br>`;
+  
+  rows += `Contact : ${window.leadData.name} (${window.leadData.company}) / ${window.leadData.phone || ""} / ${window.leadData.email}`;
+
+  const displayHolding = window.leadData.holding === "MSS" ? "SEATRUST GROUP" : window.leadData.holding;
+
+  const html = `
+    <div class="summary-box">${rows}</div>
+    ${t.ready_send}<br>
+    <div class="quick-replies" style="margin-top:10px">
+      <div class="quick-reply" onclick="window.confirmFinal('SEND')">${t.confirm_send}</div>
+      <div class="quick-reply" onclick="window.confirmFinal('EDIT')">${t.modify}</div>
+    </div>`;
+  window.addBotMsg(html);
+};
+
+window.confirmFinal = function(choice) {
+  if(choice === 'SEND') {
+      const displayHolding = window.leadData.holding === "MSS" ? "SEATRUST GROUP" : window.leadData.holding;
+      window.addBotMsg(`${t.final_msg} <strong>${displayHolding}</strong>.<br>${t.pref_contact}`);
+      const prefs = lang === 'fr' ? ["📞 Appel", "💬 WhatsApp", "✉️ Email"] : ["📞 Call", "💬 WhatsApp", "✉️ Email"];
+      window.renderButtons(prefs, (p) => {
+          window.addBotMsg(`<em>${t.signature}</em>`);
+          console.log("LEAD_FINAL_DATA:", window.leadData);
+      });
+  } else {
+      window.addUserMsg(t.modify);
+      window.renderContactForm();
+  }
+};
+
+// --- CORE UTILS ---
+window.renderTextStep = function(callback) {
+  const footer = document.getElementById("chatFooter");
+  const input = document.getElementById("chatMessageInput");
+  const btn = document.getElementById("sendMsgBtn");
+  footer.classList.remove("hidden");
+  input.placeholder = t.placeholder_text;
+  input.focus();
+  const handler = () => {
+      const val = input.value.trim();
+      if(val) {
+          footer.classList.add("hidden");
+          window.addUserMsg(val);
+          input.value = "";
+          btn.onclick = null;
+          callback(val);
+      }
   };
+  btn.onclick = handler;
+  input.onkeypress = (e) => { if(e.key === 'Enter') handler(); };
+};
+
+// TRIGGER EVENTS
+document.getElementById("chatTrigger").onclick = () => {
+  const box = document.getElementById("chatContainer");
+  box.classList.toggle("hidden");
+};
+document.getElementById("closeChatBtn").onclick = () => document.getElementById("chatContainer").classList.add("hidden");
 });
-</script>
 
+</script>

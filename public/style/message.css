@@ -333,14 +333,20 @@
  }
 
  .submit-btn {
-   background: #0a0f4f;
-   color: white;
-   box-shadow: 0 2px 5px rgba(10, 15, 79, 0.2);
+  background: white;
+  color: black;
+  font-weight: 700;
+  width: fit-content !important;
+  padding: 5px 20px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 7px;
  }
 
  .submit-btn:hover {
-   transform: translateY(-2px);
-   box-shadow: 0 4px 8px rgba(10, 15, 79, 0.25);
+  background-color: #1c4587;
+    border-color: #1c4587;
+    color: white;
  }
 
  .typing-indicator {
