@@ -144,7 +144,7 @@
     }
   
     .elastic-panel:hover::before {
-        opacity: 0.3; /* Lighten overlay */
+        opacity: 1;
         background: linear-gradient(to bottom, transparent, #000); /* Fade to black at bottom for text readability */
     }
   
@@ -180,7 +180,7 @@
         filter: grayscale(0%);
     }
     .elastic-panel::before {
-        opacity: 0.4;
+        opacity: 0.9;
     }
     .panel-icon {
         top: 15px;
@@ -210,3 +210,4 @@
     height: auto;
     width: 100%;
 }
+

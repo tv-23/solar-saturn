@@ -66,10 +66,6 @@
     transition: opacity 0.5s ease;
 }
 
-.elastic-panel:hover::before {
-    opacity: 1;
-}
-
 @media (max-width: 767px) {
     .video-scroll-track {
       height: 75vh;
