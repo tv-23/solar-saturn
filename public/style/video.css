@@ -34,7 +34,7 @@
     
     /* Smooth transitions */
     transition: transform 0.1s linear, border-radius 0.1s linear;
-    background: #000; /* BG behind video */
+    background: #1c4587; /* BG behind video */
 }
 
 /* Vimeo Wrapper to cover the area */
@@ -48,8 +48,8 @@
 .vimeo-wrapper iframe {
     width: 100vw;
     /* height: 56.25vw;  */
-    min-height: 100vh;
-    min-width: 177.77vh; /* Given a 16:9 aspect ratio */
+    min-height: 100%;
+    min-width: 100%; /* Given a 16:9 aspect ratio */
     position: absolute;
     top: 50%;
     left: 50%;
