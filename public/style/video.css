@@ -22,7 +22,7 @@
 /* The Animated Container */
 .video-anim-container {
     width: 100vw;  /* Target is Full Viewport Width */
-    height: 100vh; /* Target is Full Viewport Height */
+    height: 123vh; /* Target is Full Viewport Height */
     display: flex;
     align-items: center;
     justify-content: center;
