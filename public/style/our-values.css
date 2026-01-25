@@ -176,3 +176,25 @@ svg.intro-curve {
     .junction-dot { display: none; }
     .vertical-track, .active-line { left: -2px; }
 } */
+
+@media (max-width: 768px) {
+    .main-wrapper { 
+        /* Change the 30% to 15% for screens smaller than 768px */
+        grid-template-columns: 15% 1fr; 
+    } 
+    .timeline-item {
+        /* Reduce padding slightly so content has more room on small screens */
+        padding-left: 30px; 
+    }
+
+    .text-desc {
+        font-size: 1rem;
+        max-width: 100%; /* Allow text to use the full available width */
+    }
+    .curve-container{
+        margin-top: 4px !important;
+    }
+    .curve-path{
+        stroke-width: 8px;
+    }
+}
