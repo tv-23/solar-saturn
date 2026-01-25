@@ -413,32 +413,32 @@
 @media (max-width: 768px) {
     .ui-overlay { display: none !important; }
     
-    .bottom-sheet {
+    .top-sheet {
         position: absolute;
-        bottom: 0;
+        top: 0;
         left: 0;
         width: 100%;
         background: #004a99;
-        border-radius: 20px 20px 0 0;
+        border-radius: 0 0 20px 20px;
         z-index: 2000;
         transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        /* 1. Peek state: only header is visible */
-        transform: translateY(calc(100% - 60px)); 
-        box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
-        max-height: 80vh;
-        overflow-y: auto;
+        /* Peek state: shows only handle area at bottom of sheet */
+        transform: translateY(calc(-100% + 50px)); 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
     }
 
     /* 2. Expanded state */
-    .bottom-sheet.expanded {
+    .top-sheet.expanded {
         transform: translateY(0);
     }
 
     .sheet-handle-area {
-        padding: 15px;
+        padding: 15px 15px 5px 15px;
         text-align: center;
         cursor: pointer;
-        border-bottom: 1px solid #333;
     }
 
     .drag-handle {
@@ -481,5 +481,5 @@
 
 /* Hide Sheet on Desktop */
 @media (min-width: 769px) {
-    .bottom-sheet { display: none; }
+    .top-sheet { display: none; }
 }
