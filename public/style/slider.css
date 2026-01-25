@@ -574,7 +574,7 @@
 @media (max-width: 991px) {
 
     .ship-center-container {
-        padding-bottom: 65px !important;
+        padding-bottom: 50px !important;
     }
     /* Bootstrap 'lg' breakpoint */
     .slide-item {
