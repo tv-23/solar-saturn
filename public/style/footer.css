@@ -105,3 +105,12 @@ footer .footer-list a {
 .brosmedia-link:hover {
     color: #fff;
 }
+
+.copyright-area a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+}
+
+.copyright-area a:hover {
+    color: #f59331;
+}

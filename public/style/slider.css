@@ -161,7 +161,7 @@
 .wave2 {
     animation: animate2 15s linear infinite;
     z-index: 999;
-    opacity: 0.5;
+    opacity: 0.8;
     animation-delay: -5s;
     bottom: 10px;
 }
@@ -169,7 +169,7 @@
 .wave3 {
     animation: animate 30s linear infinite;
     z-index: 998;
-    opacity: 0.2;
+    opacity: 0.85;
     animation-delay: -2s;
     bottom: 15;
 }
@@ -177,7 +177,7 @@
 .wave4 {
     animation: animate2 15s linear infinite;
     z-index: 997;
-    opacity: 0.7;
+    opacity: 0.75;
     animation-delay: -5s;
     bottom: 20px;
 }
@@ -780,7 +780,7 @@
     justify-content: center; /* Centers ship horizontally */
     position: relative;
     z-index: 10; /* Behind text (50), Behind waves (997+) */
-    padding-bottom: 20px; /* Slight gap from very bottom */
+    padding-bottom: 5px; /* Slight gap from very bottom */
 }
 
 /* Ship Image Styling */
