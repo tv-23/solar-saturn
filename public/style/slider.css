@@ -573,6 +573,9 @@
     ========================================= */
 @media (max-width: 991px) {
 
+    .ship-center-container {
+        padding-bottom: 65px !important;
+    }
     /* Bootstrap 'lg' breakpoint */
     .slide-item {
         text-align: center;
