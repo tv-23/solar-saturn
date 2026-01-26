@@ -138,13 +138,7 @@
         transform: translateY(-15px);
     }
 }
-.slide-item h1 {
-    font-size: 55px;
-}
 
-.slide-item h4 {
-    font-size: 35px;
-}
 /* WAVES (Slide 1) */
 .wave {
     position: absolute;
@@ -578,6 +572,14 @@
     RESPONSIVE (Mobile Overrides)
     ========================================= */
 @media (max-width: 991px) {
+
+    .slide-item h1 {
+        font-size: 45px;
+    }
+    
+    .slide-item h4 {
+        font-size: 25px;
+    }
 
     .ship-center-container {
         padding-bottom: 40px !important;
