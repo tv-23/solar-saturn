@@ -11,7 +11,7 @@ const data = t["why_seatrust.secion.items"];
 <div class="container-fluid wecargo-section">
     <div class="row">
         <!-- LEFT: STICKY IMAGE -->
-        <div class="col-lg-6 sticky-col">
+        <div class="col-lg-5  offset-lg-1 sticky-col">
             <img
                 src="/images/tonir.png"
                 alt="WeCargo Container"
@@ -21,7 +21,7 @@ const data = t["why_seatrust.secion.items"];
 
         <!-- RIGHT: SCROLLABLE LIST -->
         <div
-            class="col-lg-5 offset-lg-1 content-col"
+            class="col-lg-6 content-col"
             style="padding-bottom: 0;"
         >
             <h1 class="hero-title">
@@ -46,7 +46,7 @@ const data = t["why_seatrust.secion.items"];
         <div class="col-lg-11 d-none d-lg-block">
             <div style="position: relative;">
                 <img
-                    src="/images/truck11.png"
+                    src="/images/truck-il.svg"
                     alt="WeCargo Container"
                     id="the_truck11"
                     style="width: 100%;
@@ -55,23 +55,25 @@ const data = t["why_seatrust.secion.items"];
             </div>
         </div>
 
-        <div class="col-lg-1 d-none d-lg-block" id="partSideTruck"></div>
+        <div class="col-lg-1 d-none d-lg-block" id="partSideTruck" style="height: 370px;"></div>
     </div>
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
+
+        
+        
         const sticky = document.querySelector(".sticky-col");
         const stopEl = document.getElementById("the_truck11");
         const section = document.querySelector(".wecargo-section");
+        document.getElementById("partSideTruck").style.height = stopEl.clientHeight+"px";
 
         if (!sticky || !stopEl || !section) return;
 
         const DESKTOP_WIDTH = 992; // Bootstrap lg breakpoint
 
-        const HeightOfTruck = stopEl.clientHeight
 
-        document.getElementById("partSideTruck").style.height = HeightOfTruck+"px";
 
         function resetSticky() {
             sticky.style.position = "";
@@ -88,9 +90,13 @@ const data = t["why_seatrust.secion.items"];
             const sectionRect = section.getBoundingClientRect();
             const stopRect = stopEl.getBoundingClientRect();
             const stickyHeight = sticky.offsetHeight;
+            const HeightOfTruck = stopEl.clientHeight
+
+            document.getElementById("partSideTruck").style.height = HeightOfTruck+"px";
+
 
             // 67% stop point on the truck
-            const stopTop = stopRect.top + HeightOfTruck * 0.67;
+            const stopTop = stopRect.top + HeightOfTruck * 0.636;
 
             const stickyBottom = stickyHeight;
 
@@ -100,7 +106,7 @@ const data = t["why_seatrust.secion.items"];
                     stopRect.top -
                     stickyHeight -
                     sectionRect.top +
-                    HeightOfTruck* 0.67 +
+                    HeightOfTruck * 0.636 +
                     "px";
             } else {
                 sticky.style.position = "sticky";
