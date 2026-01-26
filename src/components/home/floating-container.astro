@@ -10,17 +10,22 @@ const data = t["why_seatrust.secion.items"];
 
 <div class="container-fluid wecargo-section">
     <div class="row">
-        
         <!-- LEFT: STICKY IMAGE -->
         <div class="col-lg-6 sticky-col">
-            <img src="/images/seatrust floating container.png" alt="WeCargo Container" class="cargo-img">
+            <img
+                src="/images/tonir.png"
+                alt="WeCargo Container"
+                class="cargo-img"
+            />
         </div>
 
         <!-- RIGHT: SCROLLABLE LIST -->
-        <div class="col-lg-5 offset-lg-1 content-col">
-            
+        <div
+            class="col-lg-5 offset-lg-1 content-col"
+            style="padding-bottom: 0;"
+        >
             <h1 class="hero-title">
-                {t["why_seatrust.secion.name"]["p1"]}<br>
+                {t["why_seatrust.secion.name"]["p1"]}<br />
                 {t["why_seatrust.secion.name"]["p2"]}
             </h1>
 
@@ -28,16 +33,82 @@ const data = t["why_seatrust.secion.items"];
                 <!-- 01 -->
                 {
                     data.map((d) => (
-                <div class="service-item">
-                    <span class="service-num">{d.nbr}</span>
-                    <h3 class="service-title">{d.title}</h3>
-                    <p class="service-desc">{d.description}</p>
-                    {/* <i class="bi bi-arrow-right arrow-icon"></i> */}
-                </div>
-                 ))
+                        <div class="service-item">
+                            <span class="service-num">{d.nbr}</span>
+                            <h3 class="service-title">{d.title}</h3>
+                            <p class="service-desc">{d.description}</p>
+                        </div>
+                    ))
                 }
             </div>
-
         </div>
+
+        <div class="col-lg-11 d-none d-lg-block">
+            <div style="position: relative;">
+                <img
+                    src="/images/truck11.png"
+                    alt="WeCargo Container"
+                    id="the_truck11"
+                    style="width: 100%;
+                position: absolute;top:0"
+                />
+            </div>
+        </div>
+
+        <div class="col-lg-1 d-none d-lg-block" id="partSideTruck"></div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const sticky = document.querySelector(".sticky-col");
+        const stopEl = document.getElementById("the_truck11");
+        const section = document.querySelector(".wecargo-section");
+
+        if (!sticky || !stopEl || !section) return;
+
+        const DESKTOP_WIDTH = 992; // Bootstrap lg breakpoint
+
+        const HeightOfTruck = stopEl.clientHeight
+
+        document.getElementById("partSideTruck").style.height = HeightOfTruck+"px";
+
+        function resetSticky() {
+            sticky.style.position = "";
+            sticky.style.top = "";
+        }
+
+        function updateSticky() {
+            // 🚫 Disable on mobile / tablet
+            if (window.innerWidth < DESKTOP_WIDTH) {
+                resetSticky();
+                return;
+            }
+
+            const sectionRect = section.getBoundingClientRect();
+            const stopRect = stopEl.getBoundingClientRect();
+            const stickyHeight = sticky.offsetHeight;
+
+            // 67% stop point on the truck
+            const stopTop = stopRect.top + HeightOfTruck * 0.67;
+
+            const stickyBottom = stickyHeight;
+
+            if (stickyBottom >= stopTop) {
+                sticky.style.position = "relative";
+                sticky.style.top =
+                    stopRect.top -
+                    stickyHeight -
+                    sectionRect.top +
+                    HeightOfTruck* 0.67 +
+                    "px";
+            } else {
+                sticky.style.position = "sticky";
+                sticky.style.top = "0";
+            }
+        }
+
+        window.addEventListener("scroll", updateSticky);
+        window.addEventListener("resize", updateSticky);
+    });
+</script>

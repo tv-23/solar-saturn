@@ -7,13 +7,9 @@
 /* The Sticky Logic */
 .sticky-col {
     position: -webkit-sticky;
-    /* Safari */
     position: sticky;
     top: 0;
-    height: max-content;
-    /* Limits the container height to viewport */
-
-    /* Center the image within the sticky area */
+    height: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,7 +43,7 @@
 
 .service-item {
     border-top: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 3rem 0;
+    padding:0;
     /* Large padding to ensure page is long enough to scroll */
     position: relative;
     cursor: pointer;
@@ -139,4 +135,21 @@
 
 .container-fluid.wecargo-section .service-num {
     color: #F59331;
+}
+
+
+/* REQUIRED FOR STICKY BOUNDARY */
+.wecargo-wrapper {
+    position: relative;
+}
+
+/* Truck area */
+.truck-zone {
+    position: relative;
+    margin-top: 6vh;
+}
+
+.truck-img {
+    width: 100%;
+    display: block;
 }
