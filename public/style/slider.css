@@ -138,7 +138,13 @@
         transform: translateY(-15px);
     }
 }
+.slide-item h1 {
+    font-size: 55px;
+}
 
+.slide-item h4 {
+    font-size: 35px;
+}
 /* WAVES (Slide 1) */
 .wave {
     position: absolute;

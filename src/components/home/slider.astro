@@ -26,12 +26,12 @@ const sliders = t["sliders.items"];
                 >
                     <h1
                         style="color:#1C4587"
-                        class="display-3 fw-bold text-uppercase hero-title"
+                        class="fw-bold text-uppercase hero-title"
                     >
                         {sliders[0]['title_1']} <br />
                     </h1>
 
-                    <h4 class="display-6 fw-bold">
+                    <h4 class="fw-bold">
                         {sliders[0]['title_2']}
                     </h4>
                 </div>
@@ -62,12 +62,12 @@ const sliders = t["sliders.items"];
             <div class="slide-3-text">
                 <h1
                     style="color:#1C4587"
-                    class="display-4 fw-bold text-uppercase hero-title"
+                    class="fw-bold text-uppercase hero-title"
                 >
                 {sliders[1]['title_1']} <br />
                 </h1>
 
-                <h4 class="display-6 fw-bold">
+                <h4 class="fw-bold">
                     {sliders[1]['title_1']}
                 </h4>
             </div>
@@ -100,12 +100,12 @@ const sliders = t["sliders.items"];
                 >
                     <h1
                         style="color:#1C4587"
-                        class="display-3 fw-bold text-uppercase hero-title mb-4"
+                        class="fw-bold text-uppercase hero-title mb-4"
                     >
                     {sliders[2]['title_1']} <br />
                     </h1>
 
-                    <h4 class="display-6 fw-bold">
+                    <h4 class="fw-bold">
                         {sliders[2]['title_1']}
                     </h4>
                 </div>
@@ -136,11 +136,11 @@ const sliders = t["sliders.items"];
             <div class="overlay-text text-white">
                 <h1
                     style="color:#1C4587"
-                    class="display-4 fw-bold text-uppercase hero-title"
+                    class="fw-bold text-uppercase hero-title"
                 >
                 {sliders[3]['title_1']}<br />
                 </h1>
-                <h4 class="display-6 fw-bold">
+                <h4 class="fw-bold">
                     {sliders[3]['title_1']}
                 </h4>
             </div>
@@ -169,6 +169,10 @@ const sliders = t["sliders.items"];
     const nextBtn = document.getElementById("nextBtn");
     const prevBtn = document.getElementById("prevBtn");
     let isAnimating = false;
+    
+    // --- AUTOSLIDER CONFIG ---
+    let autoSlideDelay = 10000; // 5 seconds
+    let autoSlideInterval;
 
     function switchSlide(direction) {
         if (isAnimating) return;
@@ -194,6 +198,30 @@ const sliders = t["sliders.items"];
         }, 800);
     }
 
-    nextBtn.addEventListener("click", () => switchSlide(1));
-    prevBtn.addEventListener("click", () => switchSlide(-1));
+    // --- AUTOSLIDER LOGIC ---
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(() => {
+            switchSlide(1);
+        }, autoSlideDelay);
+    }
+
+    function resetAutoSlide() {
+        clearInterval(autoSlideInterval);
+        startAutoSlide();
+    }
+
+    // Manual Controls
+    nextBtn.addEventListener("click", () => {
+        switchSlide(1);
+        resetAutoSlide(); // Reset timer on click
+    });
+
+    prevBtn.addEventListener("click", () => {
+        switchSlide(-1);
+        resetAutoSlide(); // Reset timer on click
+    });
+
+    
+    // Start the autoslider on load
+    startAutoSlide();
 </script>

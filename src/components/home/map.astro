@@ -16,7 +16,9 @@ const t = ui[lang];
 <div class="container our-headline">
     <div class="row justify-content-center mb-5">
         <h2>
-            {t["where_we_are.secion.name"]["p1"]} <br /> {t["where_we_are.secion.name"]["p2"]}
+            {t["where_we_are.secion.name"]["p1"]}
+            <br />
+            {t["where_we_are.secion.name"]["p2"]}
         </h2>
     </div>
 </div>
@@ -48,14 +50,20 @@ const t = ui[lang];
 
             <!-- FORM -->
             <div id="tracking-form-container">
-                <label class="form-label">{t["where_we_are.secion.form"][0].labels[0].title}</label>
+                <label class="form-label"
+                    >{t["where_we_are.secion.form"][0].labels[0].title}</label
+                >
                 <select id="start-select" class="form-select"></select>
 
-                <label class="form-label">{t["where_we_are.secion.form"][0].labels[1].title}</label>
+                <label class="form-label"
+                    >{t["where_we_are.secion.form"][0].labels[1].title}</label
+                >
                 <select id="end-select" class="form-select"></select>
 
                 <!-- NEW FIELDS -->
-                <label class="form-label">{t["where_we_are.secion.form"][0].labels[2].title}</label>
+                <label class="form-label"
+                    >{t["where_we_are.secion.form"][0].labels[2].title}</label
+                >
                 <input
                     type="email"
                     id="user-email"
@@ -64,7 +72,9 @@ const t = ui[lang];
                     required
                 />
 
-                <label class="form-label">{t["where_we_are.secion.form"][0].labels[3].title}</label>
+                <label class="form-label"
+                    >{t["where_we_are.secion.form"][0].labels[3].title}</label
+                >
                 <input
                     type="tel"
                     id="user-phone"
@@ -73,7 +83,8 @@ const t = ui[lang];
                     required
                 />
 
-                <button id="calc-btn" class="action-btn">{t["where_we_are.secion.form"][1].button}</button
+                <button id="calc-btn" class="action-btn"
+                    >{t["where_we_are.secion.form"][1].button}</button
                 >
             </div>
         </div>
@@ -91,19 +102,26 @@ const t = ui[lang];
     <div class="top-sheet" id="mobile-sheet">
         <div class="sheet-body">
             <div id="btn-centers-mobile" class="sheet-btn">
-                <i class="bi bi-building"></i> {t["where_we_are.secion.btns"][0].title}
+                <i class="bi bi-building"></i>
+                {t["where_we_are.secion.btns"][0].title}
             </div>
             <div id="mobile-centers-list-container" class="nested-list"></div>
 
             <div id="btn-network-mobile" class="sheet-btn">
-                <i class="bi bi-globe"></i> {t["where_we_are.secion.btns"][1].title}
+                <i class="bi bi-globe"></i>
+                {t["where_we_are.secion.btns"][1].title}
             </div>
 
             <div id="btn-track-mobile" class="sheet-btn">
-                <i class="bi bi-truck"></i> {t["where_we_are.secion.btns"][2].title}
+                <i class="bi bi-truck"></i>
+                {t["where_we_are.secion.btns"][2].title}
             </div>
 
-            <div id="mobile-tracking-container" style="display: none;" class="nested-form">
+            <div
+                id="mobile-tracking-container"
+                style="display: none;"
+                class="nested-form"
+            >
                 <label class="form-label">ORIGIN (MOROCCO)</label>
                 <select id="start-select-mobile" class="form-select"></select>
 
@@ -111,15 +129,27 @@ const t = ui[lang];
                 <select id="end-select-mobile" class="form-select"></select>
 
                 <label class="form-label">EMAIL ADDRESS</label>
-                <input type="email" id="user-email-mobile" class="form-input" placeholder="email@example.com" />
+                <input
+                    type="email"
+                    id="user-email-mobile"
+                    class="form-input"
+                    placeholder="email@example.com"
+                />
 
                 <label class="form-label">PHONE NUMBER</label>
-                <input type="tel" id="user-phone-mobile" class="form-input" placeholder="+212 600 000 000" />
+                <input
+                    type="tel"
+                    id="user-phone-mobile"
+                    class="form-input"
+                    placeholder="+212 600 000 000"
+                />
 
-                <button id="calc-btn-mobile" class="action-btn">Calculate Route</button>
+                <button id="calc-btn-mobile" class="action-btn"
+                    >Calculate Route</button
+                >
             </div>
         </div>
-        
+
         <div class="sheet-handle-area" id="sheet-header">
             <span class="sheet-title">Logistics Dashboard</span>
             <div class="drag-handle"></div>
@@ -213,72 +243,85 @@ const t = ui[lang];
 
         // 3. Data
         const moroccoData = [
-    {
-        name: "Casablanca",
-        coords: [33.5731, -7.5898],
-        address: "12, Rue El Oraibi Jilali",
-    },
-    {
-        name: "Tanger",
-        coords: [35.7595, -5.834],
-        address: "11, Angle Av.Med,V",
-    },
-    {
-        name: "Rabat (Bouregreg)",
-        coords: [34.0209, -6.8416],
-        address: "Quai de la Marina, Bouregreg",
-    },
-    {
-        name: "Mohammedia",
-        coords: [33.6866, -7.3811],
-        address: "Bd. Hassan II",
-    },
-    {
-        name: "Jorf Lasfar",
-        coords: [33.1198, -8.6363],
-        address: "121, Route Sidi Bouzid",
-    },
-    {
-        name: "Safi",
-        coords: [32.2994, -9.2372],
-        address: "Zone Portuaire, Safi",
-    },
-    {
-        name: "Agadir",
-        coords: [30.4278, -9.5981],
-        address: "Enceinte Port Anza",
-    },
-    {
-        name: "Nador",
-        coords: [35.1681, -2.9335],
-        address: "Entrée Port Beni Ansar",
-    },
-    {
-        name: "Tan-Tan",
-        coords: [28.4380, -11.1032],
-        address: "Port de Tan-Tan (El Ouatia)",
-    },
-    {
-        name: "Tarfaya",
-        coords: [27.9392, -12.9261],
-        address: "Avenue Mohammed V, Port Area",
-    },
-    {
-        name: "Laayoune",
-        coords: [27.1253, -13.4125],
-        address: "Port de Laayoune (Marsa)",
-    },
-    {
-        name: "Boujdour",
-        coords: [26.1259, -14.4820],
-        address: "Quartier Administratif, Port Area",
-    },
-    {
-        name: "Dakhla",
-        coords: [23.7, -15.95],
-        address: "Route du Port, Dakhla South",
-    },
-];
+            {
+                name: "Casablanca",
+                coords: [33.5731, -7.5898],
+                address: "12, Rue El Oraibi Jilali",
+                phone: "+212 522 435 090",
+            },
+            {
+                name: "Tanger",
+                coords: [35.7595, -5.834],
+                address: "11, Angle Av.Med,V",
+                phone: "+212 539 329 490",
+            },
+            {
+                name: "Rabat (Bouregreg)",
+                coords: [34.0209, -6.8416],
+                address: "Quai de la Marina, Bouregreg",
+                phone: "",
+            },
+            {
+                name: "Mohammedia",
+                coords: [33.6866, -7.3811],
+                address: "Bd. Hassan II",
+                phone: "",
+            },
+            {
+                name: "Jorf Lasfar",
+                coords: [33.1198, -8.6363],
+                address: "121, Route Sidi Bouzid",
+                phone: "+212 523 372 338",
+            },
+            {
+                name: "Safi",
+                coords: [32.2994, -9.2372],
+                address: "Zone Portuaire, Safi",
+                phone: "",
+            },
+            {
+                name: "Agadir",
+                coords: [30.4278, -9.5981],
+                address: "Enceinte Port Anza",
+                phone: "+212 528 299 330",
+            },
+            {
+                name: "Nador",
+                coords: [35.1681, -2.9335],
+                address: "Entrée Port Beni Ansar",
+                phone: "+212 536 349 884",
+            },
+            {
+                name: "Tan-Tan",
+                coords: [28.438, -11.1032],
+                address: "Port de Tan-Tan (El Ouatia)",
+                phone: "",
+            },
+            {
+                name: "Tarfaya",
+                coords: [27.9392, -12.9261],
+                address: "Avenue Mohammed V, Port Area",
+                phone: "",
+            },
+            {
+                name: "Laayoune",
+                coords: [27.1253, -13.4125],
+                address: "Port de Laayoune (Marsa)",
+                phone: "",
+            },
+            {
+                name: "Boujdour",
+                coords: [26.1259, -14.482],
+                address: "Quartier Administratif, Port Area",
+                phone: "",
+            },
+            {
+                name: "Dakhla",
+                coords: [23.7, -15.95],
+                address: "Route du Port, Dakhla South",
+                phone: "",
+            },
+        ];
 
         const partnersData = [
             { name: "Rotterdam", coords: [51.9225, 4.47917] },
@@ -324,6 +367,7 @@ const t = ui[lang];
             item.className = "center-item";
             item.innerHTML = `
             <span class="center-name">${center.name}</span>
+            <small>Tél : ${center.phone}</small><br>
             <small>${center.address}</small>
         `;
 
