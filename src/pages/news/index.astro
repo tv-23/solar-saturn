@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from "../../layouts/Layout.astro";
+
+// 1. Fetch all posts from the 'blog' folder
+const posts = await getCollection('blog');
+---
+
+<Layout title="Latest News">
+
+    <h1><p>Total items: {posts.length}</p>
+    </h1>
+
+  <main class="container">
+    <h1>Latest News</h1>
+    <div class="news-grid">
+      {posts.map(post => (
+        <article class="news-card">
+          <h2>{post.data.title}</h2>
+          <a href={`/news/${post.slug}`} class="btn">Read Article</a>
+        </article>
+      ))}
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+  .news-card { padding: 1.5rem; border: 1px solid #eee; border-radius: 8px; }
+</style>
